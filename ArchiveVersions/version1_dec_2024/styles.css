@@ -1,0 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+a:hover{
+    color: #e7e7e7!important;
+}
+a{
+    color: #818cf8!important;
+}
+
+.projects-list{
+    display: flex!important;
+    flex-wrap: wrap!important;
+}
+
+@media screen and (max-width: 768px) {
+    .projects-list{
+        justify-content: flex-end!important;
+    }
+}

@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description"
+        content="Jerry Li - Frontend Developer and UI/UX Designer with expertise in modern web technologies and user experience design" />
+    <meta name="keywords"
+        content="Frontend Developer, UI/UX Designer, Web Development, JavaScript, React, User Interface Design" />
+    <meta name="author" content="Jerry Li" />
+    <meta name="robots" content="index, follow" />
+    <meta property="og:title" content="Jerry Li - Frontend/Web Developer | UI/UX Designer | SEO Specialist" />
+    <meta property="og:description"
+        content="Frontend Developer and UI/UX Designer specializing in creating engaging web experiences" />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Jerry Li - Frontend Developer" />
+    <meta name="twitter:description"
+        content="Frontend Developer and UI/UX Designer specializing in creating engaging web experiences" />
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%231f2937'/><text x='50%' y='50%' fill='%23ffffff' font-size='60' font-family='Arial, sans-serif' text-anchor='middle' alignment-baseline='central'>JL</text></svg>" />
+    <title>
+        Jerry Li - Frontend/Web Developer | UI/UX Designer | SEO Specialist
+    </title>
+    <link href="styles.css" rel="stylesheet" />
+    <link href="tailwind-output.css" rel="stylesheet" />
+    <style>
+        .fade-in,
+        .slide-up {
+            animation-timing-function: ease-in-out;
+        }
+
+        .fade-in {
+            animation: fadeIn 1s;
+        }
+
+        .slide-up {
+            animation: slideUp 0.8s;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-gray-900 text-gray-100 font-sans leading-relaxed">
+    <header class="bg-gradient-to-r from-indigo-700 to-purple-700 text-center py-12">
+        <h1 class="text-5xl font-extrabold text-white fade-in">Jerry Li</h1>
+        <div class="flex flex-col items-center justify-center mt-4 fade-in">
+            <div class="py-6 px-6 grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 max-w-4xl mx-auto">
+                <div class="bg-gray-800/50 rounded-lg p-4 flex flex-col items-center">
+                    <svg class="w-8 h-8 text-indigo-400 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                    </svg>
+                    <span class="text-md font-medium text-gray-300 text-center">
+                        Frontend Developer
+                    </span>
+                </div>
+                <div class="bg-gray-800/50 rounded-lg p-4 flex flex-col items-center">
+                    <svg class="w-8 h-8 text-indigo-400 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
+                    </svg>
+                    <span class="text-md font-medium text-gray-300 text-center">
+                        UI/UX Designer
+                    </span>
+                </div>
+                <div class="bg-gray-800/50 rounded-lg p-4 flex flex-col items-center">
+                    <svg class="w-8 h-8 text-indigo-400 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                    <span class="text-md font-medium text-gray-300 text-center">
+                        SEO Specialist
+                    </span>
+                </div>
+                <div class="bg-gray-800/50 rounded-lg p-4 flex flex-col items-center">
+                    <svg class="w-8 h-8 text-indigo-400 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    </svg>
+                    <span class="text-md font-medium text-gray-300 text-center">
+                        Technical Consultant
+                    </span>
+                </div>
+            </div>
+            <div class="w-20 h-1 bg-indigo-500 rounded-full mb-8"></div>
+            <div class="flex gap-4">
+                <span
+                    class="px-4 py-2 bg-indigo-600/30 rounded-full text-sm font-medium text-indigo-300 border border-indigo-500/30">
+                    Available for Work
+                </span>
+                <span
+                    class="px-4 py-2 bg-purple-600/30 rounded-full text-sm font-medium text-purple-300 border border-purple-500/30">
+                    Open to Collaboration
+                </span>
+            </div>
+            <p class="mt-4 text-lg font-medium text-gray-200">
+                Canberra, Australia
+            </p>
+            <div class="mt-2 flex items-center justify-center space-x-4">
+                <a href="https://github.com/l1jer" class="text-indigo-300 hover:text-indigo-400">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                        <path
+                            d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.207 11.387.6.11.793-.26.793-.577v-2.165c-3.338.726-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.757-1.333-1.757-1.09-.745.083-.73.083-.73 1.205.084 1.84 1.237 1.84 1.237 1.07 1.835 2.807 1.305 3.492.997.108-.774.42-1.305.763-1.605-2.665-.305-5.467-1.332-5.467-5.93 0-1.31.467-2.38 1.235-3.22-.123-.305-.535-1.53.117-3.185 0 0 1.007-.322 3.3 1.23.957-.266 1.983-.4 3.003-.405 1.02.005 2.047.14 3.005.405 2.29-1.552 3.295-1.23 3.295-1.23.655 1.655.243 2.88.12 3.185.77.84 1.235 1.91 1.235 3.22 0 4.61-2.807 5.62-5.48 5.92.43.37.823 1.1.823 2.22v3.293c0 .32.19.694.8.577C20.565 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z" />
+                    </svg>
+                </a>
+                <a href="https://codepen.io/jerrylidotme" class="text-indigo-300 hover:text-indigo-400">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                        <path
+                            d="M12 0L1.5 7.5v9L12 24l10.5-7.5v-9L12 0zm0 1.8l8.4 6-3.6 2.55L12 7.2 7.2 10.35 3.6 7.8 12 1.8zM2.7 8.55l3.15 2.25L2.7 13.05V8.55zm18.6 0v4.5l-3.15-2.25 3.15-2.25zM12 8.4l3.6 2.55-3.6 2.55-3.6-2.55L12 8.4zm-8.4 7.2l3.6-2.55L12 16.8l4.8-3.45 3.6 2.55-8.4 6-8.4-6z" />
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </header>
+    <main class="container mx-auto px-6 py-12">
+        <section class="mb-12 relative">
+            <div class="absolute inset-0 bg-gradient-to-br from-indigo-900/20 to-purple-900/20 rounded-3xl"></div>
+            <div class="relative p-4 sm:p-8">
+                <h2
+                    class="text-3xl font-bold mb-8 text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-400 text-center">
+                    About Me
+                </h2>
+                <div
+                    class="p-4 sm:p-6 bg-gray-800/50 backdrop-blur-sm rounded-xl border border-indigo-500/10 hover:border-indigo-500/30 transition-all duration-300">
+                    <div class="flex flex-col xl:flex-row items-center gap-8">
+                        <div class="w-3/4 max-md:w-1/3 relative group">
+                            <div
+                                class="absolute -inset-2 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-xl opacity-20 group-hover:opacity-30 blur transition duration-300">
+                            </div>
+                            <div class="relative">
+                                <img src="https://jerryli.me/jerry-li-sketch-2024.webp" alt="Jerry Li Sketch"
+                                    class="rounded-xl shadow-xl transition duration-500" />
+                            </div>
+                        </div>
+                        <div class="w-full max-md:w-2/3 px-2 sm:px-6 max-md:text-sm">
+                            <p class="text-gray-300 leading-relaxed">
+                                As a seasoned Frontend Developer with over five years of
+                                experience, I specialize in building and optimizing
+                                high-performance WordPress/Shopify websites(e-commerce &
+                                non-e-commerce) and crafting dynamic applications using React.
+                                My expertise extends to strategic SEO analysis, enhancing
+                                content visibility, and integrating RESTful APIs to streamline
+                                functionality and support robust digital strategies.
+                            </p>
+                            <br />
+                            <p class="text-gray-300 leading-relaxed">
+                                I excel in designing engaging user interfaces that prioritize usability and aesthetic
+                                appeal, collaborating seamlessly with creative teams to transform concepts into
+                                user-centric digital solutions. My proficiency with advanced web analytics tools
+                                enables me to provide actionable insights, enhancing both the
+                                development process and end-user experience.
+                            </p>
+                            <br />
+                            <p class="text-gray-300 leading-relaxed">
+                                Beyond my frontend development role, my foundational skills in
+                                full-stack development allow me to tackle complex backend
+                                challenges effectively, positioning me as a versatile
+                                contributor to any tech team. Committed to professional
+                                growth, I actively engage in continuous learning and
+                                contribute to coding communities, staying ahead of industry
+                                trends and technological advancements.
+                            </p>
+                            <br />
+                            <div class="text-sm projects-list">
+                                <span class="mx-2">Freelance Projects: </span>
+                                <a href="https://gingerandspice.com.au" target="_blank" class="transition-colors">
+                                    Ginger&Spice</a>
+                                <span class="mx-2">|</span>
+                                <a href="https://gatewaybuy.com" target="_blank" class="transition-colors">Gateway
+                                    Innovation</a>
+                                <span class="mx-2">|</span>
+                                <a href="https://bashan.com.au" target="_blank" class="transition-colors">Bashan</a>
+                                <span class="mx-2">|</span>
+                                <a href="https://dumplingsocial.com.au" target="_blank"
+                                    class="transition-colors">Dumpling
+                                    Social</a>
+                                <span class="mx-2">|</span>
+                                <a href="https://sjdauto.com.au" target="_blank" class="transition-colors">SJD
+                                    Auto</a>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </section>
+        <section class="mb-12">
+            <h2 class="text-3xl font-bold mb-6 text-indigo-400 text-center">
+                Experience
+            </h2>
+            <div class="space-y-8">
+                <div class="p-6 bg-gray-800 rounded-lg shadow-lg">
+                    <h3 class="text-xl font-bold text-indigo-300">
+                        Web Developer, UX/UI Designer, Technical Consultant and SEO
+                        Specialist
+                    </h3>
+                    <p class="text-gray-400 max-sm:text-sm">
+                        Aug 2022 – Current, Tasco Sales Australia, Brookvale NSW
+                    </p>
+                    <div class="list-disc mt-4 text-gray-300">
+                        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+                            <div
+                                class="relative p-4 bg-purple-600/20 rounded-xl hover:bg-purple-600/30 transition-all duration-300 group flex flex-col items-center cursor-pointer">
+                                <h4
+                                    class="text-base font-semibold text-purple-300 text-center h-full flex items-center justify-center">
+                                    Website Development
+                                    <span
+                                        class="pointer-events-none opacity-0 group-hover:opacity-100 absolute left-1/2 -translate-x-1/2 top-full w-full p-4 backdrop-blur-xl bg-gray-900/70 text-xs rounded-lg z-10 text-left transition-opacity duration-500 pointer-events-none">
+                                        Led WordPress platform development with custom plugins and
+                                        React LMS integration with MySQL database.
+                                    </span>
+                                </h4>
+                            </div>
+                            <div
+                                class="relative p-4 bg-blue-600/20 rounded-xl hover:bg-blue-600/30 transition-all duration-300 group flex flex-col items-center cursor-pointer">
+                                <h4
+                                    class="text-base font-semibold text-blue-300 text-center h-full flex items-center justify-center">
+                                    Project Planning
+                                    <span
+                                        class="pointer-events-none opacity-0 group-hover:opacity-100 absolute left-1/2 -translate-x-1/2 top-full w-full p-4 backdrop-blur-xl bg-gray-900/70 text-xs rounded-lg z-10 text-left transition-opacity duration-500 pointer-events-none">
+                                        Created detailed project documentation using Microsoft
+                                        Teams and Monday.com.
+                                    </span>
+                                </h4>
+                            </div>
+                            <div
+                                class="relative p-4 bg-indigo-600/20 rounded-xl hover:bg-indigo-600/30 transition-all duration-300 group flex flex-col items-center cursor-pointer">
+                                <h4
+                                    class="text-base font-semibold text-indigo-300 text-center h-full flex items-center justify-center">
+                                    UI/UX Design
+                                    <span
+                                        class="pointer-events-none opacity-0 group-hover:opacity-100 absolute left-1/2 -translate-x-1/2 top-full w-full p-4 backdrop-blur-xl bg-gray-900/70 text-xs rounded-lg z-10 text-left transition-opacity duration-500 pointer-events-none">
+                                        Produced comprehensive designs in Figma focusing on
+                                        user-friendly interfaces.
+                                    </span>
+                                </h4>
+                            </div>
+                            <div
+                                class="relative p-4 bg-pink-600/20 rounded-xl hover:bg-pink-600/30 transition-all duration-300 group flex flex-col items-center cursor-pointer">
+                                <h4
+                                    class="text-base font-semibold text-pink-300 text-center h-full flex items-center justify-center">
+                                    Website Optimisation
+                                    <span
+                                        class="pointer-events-none opacity-0 group-hover:opacity-100 absolute left-1/2 -translate-x-1/2 top-full w-full p-4 backdrop-blur-xl bg-gray-900/70 text-xs rounded-lg z-10 text-left transition-opacity duration-500 pointer-events-none">
+                                        Implemented advanced optimization techniques including
+                                        minification, caching and CDN integration.
+                                    </span>
+                                </h4>
+                            </div>
+                            <div
+                                class="relative p-4 bg-green-600/20 rounded-xl hover:bg-green-600/30 transition-all duration-300 group flex flex-col items-center cursor-pointer">
+                                <h4
+                                    class="text-base font-semibold text-green-300 text-center h-full flex items-center justify-center">
+                                    SEO Optimisation
+                                    <span
+                                        class="pointer-events-none opacity-0 group-hover:opacity-100 absolute left-1/2 -translate-x-1/2 top-full w-full p-4 backdrop-blur-xl bg-gray-900/70 text-xs rounded-lg z-10 text-left transition-opacity duration-500 pointer-events-none">
+                                        Conducted SEO analysis using RankMath, Ahrefs and SEMrush
+                                        to drive traffic growth.
+                                    </span>
+                                </h4>
+                            </div>
+                            <div
+                                class="relative p-4 bg-yellow-600/20 rounded-xl hover:bg-yellow-600/30 transition-all duration-300 group flex flex-col items-center">
+                                <h4
+                                    class="text-base font-semibold text-yellow-300 text-center h-full flex items-center justify-center">
+                                    API Integration
+                                    <span
+                                        class="pointer-events-none opacity-0 group-hover:opacity-100 absolute left-1/2 -translate-x-1/2 top-full w-full p-4 backdrop-blur-xl bg-gray-900/70 text-xs rounded-lg z-10 text-left transition-opacity duration-500 pointer-events-none">
+                                        Implemented RESTful APIs connecting WordPress, WooCommerce
+                                        and external systems.
+                                    </span>
+                                </h4>
+                            </div>
+                            <div
+                                class="relative p-4 bg-red-600/20 rounded-xl hover:bg-red-600/30 transition-all duration-300 group flex flex-col items-center cursor-pointer">
+                                <h4
+                                    class="text-base font-semibold text-red-300 text-center h-full flex items-center justify-center">
+                                    Documentation
+                                    <span
+                                        class="pointer-events-none opacity-0 group-hover:opacity-100 absolute left-1/2 -translate-x-1/2 top-full w-full p-4 backdrop-blur-xl bg-gray-900/70 text-xs rounded-lg z-10 text-left transition-opacity duration-500 pointer-events-none">
+                                        Created comprehensive documentation for websites, plugins,
+                                        APIs and workflows.
+                                    </span>
+                                </h4>
+                            </div>
+                            <div
+                                class="relative p-4 bg-teal-600/20 rounded-xl hover:bg-teal-600/30 transition-all duration-300 group flex flex-col items-center cursor-pointer">
+                                <h4
+                                    class="text-base font-semibold text-teal-300 text-center h-full flex items-center justify-center">
+                                    Graphics Optimisation
+                                    <span
+                                        class="pointer-events-none opacity-0 group-hover:opacity-100 absolute left-1/2 -translate-x-1/2 top-full w-full p-4 backdrop-blur-xl bg-gray-900/70 text-xs rounded-lg z-10 text-left transition-opacity duration-500 pointer-events-none">
+                                        Maintained strict image standards for aspect ratios, sizes
+                                        and resolutions.
+                                    </span>
+                                </h4>
+                            </div>
+                            <div
+                                class="relative p-4 bg-orange-600/20 rounded-xl hover:bg-orange-600/30 transition-all duration-300 group flex flex-col items-center cursor-pointer">
+                                <h4
+                                    class="text-base font-semibold text-orange-300 text-center h-full flex items-center justify-center">
+                                    Technical Liaison
+                                    <span
+                                        class="pointer-events-none opacity-0 group-hover:opacity-100 absolute left-1/2 -translate-x-1/2 top-full w-full p-4 backdrop-blur-xl bg-gray-900/70 text-xs rounded-lg z-10 text-left transition-opacity duration-500 pointer-events-none">
+                                        Maintained 90%+ client satisfaction as primary technical
+                                        support contact.
+                                    </span>
+                                </h4>
+                            </div>
+                            <div
+                                class="relative p-4 bg-cyan-600/20 rounded-xl hover:bg-cyan-600/30 transition-all duration-300 group flex flex-col items-center cursor-pointer">
+                                <h4
+                                    class="text-base font-semibold text-cyan-300 text-center h-full flex items-center justify-center">
+                                    Web Analytics
+                                    <span
+                                        class="pointer-events-none opacity-0 group-hover:opacity-100 absolute left-1/2 -translate-x-1/2 top-full w-full p-4 backdrop-blur-sm bg-gray-900/70 text-xs rounded-lg z-10 text-left transition-opacity duration-500 pointer-events-none">
+                                        Utilized GA4, GTM and conversion tracking for campaign
+                                        optimization.
+                                    </span>
+                                </h4>
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="text-sm projects-list">
+                        <span class="mx-2">Projects: </span>
+                        <a href="https://zerotech.com.au" target="_blank" class="transition-colors">
+                            ZeroTech</a>
+                        <span class="mx-2">|</span>
+                        <a href="https://zerotechoptics.com" target="_blank" class="transition-colors">ZeroTech
+                            Optics</a>
+                        <span class="mx-2">|</span>
+                        <a href="https://zerotech.co.nz" target="_blank" class="transition-colors">ZeroTech NZ</a>
+                        <span class="mx-2">|</span>
+                        <a href="https://bushpigshotguns.com.au" target="_blank" class="transition-colors">BushPig
+                            Shotguns</a>
+                        <span class="mx-2">|</span>
+                        <a href="https://zerotechoutdoors.com.au" target="_blank" class="transition-colors">ZeroTech
+                            Outdoors</a>
+                        <span class="mx-2">|</span>
+                        <a href="https://skywatcher.com.au" target="_blank" class="transition-colors">SkyWatcher</a>
+                    </div>
+                </div>
+                <div class="p-6 bg-gray-800 rounded-lg shadow-lg">
+                    <h3 class="text-xl font-bold text-indigo-300">
+                        Web Developer and IT Support
+                    </h3>
+                    <p class="text-gray-400 sm:text-sm">
+                        Sep 2020 – Aug 2022, Caronlab, North Geelong VIC
+                    </p>
+                    <div class="list-disc mt-4 text-gray-300">
+                        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+                            <div
+                                class="relative p-4 bg-purple-600/20 rounded-xl hover:bg-purple-600/30 transition-all duration-300 group flex flex-col items-center cursor-pointer">
+                                <h4
+                                    class="text-base font-semibold text-purple-300 text-center h-full flex items-center">
+                                    Custom WordPress Development
+                                    <span
+                                        class="pointer-events-none opacity-0 group-hover:opacity-100 absolute left-1/2 -translate-x-1/2 top-full w-full p-4 backdrop-blur-xl bg-gray-900/70 text-xs rounded-lg z-10 text-left transition-opacity duration-500 pointer-events-none">
+                                        Designed and executed custom WordPress sites with
+                                        JavaScript and CSS for responsive designs.
+                                    </span>
+                                </h4>
+                            </div>
+                            <div
+                                class="relative p-4 bg-blue-600/20 rounded-xl hover:bg-blue-600/30 transition-all duration-300 group flex flex-col items-center cursor-pointer">
+                                <h4 class="text-base font-semibold text-blue-300 text-center h-full flex items-center">
+                                    Template and Functionality Creation
+                                    <span
+                                        class="pointer-events-none opacity-0 group-hover:opacity-100 absolute left-1/2 -translate-x-1/2 top-full w-full p-4 backdrop-blur-xl bg-gray-900/70 text-xs rounded-lg z-10 text-left transition-opacity duration-500 pointer-events-none">
+                                        Developed WordPress PHP templates and dynamic
+                                        functionalities using JavaScript and PHP.
+                                    </span>
+                                </h4>
+                            </div>
+                            <div
+                                class="relative p-4 bg-indigo-600/20 rounded-xl hover:bg-indigo-600/30 transition-all duration-300 group flex flex-col items-center cursor-pointer">
+                                <h4
+                                    class="text-base font-semibold text-indigo-300 text-center h-full flex items-center">
+                                    System and Tool Integration
+                                    <span
+                                        class="pointer-events-none opacity-0 group-hover:opacity-100 absolute left-1/2 -translate-x-1/2 top-full w-full p-4 backdrop-blur-xl bg-gray-900/70 text-xs rounded-lg z-10 text-left transition-opacity duration-500 pointer-events-none">
+                                        Integrated systems like Yotpo and tools like Zapier,
+                                        linking with platforms such as MailChimp.
+                                    </span>
+                                </h4>
+                            </div>
+                            <div
+                                class="relative p-4 bg-pink-600/20 rounded-xl hover:bg-pink-600/30 transition-all duration-300 group flex flex-col items-center cursor-pointer">
+                                <h4 class="text-base font-semibold text-pink-300 text-center h-full flex items-center">
+                                    Domain & DNS Management
+                                    <span
+                                        class="pointer-events-none opacity-0 group-hover:opacity-100 absolute left-1/2 -translate-x-1/2 top-full w-full p-4 backdrop-blur-xl bg-gray-900/70 text-xs rounded-lg z-10 text-left transition-opacity duration-500 pointer-events-none">
+                                        Managed domain registration and DNS via Cloudflare; hosted
+                                        on SiteGround with troubleshooting support.
+                                    </span>
+                                </h4>
+                            </div>
+                            <div
+                                class="relative p-4 bg-green-600/20 rounded-xl hover:bg-green-600/30 transition-all duration-300 group flex flex-col items-center cursor-pointer">
+                                <h4 class="text-base font-semibold text-green-300 text-center h-full flex items-center">
+                                    Website Migrations & Performance
+                                    <span
+                                        class="pointer-events-none opacity-0 group-hover:opacity-100 absolute left-1/2 -translate-x-1/2 top-full w-full p-4 backdrop-blur-xl bg-gray-900/70 text-xs rounded-lg z-10 text-left transition-opacity duration-500 pointer-events-none">
+                                        Executed website migrations and optimized performance,
+                                        reducing memory consumption by 25%.
+                                    </span>
+                                </h4>
+                            </div>
+                            <div
+                                class="relative p-4 bg-yellow-600/20 rounded-xl hover:bg-yellow-600/30 transition-all duration-300 group flex flex-col items-center cursor-pointer">
+                                <h4
+                                    class="text-base font-semibold text-yellow-300 text-center h-full flex items-center">
+                                    Secure Payment Integration
+                                    <span
+                                        class="pointer-events-none opacity-0 group-hover:opacity-100 absolute left-1/2 -translate-x-1/2 top-full w-full p-4 backdrop-blur-xl bg-gray-900/70 text-xs rounded-lg z-10 text-left transition-opacity duration-500 pointer-events-none">
+                                        Integrated secure payment systems like Braintree, set up
+                                        SSL configurations, and optimized merchant APIs.
+                                    </span>
+                                </h4>
+                            </div>
+                            <div
+                                class="relative p-4 bg-red-600/20 rounded-xl hover:bg-red-600/30 transition-all duration-300 group flex flex-col items-center cursor-pointer">
+                                <h4 class="text-base font-semibold text-red-300 text-center h-full flex items-center">
+                                    SEO Strategy & Implementation
+                                    <span
+                                        class="pointer-events-none opacity-0 group-hover:opacity-100 absolute left-1/2 -translate-x-1/2 top-full w-full p-4 backdrop-blur-xl bg-gray-900/70 text-xs rounded-lg z-10 text-left transition-opacity duration-500 pointer-events-none">
+                                        Led SEO strategies using tools like RankMath and YoastSEO,
+                                        enhancing technical SEO and web content.
+                                    </span>
+                                </h4>
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="text-sm projects-list">
+                        <span class="mx-2">Projects: </span>
+                        <a href="https://us.waxxxpress.com" target="_blank" class="transition-colors ml-2">
+                            Waxxxpress US</a>
+                        <span class="mx-2">|</span>
+                        <a href="https://waxxxpress.co.uk" target="_blank" class="transition-colors">Waxxxpress UK</a>
+                        <span class="mx-2">|</span>
+                        <a href="https://thisisoceanroad.com.au" target="_blank" class="transition-colors">This Is Ocean
+                            Road AU</a>
+                        <span class="mx-2">|</span>
+                        <a href="https://thisisoceanroad.com" target="_blank" class="transition-colors">This Is Ocean
+                            Road USA</a>
+                        <span class="mx-2">|</span>
+                        <a href="https://hydro2oil.com.au" target="_blank" class="transition-colors">Hydro 2 Oil AU</a>
+                        <span class="mx-2">|</span>
+                        <a href="https://caronlab.com.au" target="_blank" class="transition-colors">Caronlab AU</a>
+                        <span class="mx-2">|</span>
+                        <a href="https://caronlab.com" target="_blank" class="transition-colors">Caronlab North
+                            America</a>
+                    </div>
+                </div>
+                <div class="p-6 bg-gray-800 rounded-lg shadow-lg">
+                    <h3 class="text-xl font-bold text-indigo-300">
+                        Multimedia Developer (Contract / Remote)
+                    </h3>
+                    <p class="text-gray-400 max-sm:text-sm">
+                        Aug 2022 – Dec 2022, TAFE Queensland, Southbank QLD
+                    </p>
+                    <div class="list-disc mt-4 text-gray-300">
+                        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+                            <div
+                                class="relative p-4 bg-purple-600/20 rounded-xl hover:bg-purple-600/30 transition-all duration-300 group flex flex-col items-center cursor-pointer">
+                                <h4
+                                    class="text-base font-semibold text-purple-300 text-center h-full flex items-center">
+                                    Cultural Transformation
+                                    <span
+                                        class="pointer-events-none opacity-0 group-hover:opacity-100 absolute left-1/2 -translate-x-1/2 top-full w-full p-4 backdrop-blur-xl bg-gray-900/70 text-xs rounded-lg z-10 text-left transition-opacity duration-500 pointer-events-none">
+                                        Contributed to transformation and cultural change by
+                                        promoting established values of Commerciality, Teamwork,
+                                        Innovation, and Accountability.
+                                    </span>
+                                </h4>
+                            </div>
+                            <div
+                                class="relative p-4 bg-blue-600/20 rounded-xl hover:bg-blue-600/30 transition-all duration-300 group flex flex-col items-center cursor-pointer">
+                                <h4 class="text-base font-semibold text-blue-300 text-center h-full flex items-center">
+                                    Educational Content Design
+                                    <span
+                                        class="pointer-events-none opacity-0 group-hover:opacity-100 absolute left-1/2 -translate-x-1/2 top-full w-full p-4 backdrop-blur-xl bg-gray-900/70 text-xs rounded-lg z-10 text-left transition-opacity duration-500 pointer-events-none">
+                                        Scoped concepts, advising on design options and software
+                                        parameters for online educational content development.
+                                    </span>
+                                </h4>
+                            </div>
+                            <div
+                                class="relative p-4 bg-indigo-600/20 rounded-xl hover:bg-indigo-600/30 transition-all duration-300 group flex flex-col items-center cursor-pointer">
+                                <h4
+                                    class="text-base font-semibold text-indigo-300 text-center h-full flex items-center">
+                                    Multimedia Implementation
+                                    <span
+                                        class="pointer-events-none opacity-0 group-hover:opacity-100 absolute left-1/2 -translate-x-1/2 top-full w-full p-4 backdrop-blur-xl bg-gray-900/70 text-xs rounded-lg z-10 text-left transition-opacity duration-500 pointer-events-none">
+                                        Designed and implemented multimedia content for blended
+                                        and online educational delivery.
+                                    </span>
+                                </h4>
+                            </div>
+                            <div
+                                class="relative p-4 bg-pink-600/20 rounded-xl hover:bg-pink-600/30 transition-all duration-300 group flex flex-col items-center cursor-pointer">
+                                <h4 class="text-base font-semibold text-pink-300 text-center h-full flex items-center">
+                                    UI/UX Design
+                                    <span
+                                        class="pointer-events-none opacity-0 group-hover:opacity-100 absolute left-1/2 -translate-x-1/2 top-full w-full p-4 backdrop-blur-xl bg-gray-900/70 text-xs rounded-lg z-10 text-left transition-opacity duration-500 pointer-events-none">
+                                        Created visually appealing, user-friendly interfaces
+                                        demonstrating contemporary design practices.
+                                    </span>
+                                </h4>
+                            </div>
+                            <div
+                                class="relative p-4 bg-green-600/20 rounded-xl hover:bg-green-600/30 transition-all duration-300 group flex flex-col items-center cursor-pointer">
+                                <h4 class="text-base font-semibold text-green-300 text-center h-full flex items-center">
+                                    Interactive Development
+                                    <span
+                                        class="pointer-events-none opacity-0 group-hover:opacity-100 absolute left-1/2 -translate-x-1/2 top-full w-full p-4 backdrop-blur-xl bg-gray-900/70 text-xs rounded-lg z-10 text-left transition-opacity duration-500 pointer-events-none">
+                                        Developed interactive learning resources using Adobe
+                                        Creative Suite®, HTML, CSS, and JavaScript.
+                                    </span>
+                                </h4>
+                            </div>
+                            <div
+                                class="relative p-4 bg-yellow-600/20 rounded-xl hover:bg-yellow-600/30 transition-all duration-300 group flex flex-col items-center cursor-pointer">
+                                <h4
+                                    class="text-base font-semibold text-yellow-300 text-center h-full flex items-center">
+                                    Quality Assurance
+                                    <span
+                                        class="pointer-events-none opacity-0 group-hover:opacity-100 absolute left-1/2 -translate-x-1/2 top-full w-full p-4 backdrop-blur-xl bg-gray-900/70 text-xs rounded-lg z-10 text-left transition-opacity duration-500 pointer-events-none">
+                                        Conducted usability testing, ensuring adherence to web
+                                        standards, style guides, and quality assurance practices.
+                                    </span>
+                                </h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-6 bg-gray-800 rounded-lg shadow-lg">
+                    <h3 class="text-xl font-bold text-indigo-300">
+                        Graduate Frontend Developer (Full-time)
+                    </h3>
+                    <p class="text-gray-400 max-sm:text-sm">
+                        Feb – Aug 2020, Beijing HiRain Technologies Co., Ltd., China
+                    </p>
+                    <div class="list-disc mt-4 text-gray-300">
+                        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 lg:gap-2">
+                            <div
+                                class="relative p-4 bg-purple-600/20 rounded-xl hover:bg-purple-600/30 transition-all duration-300 group flex flex-col items-center cursor-pointer">
+                                <h4
+                                    class="text-base font-semibold text-purple-300 text-center h-full flex items-center">
+                                    UI Development
+                                    <span
+                                        class="pointer-events-none opacity-0 group-hover:opacity-100 absolute left-1/2 -translate-x-1/2 top-full w-full p-4 backdrop-blur-xl bg-gray-900/70 text-xs rounded-lg z-10 text-left transition-opacity duration-500 pointer-events-none">
+                                        Developed new UI functionality for multithreaded
+                                        user-facing applications using React, Ant Design UI,
+                                        Node.js, and RESTful APIs.
+                                    </span>
+                                </h4>
+                            </div>
+                            <div
+                                class="relative p-4 bg-blue-600/20 rounded-xl hover:bg-blue-600/30 transition-all duration-300 group flex flex-col items-center cursor-pointer">
+                                <h4 class="text-base font-semibold text-blue-300 text-center h-full flex items-center">
+                                    Performance Optimization
+                                    <span
+                                        class="pointer-events-none opacity-0 group-hover:opacity-100 absolute left-1/2 -translate-x-1/2 top-full w-full p-4 backdrop-blur-xl bg-gray-900/70 text-xs rounded-lg z-10 text-left transition-opacity duration-500 pointer-events-none">
+                                        Optimized components for maximum performance in
+                                        development tools, debugging and fixing layout issues.
+                                    </span>
+                                </h4>
+                            </div>
+                            <div
+                                class="relative p-4 bg-indigo-600/20 rounded-xl hover:bg-indigo-600/30 transition-all duration-300 group flex flex-col items-center cursor-pointer">
+                                <h4
+                                    class="text-base font-semibold text-indigo-300 text-center h-full flex items-center">
+                                    Agile Training
+                                    <span
+                                        class="pointer-events-none opacity-0 group-hover:opacity-100 absolute left-1/2 -translate-x-1/2 top-full w-full p-4 backdrop-blur-xl bg-gray-900/70 text-xs rounded-lg z-10 text-left transition-opacity duration-500 pointer-events-none">
+                                        Completed Agile Project Management Seminar hosted by
+                                        senior project managers and co-founders.
+                                    </span>
+                                </h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="mb-12">
+            <h2 class="text-3xl font-bold mb-8 text-indigo-400 text-center">
+                Professional Skills
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Frontend -->
+                <div class="p-6 bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl shadow-xl">
+                    <div class="flex items-center space-x-4 mb-6">
+                        <div class="p-3 bg-indigo-500/20 rounded-lg">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-indigo-400" fill="none"
+                                width="50px" height="50px" viewBox="0 0 24 24" fill="none">
+                                <path
+                                    d="M10 17L8 15L10 13M14 13L16 15L14 17M13 3H8.2C7.0799 3 6.51984 3 6.09202 3.21799C5.71569 3.40973 5.40973 3.71569 5.21799 4.09202C5 4.51984 5 5.0799 5 6.2V17.8C5 18.9201 5 19.4802 5.21799 19.908C5.40973 20.2843 5.71569 20.5903 6.09202 20.782C6.51984 21 7.0799 21 8.2 21H15.8C16.9201 21 17.4802 21 17.908 20.782C18.2843 20.5903 18.5903 20.2843 18.782 19.908C19 19.4802 19 18.9201 19 17.8V9M13 3L19 9M13 3V8C13 8.55228 13.4477 9 14 9H19"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                            </svg>
+                        </div>
+                        <h3
+                            class="font-bold text-xl bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">
+                            Frontend
+                        </h3>
+                    </div>
+                    <div class="grid grid-cols-2 lg:grid-cols-3 gap-4">
+                        <div class="p-4 bg-gray-700/30 rounded-lg hover:bg-gray-700/50 transition-all group relative">
+                            <span class="text-gray-300">HTML5</span>
+                            <div class="invisible group-hover:visible absolute z-10 p-2 bg-gray-900 text-xs rounded text-gray-300 pointer-events-none"
+                                style="left: var(--mouse-x, 0); top: var(--mouse-y, 0)">
+                                Semantic structure for accessible and SEO-optimized web pages.
+                            </div>
+                        </div>
+                        <div class="p-4 bg-gray-700/30 rounded-lg hover:bg-gray-700/50 transition-all group relative">
+                            <span class="text-gray-300">CSS3</span>
+                            <div class="invisible group-hover:visible absolute z-10 p-2 bg-gray-900 text-xs rounded text-gray-300 pointer-events-none"
+                                style="left: var(--mouse-x, 0); top: var(--mouse-y, 0)">
+                                Responsive layouts, animations, and visual styling.
+                            </div>
+                        </div>
+                        <div class="p-4 bg-gray-700/30 rounded-lg hover:bg-gray-700/50 transition-all group relative">
+                            <span class="text-gray-300">JavaScript</span>
+                            <div class="invisible group-hover:visible absolute z-10 p-2 bg-gray-900 text-xs rounded text-gray-300 pointer-events-none"
+                                style="left: var(--mouse-x, 0); top: var(--mouse-y, 0)">
+                                Interactive functionality and client-side logic for web apps.
+                            </div>
+                        </div>
+                        <div class="p-4 bg-gray-700/30 rounded-lg hover:bg-gray-700/50 transition-all group relative">
+                            <span class="text-gray-300">React</span>
+                            <div class="invisible group-hover:visible absolute z-10 p-2 bg-gray-900 text-xs rounded text-gray-300 pointer-events-none"
+                                style="left: var(--mouse-x, 0); top: var(--mouse-y, 0)">
+                                Component-based architecture for dynamic and scalable UIs.
+                            </div>
+                        </div>
+                        <div class="p-4 bg-gray-700/30 rounded-lg hover:bg-gray-700/50 transition-all group relative">
+                            <span class="text-gray-300">Redux</span>
+                            <div class="invisible group-hover:visible absolute z-10 p-2 bg-gray-900 text-xs rounded text-gray-300 pointer-events-none"
+                                style="left: var(--mouse-x, 0); top: var(--mouse-y, 0)">
+                                State management for complex frontend applications.
+                            </div>
+                        </div>
+                        <div class="p-4 bg-gray-700/30 rounded-lg hover:bg-gray-700/50 transition-all group relative">
+                            <span class="text-gray-300">Tailwind</span>
+                            <div class="invisible group-hover:visible absolute z-10 p-2 bg-gray-900 text-xs rounded text-gray-300 pointer-events-none"
+                                style="left: var(--mouse-x, 0); top: var(--mouse-y, 0)">
+                                Utility-first CSS framework for rapid UI development.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Backend -->
+                <div class="p-6 bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl shadow-xl">
+                    <div class="flex items-center space-x-4 mb-6">
+                        <div class="p-3 bg-purple-500/20 rounded-lg">
+                            <svg class="w-8 h-8 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path xmlns="http://www.w3.org/2000/svg"
+                                    d="M18 7H18.01M15 7H15.01M18 17H18.01M15 17H15.01M6 10H18C18.9319 10 19.3978 10 19.7654 9.84776C20.2554 9.64477 20.6448 9.25542 20.8478 8.76537C21 8.39782 21 7.93188 21 7C21 6.06812 21 5.60218 20.8478 5.23463C20.6448 4.74458 20.2554 4.35523 19.7654 4.15224C19.3978 4 18.9319 4 18 4H6C5.06812 4 4.60218 4 4.23463 4.15224C3.74458 4.35523 3.35523 4.74458 3.15224 5.23463C3 5.60218 3 6.06812 3 7C3 7.93188 3 8.39782 3.15224 8.76537C3.35523 9.25542 3.74458 9.64477 4.23463 9.84776C4.60218 10 5.06812 10 6 10ZM6 20H18C18.9319 20 19.3978 20 19.7654 19.8478C20.2554 19.6448 20.6448 19.2554 20.8478 18.7654C21 18.3978 21 17.9319 21 17C21 16.0681 21 15.6022 20.8478 15.2346C20.6448 14.7446 20.2554 14.3552 19.7654 14.1522C19.3978 14 18.9319 14 18 14H6C5.06812 14 4.60218 14 4.23463 14.1522C3.74458 14.3552 3.35523 14.7446 3.15224 15.2346C3 15.6022 3 16.0681 3 17C3 17.9319 3 18.3978 3.15224 18.7654C3.35523 19.2554 3.74458 19.6448 4.23463 19.8478C4.60218 20 5.06812 20 6 20Z"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </div>
+                        <h3
+                            class="font-bold text-xl bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+                            Backend
+                        </h3>
+                    </div>
+                    <div class="grid grid-cols-2 lg:grid-cols-3 gap-4">
+                        <div class="p-4 bg-gray-700/30 rounded-lg hover:bg-gray-700/50 transition-all group relative">
+                            <span class="text-gray-300">Node.js</span>
+                            <div class="invisible group-hover:visible absolute z-10 p-2 bg-gray-900 text-xs rounded text-gray-300 pointer-events-none"
+                                style="left: var(--mouse-x, 0); top: var(--mouse-y, 0)">
+                                Asynchronous server-side programming for scalable apps.
+                            </div>
+                        </div>
+                        <div class="p-4 bg-gray-700/30 rounded-lg hover:bg-gray-700/50 transition-all group relative">
+                            <span class="text-gray-300">Next.js</span>
+                            <div class="invisible group-hover:visible absolute z-10 p-2 bg-gray-900 text-xs rounded text-gray-300 pointer-events-none"
+                                style="left: var(--mouse-x, 0); top: var(--mouse-y, 0)">
+                                Server-side rendering and static site generation for React
+                                apps.
+                            </div>
+                        </div>
+                        <div class="p-4 bg-gray-700/30 rounded-lg hover:bg-gray-700/50 transition-all group relative">
+                            <span class="text-gray-300">Express.js</span>
+                            <div class="invisible group-hover:visible absolute z-10 p-2 bg-gray-900 text-xs rounded text-gray-300 pointer-events-none"
+                                style="left: var(--mouse-x, 0); top: var(--mouse-y, 0)">
+                                Framework for building robust APIs and web apps.
+                            </div>
+                        </div>
+                        <div class="p-4 bg-gray-700/30 rounded-lg hover:bg-gray-700/50 transition-all group relative">
+                            <span class="text-gray-300">MySQL</span>
+                            <div class="invisible group-hover:visible absolute z-10 p-2 bg-gray-900 text-xs rounded text-gray-300 pointer-events-none"
+                                style="left: var(--mouse-x, 0); top: var(--mouse-y, 0)">
+                                Relational database management for structured data.
+                            </div>
+                        </div>
+                        <div class="p-4 bg-gray-700/30 rounded-lg hover:bg-gray-700/50 transition-all group relative">
+                            <span class="text-gray-300">MongoDB</span>
+                            <div class="invisible group-hover:visible absolute z-10 p-2 bg-gray-900 text-xs rounded text-gray-300 pointer-events-none"
+                                style="left: var(--mouse-x, 0); top: var(--mouse-y, 0)">
+                                NoSQL database for scalable, high-performance data storage.
+                            </div>
+                        </div>
+                        <div class="p-4 bg-gray-700/30 rounded-lg hover:bg-gray-700/50 transition-all group relative">
+                            <span class="text-gray-300">GraphQL</span>
+                            <div class="invisible group-hover:visible absolute z-10 p-2 bg-gray-900 text-xs rounded text-gray-300 pointer-events-none"
+                                style="left: var(--mouse-x, 0); top: var(--mouse-y, 0)">
+                                Query language and runtime for precise data fetching.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Deployment -->
+                <div class="p-6 bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl shadow-xl">
+                    <div class="flex items-center space-x-4 mb-6">
+                        <div class="p-3 bg-blue-500/20 rounded-lg">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-blue-400" width="50px"
+                                height="50px" viewBox="0 0 24 24" fill="none">
+                                <path
+                                    d="M17 17H17.01M15.6 14H18C18.9319 14 19.3978 14 19.7654 14.1522C20.2554 14.3552 20.6448 14.7446 20.8478 15.2346C21 15.6022 21 16.0681 21 17C21 17.9319 21 18.3978 20.8478 18.7654C20.6448 19.2554 20.2554 19.6448 19.7654 19.8478C19.3978 20 18.9319 20 18 20H6C5.06812 20 4.60218 20 4.23463 19.8478C3.74458 19.6448 3.35523 19.2554 3.15224 18.7654C3 18.3978 3 17.9319 3 17C3 16.0681 3 15.6022 3.15224 15.2346C3.35523 14.7446 3.74458 14.3552 4.23463 14.1522C4.60218 14 5.06812 14 6 14H8.4M12 15V4M12 4L15 7M12 4L9 7"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                            </svg>
+                        </div>
+                        <h3
+                            class="font-bold text-xl bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
+                            Deployment
+                        </h3>
+                    </div>
+                    <div class="grid grid-cols-2 lg:grid-cols-3 gap-4">
+                        <div class="p-4 bg-gray-700/30 rounded-lg hover:bg-gray-700/50 transition-all group relative">
+                            <span class="text-gray-300">Netlify</span>
+                            <div class="invisible group-hover:visible absolute z-10 p-2 bg-gray-900 text-xs rounded text-gray-300 pointer-events-none"
+                                style="left: var(--mouse-x, 0); top: var(--mouse-y, 0)">
+                                Static site hosting and serverless functions.
+                            </div>
+                        </div>
+                        <div class="p-4 bg-gray-700/30 rounded-lg hover:bg-gray-700/50 transition-all group relative">
+                            <span class="text-gray-300">Heroku</span>
+                            <div class="invisible group-hover:visible absolute z-10 p-2 bg-gray-900 text-xs rounded text-gray-300 pointer-events-none"
+                                style="left: var(--mouse-x, 0); top: var(--mouse-y, 0)">
+                                Cloud platform for deploying and managing apps.
+                            </div>
+                        </div>
+                        <div class="p-4 bg-gray-700/30 rounded-lg hover:bg-gray-700/50 transition-all group relative">
+                            <span class="text-gray-300">AWS EC2</span>
+                            <div class="invisible group-hover:visible absolute z-10 p-2 bg-gray-900 text-xs rounded text-gray-300 pointer-events-none"
+                                style="left: var(--mouse-x, 0); top: var(--mouse-y, 0)">
+                                Virtual servers for scalable cloud applications.
+                            </div>
+                        </div>
+                        <div class="p-4 bg-gray-700/30 rounded-lg hover:bg-gray-700/50 transition-all group relative">
+                            <span class="text-gray-300">SiteGround</span>
+                            <div class="invisible group-hover:visible absolute z-10 p-2 bg-gray-900 text-xs rounded text-gray-300 pointer-events-none"
+                                style="left: var(--mouse-x, 0); top: var(--mouse-y, 0)">
+                                Managed WordPress hosting with advanced features.
+                            </div>
+                        </div>
+                        <div class="p-4 bg-gray-700/30 rounded-lg hover:bg-gray-700/50 transition-all group relative">
+                            <span class="text-gray-300">Hostinger</span>
+                            <div class="invisible group-hover:visible absolute z-10 p-2 bg-gray-900 text-xs rounded text-gray-300 pointer-events-none"
+                                style="left: var(--mouse-x, 0); top: var(--mouse-y, 0)">
+                                Web hosting with integrated development tools.
+                            </div>
+                        </div>
+                        <div class="p-4 bg-gray-700/30 rounded-lg hover:bg-gray-700/50 transition-all group relative">
+                            <span class="text-gray-300">GitHub Pages</span>
+                            <div class="invisible group-hover:visible absolute z-10 p-2 bg-gray-900 text-xs rounded text-gray-300 pointer-events-none"
+                                style="left: var(--mouse-x, 0); top: var(--mouse-y, 0)">
+                                Static site hosting directly from GitHub repositories.
+                            </div>
+                        </div>
+                        <div class="p-4 bg-gray-700/30 rounded-lg hover:bg-gray-700/50 transition-all group relative">
+                            <span class="text-gray-300">Vercel</span>
+                            <div class="invisible group-hover:visible absolute z-10 p-2 bg-gray-900 text-xs rounded text-gray-300 pointer-events-none"
+                                style="left: var(--mouse-x, 0); top: var(--mouse-y, 0)">
+                                Frontend deployment and serverless functions platform.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Design -->
+                <div class="p-6 bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl shadow-xl">
+                    <div class="flex items-center space-x-4 mb-6">
+                        <div class="p-3 bg-pink-500/20 rounded-lg">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-pink-400" fill="none"
+                                width="50px" height="50px" viewBox="0 0 24 24" fill="none">
+                                <path d="M8 10L12 3L16 10H8Z" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                                <path
+                                    d="M10 17.5C10 19.433 8.433 21 6.5 21C4.567 21 3 19.433 3 17.5C3 15.567 4.567 14 6.5 14C8.433 14 10 15.567 10 17.5Z"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                                <path d="M14 14H21V21H14V14Z" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </div>
+                        <h3
+                            class="font-bold text-xl bg-gradient-to-r from-pink-400 to-rose-400 bg-clip-text text-transparent">
+                            Design
+                        </h3>
+                    </div>
+                    <div class="grid grid-cols-2 lg:grid-cols-3 gap-4">
+                        <div class="p-4 bg-gray-700/30 rounded-lg hover:bg-gray-700/50 transition-all group relative">
+                            <span class="text-gray-300">Photoshop</span>
+                            <div class="invisible group-hover:visible absolute z-10 p-2 bg-gray-900 text-xs rounded text-gray-300 pointer-events-none"
+                                style="left: var(--mouse-x, 0); top: var(--mouse-y, 0)">
+                                Image editing and manipulation for web graphics.
+                            </div>
+                        </div>
+                        <div class="p-4 bg-gray-700/30 rounded-lg hover:bg-gray-700/50 transition-all group relative">
+                            <span class="text-gray-300">Adobe XD</span>
+                            <div class="invisible group-hover:visible absolute z-10 p-2 bg-gray-900 text-xs rounded text-gray-300 pointer-events-none"
+                                style="left: var(--mouse-x, 0); top: var(--mouse-y, 0)">
+                                UX/UI prototyping and wireframing tools.
+                            </div>
+                        </div>
+                        <div class="p-4 bg-gray-700/30 rounded-lg hover:bg-gray-700/50 transition-all group relative">
+                            <span class="text-gray-300">Figma</span>
+                            <div class="invisible group-hover:visible absolute z-10 p-2 bg-gray-900 text-xs rounded text-gray-300 pointer-events-none"
+                                style="left: var(--mouse-x, 0); top: var(--mouse-y, 0)">
+                                Collaborative design for modern web and mobile interfaces.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <script>
+                document.querySelectorAll('.group').forEach(group => {
+                    group.addEventListener('mousemove', e => {
+                        const rect = group.getBoundingClientRect()
+                        const x = e.clientX - rect.left + 20 // Offset by 20px to the right
+                        const y = e.clientY - rect.top + 20 // Offset by 20px down
+                        group
+                            .querySelector('div[class*="invisible"]')
+                            .style.setProperty('--mouse-x', `${x}px`)
+                        group
+                            .querySelector('div[class*="invisible"]')
+                            .style.setProperty('--mouse-y', `${y}px`)
+                    })
+                })
+            </script>
+        </section>
+        <section class="mb-12">
+            <h2 class="text-3xl font-bold mb-6 text-indigo-400 text-center">
+                Educational Journey
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="p-4 bg-gray-800/50 rounded-lg hover:bg-gray-800/70 transition-all duration-300">
+                    <div class="flex items-center mb-3">
+                        <h3 class="text-xl font-semibold text-indigo-300">
+                            Professional Development
+                        </h3>
+                    </div>
+                    <div class="space-y-3 text-gray-300">
+                        <div class="p-3 bg-gray-700/30 rounded">
+                            <p class="font-medium">JavaScript Development</p>
+                            <p class="text-sm text-gray-400">General Assembly | 2021</p>
+                        </div>
+                        <div class="p-3 bg-gray-700/30 rounded">
+                            <p class="font-medium">Senior Frontend Development</p>
+                            <p class="text-sm text-gray-400">
+                                NetEase Cloud Classroom | 2020
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-4 bg-gray-800/50 rounded-lg hover:bg-gray-800/70 transition-all duration-300">
+                    <div class="flex items-center mb-3">
+                        <h3 class="text-xl font-semibold text-indigo-300">
+                            University Education
+                        </h3>
+                    </div>
+                    <div class="space-y-3 text-gray-300">
+                        <div class="p-3 bg-gray-700/30 rounded">
+                            <p class="font-medium">
+                                Graduate Diploma of Information Technology
+                            </p>
+                            <p class="text-sm text-gray-400">
+                                University of Canberra | 2019 – 2020
+                            </p>
+                        </div>
+                        <div class="p-3 bg-gray-700/30 rounded">
+                            <p class="font-medium">Double Bachelor Degree</p>
+                            <p class="text-sm">
+                                Information Technology & Media Arts and Production
+                            </p>
+                            <p class="text-sm text-gray-400">
+                                University of Canberra | 2013 – 2016
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="mb-12">
+            <h2 class="text-3xl font-bold mb-6 text-indigo-400 text-center">
+                Personalities
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="p-6 bg-gray-800 rounded-lg shadow-lg hover-bright flex items-start space-x-4">
+                    <span class="text-indigo-400 text-3xl">&#128161;</span>
+                    <div>
+                        <h3 class="font-bold text-xl text-indigo-300">
+                            INTP Personality Traits
+                        </h3>
+                        <p class="text-gray-300 mt-2">
+                            Both outgoing and reserved (slightly more reserved), cautious,
+                            and focused on excellence according to the DISC Assessment.
+                        </p>
+                    </div>
+                </div>
+                <div class="p-6 bg-gray-800 rounded-lg shadow-lg hover-bright flex items-start space-x-4">
+                    <span class="text-indigo-400 text-3xl">&#129504;</span>
+                    <div>
+                        <h3 class="font-bold text-xl text-indigo-300">
+                            Thirst for Knowledge
+                        </h3>
+                        <p class="text-gray-300 mt-2">
+                            Exhibits curiosity, patience, and a keenness to learn.
+                        </p>
+                    </div>
+                </div>
+                <div class="p-6 bg-gray-800 rounded-lg shadow-lg hover-bright flex items-start space-x-4">
+                    <span class="text-indigo-400 text-3xl">&#128295;</span>
+                    <div>
+                        <h3 class="font-bold text-xl text-indigo-300">
+                            Problem-Solving Approach
+                        </h3>
+                        <p class="text-gray-300 mt-2">
+                            Maintains an open mind, actively questions, excels in
+                            problem-solving, and is collaborative, supportive, yet dominant.
+                        </p>
+                    </div>
+                </div>
+                <div class="p-6 bg-gray-800 rounded-lg shadow-lg hover-bright flex items-start space-x-4">
+                    <span class="text-indigo-400 text-3xl">&#129488;</span>
+                    <div>
+                        <h3 class="font-bold text-xl text-indigo-300">
+                            Critical Thinking
+                        </h3>
+                        <p class="text-gray-300 mt-2">
+                            Demonstrates a blend of flexibility and adaptability, paired
+                            with critical thinking that is objective.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+</body>
+<footer class="py-8 bg-gray-900">
+    <div class="container mx-auto px-4">
+        <div class="text-center">
+            <p class="text-gray-500 text-xs mt-2">
+                © 2024 Jerry Li, @digolasforge. All rights reserved.
+            </p>
+        </div>
+    </div>
+</footer>
+
+
+
+</html>
