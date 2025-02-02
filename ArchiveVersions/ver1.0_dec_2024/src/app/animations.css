@@ -1,0 +1,52 @@
+.fade-in,
+.slide-up {
+  animation-timing-function: ease-in-out;
+}
+
+.fade-in {
+  animation: fadeIn 1s;
+}
+
+.slide-up {
+  animation: slideUp 0.8s;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Tooltip hover effects */
+.group:hover .group-hover\:opacity-100 {
+  opacity: 1;
+}
+
+.group:hover .group-hover\:visible {
+  visibility: visible;
+}
+
+/* Mouse position tracking for tooltips */
+.group {
+  position: relative;
+}
+
+.group div[style*="--mouse-x"] {
+  position: absolute;
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+}
