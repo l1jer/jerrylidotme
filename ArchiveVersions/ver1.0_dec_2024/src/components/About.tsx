@@ -1,3 +1,5 @@
+import Image from 'next/image';
+
 interface Project {
   name: string;
   url: string;
@@ -27,7 +29,7 @@ export default function About() {
             <div className="w-3/4 max-sm:w-4/5 relative group">
               <div className="absolute -inset-2 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-xl opacity-20 group-hover:opacity-30 blur transition duration-300"></div>
               <div className="relative">
-                <img
+                <Image
                   src="https://jerryli.me/jerry-li-sketch-2024.webp"
                   alt="Jerry Li Sketch"
                   className="rounded-xl shadow-xl transition duration-500"
