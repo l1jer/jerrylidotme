@@ -1,6 +1,8 @@
 import './globals.css'
 import './animations.css'
 import { Metadata } from 'next'
+import { Analytics } from "@vercel/analytics/react"
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 export const metadata: Metadata = {
   title: 'Jerry Li - Frontend/Web Developer | UI/UX Designer | SEO Specialist',
@@ -33,6 +35,8 @@ export default function RootLayout({
       <body className="bg-gray-900 text-gray-100 font-sans leading-relaxed">
         {children}
       </body>
+      <Analytics />
+      <SpeedInsights />
     </html>
   )
 }
