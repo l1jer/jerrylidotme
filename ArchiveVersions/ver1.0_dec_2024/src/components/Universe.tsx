@@ -2,7 +2,6 @@
 
 import { useEffect, useRef } from 'react'
 
-const STAR_COLOR = '#fff'
 const STAR_SIZE = 3
 const STAR_MIN_SCALE = 0.2
 const OVERFLOW_THRESHOLD = 50
@@ -37,31 +36,35 @@ export default function Universe({ layer = 'mid' }: UniverseProps) {
     const velocity = { x: 0, y: 0, tx: 0, ty: 0, z: 0.0005 }
     let touchInput = false
 
-    // Layer depth configuration for parallax effect
+    // Layer depth configuration for parallax effect with atmospheric colour
     const layerConfig = {
       far: { 
-        density: 32,      // Most stars, smallest
-        speed: 0.3,       // Slowest movement
-        size: 0.6,        // Smallest stars
-        opacity: 0.3      // Dimmest
+        density: 32,           // Most stars, smallest
+        speed: 0.3,            // Slowest movement
+        size: 0.6,             // Smallest stars
+        opacity: 0.3,          // Dimmest
+        color: '#9bb5ff'       // Cool blue (distant stars)
       },
       mid: { 
-        density: 20,      // Medium amount
-        speed: 0.7,       // Medium speed
-        size: 1,          // Normal size
-        opacity: 0.5      // Medium brightness
+        density: 20,           // Medium amount
+        speed: 0.7,            // Medium speed
+        size: 1,               // Normal size
+        opacity: 0.5,          // Medium brightness
+        color: '#cad7ff'       // Light blue-white
       },
       near: { 
-        density: 48,      // Fewer stars
-        speed: 1.5,       // Faster movement
-        size: 1.8,        // Larger stars
-        opacity: 0.7      // Brighter
+        density: 48,           // Fewer stars
+        speed: 1.5,            // Faster movement
+        size: 1.8,             // Larger stars
+        opacity: 0.7,          // Brighter
+        color: '#f8f8ff'       // Bright white
       },
       closest: { 
-        density: 64,      // Very few stars
-        speed: 2.5,       // Fastest movement (closest to camera)
-        size: 3,          // Largest stars
-        opacity: 0.85     // Brightest
+        density: 64,           // Very few stars
+        speed: 2.5,            // Fastest movement (closest to camera)
+        size: 3,               // Largest stars
+        opacity: 0.85,         // Brightest
+        color: '#fffaf0'       // Warm white/ivory (closest stars)
       }
     }
 
@@ -171,10 +174,10 @@ export default function Universe({ layer = 'mid' }: UniverseProps) {
         context.beginPath()
         context.lineCap = 'round'
         
-        // Layer-specific size and opacity for depth
+        // Layer-specific size, opacity, and colour for atmospheric depth
         context.lineWidth = STAR_SIZE * star.z * scale * config.size
         context.globalAlpha = config.opacity + (0.15 * Math.random())
-        context.strokeStyle = STAR_COLOR
+        context.strokeStyle = config.color  // Use layer-specific colour
 
         context.beginPath()
         context.moveTo(star.x, star.y)

@@ -2,6 +2,7 @@
 
 import { useEffect } from 'react'
 import Universe from '../components/Universe'
+import UniverseBackground from '../components/UniverseBackground'
 import Header from '../components/Header'
 import About from '../components/About'
 import Experience from '../components/Experience'
@@ -21,23 +22,15 @@ export default function Home() {
 
   return (
     <div className="min-h-screen flex flex-col overflow-x-hidden relative">
+      {/* Animated universe background colour - cycles through day/night */}
+      <UniverseBackground />
+      
       {/* Multi-layer starfield for enhanced 3D depth */}
       {/* Far background - smallest, slowest, dimmest */}
       <Universe layer="far" />
       
       {/* Mid background - medium size and speed */}
       <Universe layer="mid" />
-      
-      {/* Radial gradient overlays matching the provided design */}
-      <div 
-        className="fixed inset-0 pointer-events-none z-[2]"
-        style={{
-          background: `
-            radial-gradient(circle at top right, rgba(121, 68, 154, 0.13), transparent),
-            radial-gradient(circle at 20% 80%, rgba(41, 196, 255, 0.13), transparent)
-          `
-        }}
-      ></div>
       
       <div className="relative z-10">
         <Header />
