@@ -39,28 +39,28 @@ export default function Universe({ layer = 'mid' }: UniverseProps) {
     // Layer depth configuration for parallax effect with atmospheric colour
     const layerConfig = {
       far: { 
-        density: 32,           // Most stars, smallest
+        density: 24,           // Most stars, smallest
         speed: 0.3,            // Slowest movement
         size: 0.6,             // Smallest stars
         opacity: 0.3,          // Dimmest
         color: '#9bb5ff'       // Cool blue (distant stars)
       },
       mid: { 
-        density: 20,           // Medium amount
+        density: 36,           // Medium amount
         speed: 0.7,            // Medium speed
         size: 1,               // Normal size
         opacity: 0.5,          // Medium brightness
         color: '#cad7ff'       // Light blue-white
       },
       near: { 
-        density: 48,           // Fewer stars
+        density: 128,           // Fewer stars
         speed: 1.5,            // Faster movement
         size: 1.8,             // Larger stars
         opacity: 0.7,          // Brighter
         color: '#f8f8ff'       // Bright white
       },
       closest: { 
-        density: 64,           // Very few stars
+        density: 128,           // Very few stars
         speed: 2.5,            // Fastest movement (closest to camera)
         size: 3,               // Largest stars
         opacity: 0.85,         // Brightest
