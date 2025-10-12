@@ -13,7 +13,11 @@ type Star = {
   z: number
 }
 
-export default function Universe() {
+interface UniverseProps {
+  layer?: 'far' | 'mid' | 'near' | 'closest'
+}
+
+export default function Universe({ layer = 'mid' }: UniverseProps) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
   const animationRef = useRef<number | null>(null)
 
@@ -33,7 +37,36 @@ export default function Universe() {
     const velocity = { x: 0, y: 0, tx: 0, ty: 0, z: 0.0005 }
     let touchInput = false
 
-    const STAR_COUNT = () => (window.innerWidth + window.innerHeight) / 16
+    // Layer depth configuration for parallax effect
+    const layerConfig = {
+      far: { 
+        density: 32,      // Most stars, smallest
+        speed: 0.3,       // Slowest movement
+        size: 0.6,        // Smallest stars
+        opacity: 0.3      // Dimmest
+      },
+      mid: { 
+        density: 20,      // Medium amount
+        speed: 0.7,       // Medium speed
+        size: 1,          // Normal size
+        opacity: 0.5      // Medium brightness
+      },
+      near: { 
+        density: 48,      // Fewer stars
+        speed: 1.5,       // Faster movement
+        size: 1.8,        // Larger stars
+        opacity: 0.7      // Brighter
+      },
+      closest: { 
+        density: 64,      // Very few stars
+        speed: 2.5,       // Fastest movement (closest to camera)
+        size: 3,          // Largest stars
+        opacity: 0.85     // Brightest
+      }
+    }
+
+    const config = layerConfig[layer]
+    const STAR_COUNT = () => (window.innerWidth + window.innerHeight) / config.density
 
     function generate() {
       const count = STAR_COUNT()
@@ -110,12 +143,15 @@ export default function Universe() {
       velocity.x += (velocity.tx - velocity.x) * 0.8
       velocity.y += (velocity.ty - velocity.y) * 0.8
 
-      stars.forEach((star) => {
-        star.x += velocity.x * star.z
-        star.y += velocity.y * star.z
+      // Apply layer-specific speed multiplier for parallax depth
+      const speedMultiplier = config.speed
 
-        star.x += (star.x - width / 2) * velocity.z * star.z
-        star.y += (star.y - height / 2) * velocity.z * star.z
+      stars.forEach((star) => {
+        star.x += velocity.x * star.z * speedMultiplier
+        star.y += velocity.y * star.z * speedMultiplier
+
+        star.x += (star.x - width / 2) * velocity.z * star.z * speedMultiplier
+        star.y += (star.y - height / 2) * velocity.z * star.z * speedMultiplier
         star.z += velocity.z
 
         if (
@@ -134,15 +170,18 @@ export default function Universe() {
       stars.forEach((star) => {
         context.beginPath()
         context.lineCap = 'round'
-        context.lineWidth = STAR_SIZE * star.z * scale
-        context.globalAlpha = 0.5 + 0.5 * Math.random()
+        
+        // Layer-specific size and opacity for depth
+        context.lineWidth = STAR_SIZE * star.z * scale * config.size
+        context.globalAlpha = config.opacity + (0.15 * Math.random())
         context.strokeStyle = STAR_COLOR
 
         context.beginPath()
         context.moveTo(star.x, star.y)
 
-        let tailX = velocity.x * 2
-        let tailY = velocity.y * 2
+        // Tail length also affected by layer depth
+        let tailX = velocity.x * 2 * config.speed
+        let tailY = velocity.y * 2 * config.speed
 
         if (Math.abs(tailX) < 0.1) tailX = 0.5
         if (Math.abs(tailY) < 0.1) tailY = 0.5
@@ -207,12 +246,20 @@ export default function Universe() {
       document.removeEventListener('touchend', onMouseLeave)
       document.removeEventListener('mouseleave', onMouseLeave)
     }
-  }, [])
+  }, [layer])
+
+  // Z-index mapping for depth layers
+  const zIndexMap = {
+    far: 'z-0',
+    mid: 'z-[1]',
+    near: 'z-[15]',
+    closest: 'z-[25]'
+  }
 
   return (
     <canvas
       ref={canvasRef}
-      className="fixed inset-0 z-0 pointer-events-none"
+      className={`fixed inset-0 pointer-events-none ${zIndexMap[layer]}`}
       style={{ 
         width: '100%', 
         height: '100%'

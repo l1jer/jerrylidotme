@@ -21,12 +21,16 @@ export default function Home() {
 
   return (
     <div className="min-h-screen flex flex-col overflow-x-hidden relative">
-      {/* Interactive starfield canvas */}
-      <Universe />
+      {/* Multi-layer starfield for enhanced 3D depth */}
+      {/* Far background - smallest, slowest, dimmest */}
+      <Universe layer="far" />
+      
+      {/* Mid background - medium size and speed */}
+      <Universe layer="mid" />
       
       {/* Radial gradient overlays matching the provided design */}
       <div 
-        className="fixed inset-0 pointer-events-none z-0"
+        className="fixed inset-0 pointer-events-none z-[2]"
         style={{
           background: `
             radial-gradient(circle at top right, rgba(121, 68, 154, 0.13), transparent),
@@ -47,6 +51,12 @@ export default function Home() {
         <Footer />
         <ScrollToTopButton />
       </div>
+
+      {/* Near foreground - larger, faster, brighter */}
+      <Universe layer="near" />
+      
+      {/* Closest foreground - largest stars, fastest movement, dramatic parallax */}
+      <Universe layer="closest" />
     </div>
   )
 }
