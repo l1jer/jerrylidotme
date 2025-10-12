@@ -154,7 +154,7 @@ export default function Header() {
       {/* Animated Scroll Indicator */}
       <div className="relative bottom-4 pb-4 fade-in-delay-3">
         <div className="flex flex-col items-center gap-2 animate-bounce" style={{ animationDuration: '2s' }}>
-          <span className="text-gray-300 text-base font-medium" style={{ fontFamily: 'Schoolbell, cursive' }}>Scroll Down</span>
+          <span className="text-gray-300 text-base font-medium" style={{ fontFamily: 'var(--font-schoolbell), cursive' }}>Scroll Down</span>
           <svg 
             className="w-8 h-8 text-indigo-400" 
             viewBox="-25 0 98 98" 

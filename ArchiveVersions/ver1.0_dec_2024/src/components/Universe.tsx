@@ -30,7 +30,7 @@ export default function Universe() {
     let stars: Star[] = []
     let pointerX: number | null = null
     let pointerY: number | null = null
-    let velocity = { x: 0, y: 0, tx: 0, ty: 0, z: 0.0005 }
+    const velocity = { x: 0, y: 0, tx: 0, ty: 0, z: 0.0005 }
     let touchInput = false
 
     const STAR_COUNT = () => (window.innerWidth + window.innerHeight) / 16
@@ -94,6 +94,7 @@ export default function Universe() {
     }
 
     function resize() {
+      if (!canvas) return
       scale = window.devicePixelRatio || 1
       width = window.innerWidth * scale
       height = window.innerHeight * scale
@@ -129,6 +130,7 @@ export default function Universe() {
     }
 
     function render() {
+      if (!context) return
       stars.forEach((star) => {
         context.beginPath()
         context.lineCap = 'round'
@@ -151,6 +153,7 @@ export default function Universe() {
     }
 
     function step() {
+      if (!context) return
       context.clearRect(0, 0, width, height)
       update()
       render()

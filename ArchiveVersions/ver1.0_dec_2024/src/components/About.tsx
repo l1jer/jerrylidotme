@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import { useScrollAnimation } from '../hooks/useScrollAnimation'
 
 interface Project {
@@ -55,10 +56,13 @@ export default function About() {
                 
                 {/* Image container */}
                 <div className="relative overflow-hidden rounded-2xl group-hover:border-white/20 transition-all duration-500 bg-transparent">
-                  <img
+                  <Image
                     src="/jerry-li-sketch-2025.webp"
                     alt="Jerry Li Portrait"
-                    className="w-full h-auto object-cover  transition-transform duration-700"
+                    width={400}
+                    height={400}
+                    className="w-full h-auto object-cover transition-transform duration-700"
+                    priority
                   />
                 </div>
 
