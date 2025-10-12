@@ -1,6 +1,7 @@
 'use client'
 
 import { FaCode, FaDatabase, FaCloud, FaPalette } from 'react-icons/fa'
+import { useScrollAnimation } from '../hooks/useScrollAnimation'
 
 const skillCategories = [
   {
@@ -60,42 +61,59 @@ const skillCategories = [
 ]
 
 export default function Skills() {
+  const { ref, isVisible } = useScrollAnimation()
+  
   return (
-    <section className="mb-12">
-      <h2 className="text-3xl font-bold mb-8 text-indigo-400 text-center">
-        Professional Skills
-      </h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        {skillCategories.map((category, index) => (
-          <div
-            key={index}
-            className="p-6 bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl shadow-xl"
-          >
-            <div className="flex items-center space-x-4 mb-6">
-              <div className={`p-3 ${category.bgClass} rounded-lg`}>
-                {category.icon}
-              </div>
-              <h3
-                className={`font-bold text-xl bg-gradient-to-r ${category.textClass} bg-clip-text text-transparent`}
-              >
-                {category.title}
-              </h3>
-            </div>
-            <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
-              {category.skills.map((skill, skillIndex) => (
-                <div
-                  key={skillIndex}
-                  className="p-4 bg-gray-700/30 rounded-lg hover:bg-gray-700/50 transition-all group relative"
-                >
-                  <span className="text-gray-300">{skill.name}</span>
-                  <div className="invisible group-hover:visible absolute z-10 p-2 bg-gray-900 text-xs rounded text-gray-300 pointer-events-none">
-                    {skill.description}
-                  </div>
-                </div>
-              ))}
-            </div>
+    <section ref={ref} className={`mb-16 relative scroll-fade-in ${isVisible ? 'visible' : ''}`}>
+      {/* Title Section with Stunning Design */}
+      <div className="relative mb-12">
+        <div className="text-center">
+          <div className="inline-block relative">
+            {/* Animated background glow */}
+            <div className="absolute inset-0 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 blur-2xl opacity-30 animate-pulse"></div>
+            
+            {/* Title */}
+            <h2 className="relative text-3xl sm:text-4xl md:text-5xl font-bold bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent mb-4 px-4">
+              Professional Skills
+            </h2>
           </div>
-        ))}
+          
+          {/* Decorative separator */}
+          <div className="w-16 sm:w-24 h-1 sm:h-1.5 bg-gradient-to-r from-indigo-500 to-purple-500 mx-auto rounded-full"></div>
+        </div>
+      </div>
+
+      {/* Skills Grid */}
+      <div className="backdrop-blur-sm bg-white/[.02] border border-white/10 rounded-2xl p-4 sm:p-8">
+        <div className={`space-y-8 stagger-fade-in ${isVisible ? 'visible' : ''}`}>
+          {skillCategories.map((category, index) => (
+            <div key={index}>
+              <div className="flex items-center space-x-4 mb-6">
+                <div className="p-3 bg-indigo-500/10 rounded-xl border border-indigo-400/20">
+                  {category.icon}
+                </div>
+                <h3 className={`font-bold text-2xl bg-gradient-to-r ${category.textClass} bg-clip-text text-transparent`}>
+                  {category.title}
+                </h3>
+              </div>
+              <div className="grid grid-cols-2 lg:grid-cols-3 gap-3">
+                {category.skills.map((skill, skillIndex) => (
+                  <div
+                    key={skillIndex}
+                    className="group/skill relative backdrop-blur-sm bg-white/5 hover:bg-indigo-500/10 border border-white/10 hover:border-indigo-400/50 rounded-lg p-3 transition-all duration-300 cursor-pointer hover:z-50"
+                  >
+                    <span className=" font-medium text-gray-100 group-hover/skill:text-white transition-colors">
+                      {skill.name}
+                    </span>
+                    <div className="opacity-0 group-hover/skill:opacity-100 absolute left-1/2 -translate-x-1/2 top-full mt-2 w-56 p-3 backdrop-blur-xl bg-slate-900/95 border border-indigo-400/20 text-xs text-gray-100 rounded-lg z-[100] pointer-events-none transition-opacity duration-300 shadow-xl">
+                      {skill.description}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   )

@@ -1,34 +1,100 @@
-.fade-in,
-.slide-up {
-  animation-timing-function: ease-in-out;
-}
-
+/* Fade in animation */
 .fade-in {
-  animation: fadeIn 1s;
+  animation: fadeIn 0.8s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+.fade-in-delay-1 {
+  animation: fadeIn 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  animation-delay: 0.4s;
+  opacity: 0;
+  animation-fill-mode: forwards;
+}
+
+.fade-in-delay-2 {
+  animation: fadeIn 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  animation-delay: 0.6s;
+  opacity: 0;
+  animation-fill-mode: forwards;
+}
+
+.fade-in-delay-3 {
+  animation: fadeIn 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  animation-delay: 0.8s;
+  opacity: 0;
+  animation-fill-mode: forwards;
+}
+
+.fade-in-delay-4 {
+  animation: fadeIn 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  animation-delay: 1.6s;
+  opacity: 0;
+  animation-fill-mode: forwards;
+}
+
+/* Slide up animation */
 .slide-up {
-  animation: slideUp 0.8s;
+  animation: slideUp 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* Keyframe animations */
 @keyframes fadeIn {
   from {
     opacity: 0;
+    transform: translateY(10px);
   }
   to {
     opacity: 1;
+    transform: translateY(0);
   }
 }
 
 @keyframes slideUp {
   from {
-    transform: translateY(20px);
+    transform: translateY(30px);
     opacity: 0;
   }
   to {
     transform: translateY(0);
     opacity: 1;
   }
+}
+
+/* Scale in animation */
+@keyframes scaleIn {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Smooth transitions */
+.animate-fadeIn {
+  animation: fadeIn 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.animate-slideUp {
+  animation: slideUp 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.animate-scaleIn {
+  animation: scaleIn 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Stagger animation delays */
+.animate-delay-100 {
+  animation-delay: 100ms;
+}
+
+.animate-delay-200 {
+  animation-delay: 200ms;
+}
+
+.animate-delay-300 {
+  animation-delay: 300ms;
 }
 
 /* Tooltip hover effects */
@@ -40,13 +106,7 @@
   visibility: visible;
 }
 
-/* Mouse position tracking for tooltips */
-.group {
-  position: relative;
-}
-
-.group div[style*="--mouse-x"] {
-  position: absolute;
-  pointer-events: none;
-  transition: opacity 0.5s ease;
+/* Smooth hover transitions */
+.transition-smooth {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
