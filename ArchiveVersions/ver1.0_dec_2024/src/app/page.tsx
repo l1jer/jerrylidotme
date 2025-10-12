@@ -12,6 +12,7 @@ import Personality from '../components/Personality'
 import Footer from '../components/Footer'
 import { useTooltipTracking } from '../hooks/useTooltip'
 import ScrollToTopButton from '../components/ScrollToTopButton'
+import UniverseSoundControl from '../components/UniverseSoundControl'
 
 export default function Home() {
   useTooltipTracking()
@@ -43,6 +44,7 @@ export default function Home() {
         </main>
         <Footer />
         <ScrollToTopButton />
+        <UniverseSoundControl />
       </div>
 
       {/* Near foreground - larger, faster, brighter */}

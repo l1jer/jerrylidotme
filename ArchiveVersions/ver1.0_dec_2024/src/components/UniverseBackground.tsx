@@ -2,12 +2,44 @@
 
 import { useEffect, useState } from 'react'
 
+const STORAGE_KEY = 'universe-time-phase'
+const STORAGE_TIMESTAMP_KEY = 'universe-last-timestamp'
+
 export default function UniverseBackground() {
   const [timePhase, setTimePhase] = useState(0)
 
   useEffect(() => {
+    // Restore the last known time phase and calculate elapsed time
+    if (typeof window !== 'undefined') {
+      const savedPhase = localStorage.getItem(STORAGE_KEY)
+      const savedTimestamp = localStorage.getItem(STORAGE_TIMESTAMP_KEY)
+      
+      if (savedPhase && savedTimestamp) {
+        const lastPhase = parseInt(savedPhase, 10)
+        const lastTimestamp = parseInt(savedTimestamp, 10)
+        const currentTimestamp = Date.now()
+        
+        // Calculate how many seconds have passed since last visit
+        const elapsedSeconds = Math.floor((currentTimestamp - lastTimestamp) / 1000)
+        
+        // Resume from where we left off plus elapsed time
+        const resumedPhase = (lastPhase + elapsedSeconds) % 360
+        setTimePhase(resumedPhase)
+      }
+    }
+
     const interval = setInterval(() => {
-      setTimePhase((prev) => (prev + 1) % 360) // 360-second cycle (6 minutes)
+      setTimePhase((prev) => {
+        const nextPhase = (prev + 1) % 360
+        
+        // Persist the current phase and timestamp to localStorage
+        if (typeof window !== 'undefined') {
+          localStorage.setItem(STORAGE_KEY, nextPhase.toString())
+          localStorage.setItem(STORAGE_TIMESTAMP_KEY, Date.now().toString())
+        }
+        
+        return nextPhase
+      })
     }, 1000) // Update every second
 
     return () => clearInterval(interval)

@@ -34,7 +34,7 @@ export default function ScrollToTopButton() {
       type="button"
       onClick={scrollToTop}
       className={`
-        fixed bottom-8 right-8 z-50 p-3 rounded-full 
+        fixed bottom-24 right-8 z-50 p-3 rounded-full 
         bg-white/10 backdrop-blur-sm border border-white/20 
         text-white hover:bg-white/20 focus:outline-none
         transition-all duration-300 ease-in-out

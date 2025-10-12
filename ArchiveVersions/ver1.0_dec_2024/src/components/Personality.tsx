@@ -61,7 +61,7 @@ export default function Personality() {
               className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-6"
             >
               {/* Row 1: Icon + Title */}
-              <div className="grid grid-cols-[auto_1fr] gap-4 mb-3">
+              <div className="grid grid-cols-[auto_1fr] gap-4">
                 <div className="flex-shrink-0 w-12 h-12 bg-indigo-500/10 rounded-xl border border-indigo-400/20 flex items-center justify-center text-2xl">
                   {trait.icon}
                 </div>
