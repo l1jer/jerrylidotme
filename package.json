@@ -11,11 +11,11 @@
   "dependencies": {
     "@floating-ui/react-dom": "^2.1.1",
     "@mdx-js/loader": "^3.1.0",
-    "@next/mdx": "^14.2.16",
+    "@next/mdx": "^14.2.24",
     "classnames": "^2.5.1",
     "cookie": "^1.0.1",
     "gray-matter": "^4.0.3",
-    "next": "^14.2.16",
+    "next": "^14.2.24",
     "next-mdx-remote": "^5.0.0",
     "postcss": "^8.4.39",
     "postcss-preset-env": "^9.5.15",
