@@ -5,17 +5,21 @@ import { useScrollAnimation } from '../hooks/useScrollAnimation'
 
 interface Project {
   name: string;
-  url: string;
+  url?: string;
 }
 
 const freelanceProjects: Project[] = [
-  { name: 'Fly Wing USA', url: 'https://flywingusa.com' },
-  { name: 'SJD Phone Repair', url: 'https://www.sjdtech.com.au/' },
+  { name: 'Flywing USA', url: 'https://flywingusa.com' },
+  { name: 'Flywing Australia', url: 'https://flywingrc.com.au' },
+  { name: 'SJD Tech', url: 'https://sjdtech.com.au/' },
+  { name: 'SJD Auto', url: 'https://sjdauto.com.au' },
+  { name: 'IT&A Bit Computing Solutions', url: 'https://www.itabitcanberra.com.au/' },
+  { name: 'Blast Energy', url: 'https://blastenergy.com.au' },
   { name: 'Ginger and Spice', url: 'https://gingerandspice.com.au' },
   { name: '926 Trades', url: 'https://926-trades.com' },
-  { name: 'SJD Auto', url: 'https://sjdauto.com.au' },
   { name: 'Bashan', url: 'https://bashan.com.au' },
   { name: 'Dumpling Social', url: 'https://dumplingsocial.com.au' },
+  { name: 'QR Code Generator & Management' },
 ]
 
 export default function About() {
@@ -149,7 +153,8 @@ export default function About() {
                 </div>
                 
                         <div className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-3 stagger-fade-in ${isVisible ? 'visible' : ''}`}>
-                          {freelanceProjects.map((project, index) => (
+                          {freelanceProjects.map((project, index) =>
+                          project.url ? (
                           <a
                             key={project.name}
                             href={project.url}
@@ -165,7 +170,19 @@ export default function About() {
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                             </svg>
                           </a>
-                        ))}
+                          ) : (
+                          <div
+                            key={project.name}
+                            className="backdrop-blur-sm bg-emerald-500/5 border border-emerald-400/20 rounded-xl px-4 py-3.5 min-h-[60px] flex items-center justify-between gap-2 transition-all duration-300"
+                            style={{ animationDelay: `${index * 50}ms` }}
+                          >
+                            <span className="font-semibold text-gray-100 leading-snug break-words">
+                              {project.name}
+                            </span>
+                            <span className="text-xs font-medium text-emerald-400 whitespace-nowrap">Open Source</span>
+                          </div>
+                          )
+                        )}
                       </div>
               </div>
             </div>

@@ -11,7 +11,7 @@ export interface ExperienceItem {
   skills: SkillCard[];
   projects?: Array<{
     name: string;
-    url: string;
+    url?: string;
   }>;
 }
 

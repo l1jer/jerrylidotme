@@ -1,9 +1,23 @@
 'use client'
 
-import { FaCode, FaDatabase, FaCloud, FaPalette } from 'react-icons/fa'
+import { FaCode, FaDatabase, FaCloud, FaPalette, FaRobot } from 'react-icons/fa'
 import { useScrollAnimation } from '../hooks/useScrollAnimation'
 
 const skillCategories = [
+  {
+    title: 'AI & LLM Integration',
+    icon: <FaRobot className="w-8 h-8 text-emerald-400" />,
+    bgClass: 'bg-emerald-500/20',
+    textClass: 'from-emerald-400 to-teal-400',
+    skills: [
+      { name: 'Prompt Engineering', description: 'Designing effective prompts for large language models to produce reliable, high-quality outputs.' },
+      { name: 'OpenAI API', description: 'Integrating GPT and other LLMs into web applications via REST APIs.' },
+      { name: 'LangChain', description: 'Building LLM-powered applications with chains, agents, and retrieval-augmented generation.' },
+      { name: 'AI-Assisted Development', description: 'Leveraging Cursor, GitHub Copilot, and other AI coding assistants to accelerate development workflows.' },
+      { name: 'Vercel AI SDK', description: 'Streaming AI responses in React and Next.js apps with built-in UI primitives.' },
+      { name: 'RAG', description: 'Retrieval-augmented generation for building AI features grounded on custom data sources.' },
+    ],
+  },
   {
     title: 'Frontend',
     icon: <FaCode className="w-8 h-8 text-indigo-400" />,
@@ -16,6 +30,7 @@ const skillCategories = [
       { name: 'React', description: 'Component-based architecture for dynamic and scalable UIs.' },
       { name: 'Redux', description: 'State management for complex frontend applications.' },
       { name: 'Tailwind', description: 'Utility-first CSS framework for rapid UI development.' },
+      { name: 'shadcn/ui', description: 'Accessible, customisable component library built on Radix UI and Tailwind CSS.' },
     ],
   },
   {
@@ -41,6 +56,7 @@ const skillCategories = [
       { name: 'Netlify', description: 'Static site hosting and serverless functions.' },
       { name: 'Heroku', description: 'Cloud platform for deploying and managing apps.' },
       { name: 'AWS EC2', description: 'Virtual servers for scalable cloud applications.' },
+      { name: 'Render', description: 'Cloud platform for deploying web services, databases, and static sites with zero DevOps.' },
       { name: 'SiteGround', description: 'Managed WordPress hosting with advanced features.' },
       { name: 'Hostinger', description: 'Web hosting with integrated development tools.' },
       { name: 'GitHub Pages', description: 'Static site hosting directly from GitHub repositories.' },

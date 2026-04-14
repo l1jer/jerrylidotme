@@ -5,58 +5,124 @@ import { useScrollAnimation } from '../hooks/useScrollAnimation'
 
 const experiences: ExperienceItem[] = [
   {
+    title: 'Australia Market Director',
+    company: 'Flywing Acro Technology, China (Remote from Australia)',
+    period: '2026 – Current',
+    skills: [
+      {
+        title: 'Go-to-Market Strategy',
+        description: 'Spearheading the Australian market entry and expansion strategy, including pricing, positioning, and channel planning for the RC aircraft category.',
+        color: 'purple',
+      },
+      {
+        title: 'Content & Copywriting',
+        description: 'Authoring localised product copy, technical specifications, comparison guides, and blog content tailored to Australian RC hobbyists and dealers.',
+        color: 'blue',
+      },
+      {
+        title: 'Social Media & Community',
+        description: 'Growing brand presence across Facebook, Instagram, and YouTube by producing flight footage, product reviews, and engaging with the Australian RC community.',
+        color: 'indigo',
+      },
+      {
+        title: 'Paid Advertising',
+        description: 'Managing Google Ads and Meta ad campaigns with audience targeting, A/B creative testing, and ROI tracking to drive qualified traffic and dealer enquiries.',
+        color: 'green',
+      },
+      {
+        title: 'SEO & Analytics',
+        description: 'Driving organic growth through keyword research, on-page optimisation, and GA4 analytics to improve search rankings for the Australian e-commerce storefronts.',
+        color: 'pink',
+      },
+      {
+        title: 'E-commerce Development',
+        description: 'Developing and maintaining multi-regional e-commerce storefronts (AU & US), including product catalogue management, checkout optimisation, and responsive design.',
+        color: 'yellow',
+      },
+      {
+        title: 'Video Production & Photography',
+        description: 'Filming, editing, and producing product demonstration videos, cinematic flight footage, and high-quality product photography for social media and web.',
+        color: 'red',
+      },
+      {
+        title: 'Live Product Demonstrations',
+        description: 'Piloting and demonstrating RC helicopters at clubs nationwide, providing hands-on flight experiences for prospective dealers and hobbyists.',
+        color: 'teal',
+      },
+      {
+        title: 'Dealer & Distributor Management',
+        description: 'Identifying, onboarding, and managing Australian distributors and retail partners to build a national dealer network.',
+        color: 'orange',
+      },
+      {
+        title: 'Technical Product Support',
+        description: 'Delivering expert-level troubleshooting, setup guidance, and after-sales support covering firmware, parts compatibility, and flight tuning.',
+        color: 'cyan',
+      },
+      {
+        title: 'Events & Expo Representation',
+        description: 'Representing the brand at major aircraft model expos and RC club events across Australia with live flying demonstrations and booth presentations.',
+        color: 'rose',
+      },
+    ],
+    projects: [
+      { name: 'Flywing USA', url: 'https://flywingusa.com' },
+      { name: 'Flywing Australia', url: 'https://flywingrc.com.au' },
+    ],
+  },
+  {
     title: 'Web Developer, UX/UI Designer, Technical Consultant and SEO Specialist',
     company: 'TSA OUTDOORS, Brookvale NSW',
     period: 'Aug 2022 – Current',
     skills: [
       {
-        title: 'Website Development',
-        description: 'Led WordPress platform development with custom plugins and React LMS integration with MySQL database.',
+        title: 'Platform Architecture',
+        description: 'Led end-to-end WordPress and WooCommerce development across six brand websites, including custom plugin development and a React-based LMS integrated with MySQL.',
         color: 'purple',
       },
       {
-        title: 'Project Planning',
-        description: 'Created detailed project documentation using Microsoft Teams and Monday.com.',
+        title: 'Project & Stakeholder Management',
+        description: 'Planned and tracked deliverables in Monday.com with sprint-based workflows; coordinated cross-functional updates via Microsoft Teams.',
         color: 'blue',
       },
       {
         title: 'UI/UX Design',
-        description: 'Produced comprehensive designs in Figma focusing on user-friendly interfaces.',
+        description: 'Designed high-fidelity prototypes and responsive layouts in Figma, iterating on user feedback to improve navigation and conversion flows.',
         color: 'indigo',
       },
       {
-        title: 'Website Optimisation',
-        description: 'Implemented advanced optimization techniques including minification, caching and CDN integration.',
+        title: 'Performance Engineering',
+        description: 'Achieved measurable page speed improvements through asset minification, server-side caching, lazy loading, and CDN integration across all brand sites.',
         color: 'pink',
       },
       {
-        title: 'SEO Optimisation',
-        description: 'Conducted SEO analysis using RankMath, Ahrefs and SEMrush to drive traffic growth.',
+        title: 'SEO & Content Visibility',
+        description: 'Drove organic traffic growth through technical SEO audits, keyword strategies, and content optimisation using RankMath, Ahrefs, and SEMrush.',
         color: 'green',
       },
       {
-        title: 'API Integration',
-        description: 'Implemented RESTful APIs connecting WordPress, WooCommerce and external systems.',
+        title: 'Systems Integration & APIs',
+        description: 'Architected RESTful API integrations connecting WooCommerce with inventory, shipping, and third-party platforms to automate order and product sync workflows.',
         color: 'yellow',
       },
       {
-        title: 'Documentation',
-        description: 'Created comprehensive documentation for websites, plugins, APIs and workflows.',
+        title: 'Technical Documentation',
+        description: 'Authored internal documentation covering plugin architecture, API contracts, deployment procedures, and troubleshooting runbooks for the development team.',
         color: 'red',
       },
       {
-        title: 'Graphics Optimisation',
-        description: 'Maintained strict image standards for aspect ratios, sizes and resolutions.',
+        title: 'Asset & Media Standards',
+        description: 'Established and enforced image optimisation guidelines covering format selection (WebP/AVIF), aspect ratios, and resolution standards to ensure consistent load performance.',
         color: 'teal',
       },
       {
-        title: 'Technical Liaison',
-        description: 'Maintained 90%+ client satisfaction as primary technical support contact.',
+        title: 'Client & Technical Liaison',
+        description: 'Served as the primary technical point of contact for brand stakeholders, maintaining 90%+ satisfaction through proactive communication and rapid issue resolution.',
         color: 'orange',
       },
       {
-        title: 'Web Analytics',
-        description: 'Utilized GA4, GTM and conversion tracking for campaign optimization.',
+        title: 'Analytics & Conversion Tracking',
+        description: 'Configured GA4 properties, Google Tag Manager containers, and conversion events to measure campaign ROI and inform data-driven marketing decisions.',
         color: 'cyan',
       },
     ],
@@ -67,6 +133,10 @@ const experiences: ExperienceItem[] = [
       { name: 'BushPig Shotguns', url: 'https://bushpigshotguns.com.au' },
       { name: 'ZeroTech Outdoors', url: 'https://zerotechoutdoors.com.au' },
       { name: 'SkyWatcher', url: 'https://skywatcher.com.au' },
+      { name: 'Order Sync Automation' },
+      { name: 'Product Sync Automation' },
+      { name: 'Shipping Label Generator' },
+      { name: 'Customised User Tier System' },
     ],
   },
   {
@@ -75,38 +145,38 @@ const experiences: ExperienceItem[] = [
     period: 'Sep 2020 – Aug 2022',
     skills: [
       {
-        title: 'Custom WordPress Development',
-        description: 'Designed and executed custom WordPress sites with JavaScript and CSS for responsive designs.',
+        title: 'Custom Theme Development',
+        description: 'Built bespoke WordPress themes from scratch using PHP, JavaScript, and CSS, delivering fully responsive designs across seven multi-regional brand websites.',
         color: 'purple',
       },
       {
-        title: 'Template and Functionality Creation',
-        description: 'Developed WordPress PHP templates and dynamic functionalities using JavaScript and PHP.',
+        title: 'PHP Template Engineering',
+        description: 'Developed reusable WordPress PHP templates and custom post types with dynamic functionality powered by ACF, JavaScript, and WP REST API.',
         color: 'blue',
       },
       {
-        title: 'System and Tool Integration',
-        description: 'Integrated systems like Yotpo and tools like Zapier, linking with platforms such as MailChimp.',
+        title: 'Marketing Automation & Integrations',
+        description: 'Integrated Yotpo reviews, Zapier automation workflows, and MailChimp email campaigns to streamline customer engagement and retention.',
         color: 'indigo',
       },
       {
-        title: 'Domain & DNS Management',
-        description: 'Managed domain registration and DNS via Cloudflare; hosted on SiteGround with troubleshooting support.',
+        title: 'Infrastructure & DNS Management',
+        description: 'Administered domain registrations, Cloudflare DNS, SSL certificates, and SiteGround hosting environments with proactive uptime monitoring.',
         color: 'pink',
       },
       {
-        title: 'Website Migrations & Performance',
-        description: 'Executed website migrations and optimized performance, reducing memory consumption by 25%.',
+        title: 'Migrations & Performance Tuning',
+        description: 'Executed zero-downtime website migrations between hosting providers and reduced server memory consumption by 25% through code and query optimisation.',
         color: 'green',
       },
       {
-        title: 'Secure Payment Integration',
-        description: 'Integrated secure payment systems like Braintree, set up SSL configurations, and optimized merchant APIs.',
+        title: 'Payment Gateway Integration',
+        description: 'Implemented PCI-compliant payment flows via Braintree and Stripe, including SSL configuration, tokenised checkout, and merchant API optimisation.',
         color: 'yellow',
       },
       {
-        title: 'SEO Strategy & Implementation',
-        description: 'Led SEO strategies using tools like RankMath and YoastSEO, enhancing technical SEO and web content.',
+        title: 'Technical SEO & Content Strategy',
+        description: 'Defined and executed SEO strategies using RankMath and Yoast, covering schema markup, site structure, crawl optimisation, and keyword-driven content planning.',
         color: 'red',
       },
     ],
@@ -126,33 +196,33 @@ const experiences: ExperienceItem[] = [
     period: 'Aug 2022 – Dec 2022',
     skills: [
       {
-        title: 'Cultural Transformation',
-        description: 'Contributed to transformation and cultural change by promoting established values of Commerciality, Teamwork, Innovation, and Accountability.',
+        title: 'Stakeholder Collaboration',
+        description: 'Partnered with subject-matter experts and educators to align multimedia deliverables with institutional learning outcomes and accessibility standards.',
         color: 'purple',
       },
       {
-        title: 'Educational Content Design',
-        description: 'Scoped concepts, advising on design options and software parameters for online educational content development.',
+        title: 'Learning Experience Design',
+        description: 'Scoped and storyboarded interactive course modules, advising on content structure, platform constraints, and learner engagement strategies.',
         color: 'blue',
       },
       {
-        title: 'Multimedia Implementation',
-        description: 'Designed and implemented multimedia content for blended and online educational delivery.',
+        title: 'Multimedia Production',
+        description: 'Produced video, animation, and rich-media assets for blended and fully online course delivery using Adobe Creative Suite and After Effects.',
         color: 'indigo',
       },
       {
-        title: 'UI/UX Design',
-        description: 'Created visually appealing, user-friendly interfaces demonstrating contemporary design practices.',
+        title: 'UI/UX for Education',
+        description: 'Designed intuitive, WCAG-compliant interfaces for online learning platforms, prioritising clarity, navigation consistency, and mobile responsiveness.',
         color: 'pink',
       },
       {
-        title: 'Interactive Development',
-        description: 'Developed interactive learning resources using Adobe Creative Suite®, HTML, CSS, and JavaScript.',
+        title: 'Interactive Web Development',
+        description: 'Built interactive learning resources with HTML, CSS, and JavaScript, including quizzes, drag-and-drop activities, and progress-tracked modules.',
         color: 'green',
       },
       {
-        title: 'Quality Assurance',
-        description: 'Conducted usability testing, ensuring adherence to web standards, style guides, and quality assurance practices.',
+        title: 'QA & Usability Testing',
+        description: 'Conducted cross-browser and cross-device usability testing, ensuring compliance with WCAG guidelines, institutional style guides, and LMS compatibility.',
         color: 'yellow',
       },
     ],
@@ -163,18 +233,18 @@ const experiences: ExperienceItem[] = [
     period: 'Feb – Aug 2020',
     skills: [
       {
-        title: 'UI Development',
-        description: 'Developed new UI functionality for multithreaded user-facing applications using React, Ant Design UI, Node.js, and RESTful APIs.',
+        title: 'React UI Engineering',
+        description: 'Developed production-ready UI features for a multithreaded automotive diagnostics platform using React, Ant Design, and Node.js with RESTful API consumption.',
         color: 'purple',
       },
       {
-        title: 'Performance Optimization',
-        description: 'Optimized components for maximum performance in development tools, debugging and fixing layout issues.',
+        title: 'Performance & Debugging',
+        description: 'Profiled and optimised React component rendering, resolved layout regressions, and reduced unnecessary re-renders in complex data-driven dashboards.',
         color: 'blue',
       },
       {
-        title: 'Agile Training',
-        description: 'Completed Agile Project Management Seminar hosted by senior project managers and co-founders.',
+        title: 'Agile & Cross-Team Collaboration',
+        description: 'Participated in sprint planning, daily stand-ups, and retrospectives within a cross-functional team; completed an Agile Project Management seminar led by senior leadership.',
         color: 'indigo',
       },
     ],
@@ -237,22 +307,37 @@ export default function Experience() {
                   Projects
                 </h4>
                 <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-3">
-                  {exp.projects.map((project) => (
-                    <a
-                      key={project.name}
-                      href={project.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="group backdrop-blur-sm bg-indigo-500/5 hover:bg-indigo-500/15 border border-indigo-400/20 hover:border-indigo-400/50 rounded-lg px-3 py-3 transition-all duration-300 hover:-translate-y-0.5 min-h-[60px] flex items-center justify-between gap-2"
-                    >
-                      <span className="font-medium text-gray-300 group-hover:text-white transition-colors leading-snug break-words">
-                        {project.name}
-                      </span>
-                      <svg className="w-3.5 h-3.5 flex-shrink-0 text-indigo-400 group-hover:text-indigo-300 transition-all group-hover:translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                      </svg>
-                    </a>
-                  ))}
+                  {exp.projects.map((project) =>
+                    project.url ? (
+                      <a
+                        key={project.name}
+                        href={project.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="group backdrop-blur-sm bg-indigo-500/5 hover:bg-indigo-500/15 border border-indigo-400/20 hover:border-indigo-400/50 rounded-lg px-3 py-3 transition-all duration-300 hover:-translate-y-0.5 min-h-[60px] flex items-center justify-between gap-2"
+                      >
+                        <span className="font-medium text-gray-300 group-hover:text-white transition-colors leading-snug break-words">
+                          {project.name}
+                        </span>
+                        <svg className="w-3.5 h-3.5 flex-shrink-0 text-indigo-400 group-hover:text-indigo-300 transition-all group-hover:translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                        </svg>
+                      </a>
+                    ) : (
+                      <div
+                        key={project.name}
+                        className="backdrop-blur-sm bg-emerald-500/5 border border-emerald-400/20 rounded-lg px-3 py-3 min-h-[60px] flex items-center justify-between gap-2"
+                      >
+                        <span className="font-medium text-gray-300 leading-snug break-words">
+                          {project.name}
+                        </span>
+                        <svg className="w-3.5 h-3.5 flex-shrink-0 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                      </div>
+                    )
+                  )}
                 </div>
               </div>
             )}
