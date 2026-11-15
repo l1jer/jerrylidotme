@@ -121,3 +121,9 @@ body {
   filter: blur(6px);
   transition-delay: 0ms;
 }
+
+/* The jump menu lives in the deck's own layer; hide floating controls drawn above it. */
+html[data-menu-open] .sound-control {
+  opacity: 0;
+  pointer-events: none;
+}

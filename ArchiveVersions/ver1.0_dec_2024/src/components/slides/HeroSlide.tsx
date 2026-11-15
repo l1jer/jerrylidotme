@@ -7,7 +7,7 @@ import { useSlide } from '../FullPage'
 import { stagger } from './SlideHeading'
 
 const roles = [
-  { title: 'eCommerce', icon: FiShoppingCart },
+  { title: 'WooCommerce & Shopify', icon: FiShoppingCart },
   { title: 'Digital Marketing', icon: FiTrendingUp },
   { title: 'SEO · GEO · AEO', icon: FiSearch },
   { title: 'Frontend & Full-Stack', icon: FiCode },
@@ -37,8 +37,8 @@ export default function HeroSlide() {
       </h1>
 
       <p className="reveal mt-4 max-w-2xl text-base sm:text-lg text-gray-300" style={stagger(2)}>
-        Web developer &amp; eCommerce specialist building fast online stores, ERP integrations and the
-        SEO, GEO and AEO that get them found by search engines and AI assistants.
+        Web developer &amp; eCommerce specialist building fast WooCommerce and Shopify stores, ERP
+        integrations, and the SEO, GEO and AEO that get them found by search engines and AI assistants.
       </p>
 
       <ul className="reveal mt-7 short:mt-5 flex max-w-3xl flex-wrap justify-center gap-2" style={stagger(3)}>

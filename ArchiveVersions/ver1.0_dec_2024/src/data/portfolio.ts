@@ -13,7 +13,7 @@ import {
 
 export const aboutStats: Stat[] = [
   { value: '6+', label: 'Years building for the web' },
-  { value: '10', label: 'Live WooCommerce stores (AU · US · NZ · EU)' },
+  { value: '10+', label: 'Live WooCommerce & Shopify stores' },
   { value: '41%', label: "Of a brand's 2024 orders from organic search" },
 ]
 
@@ -239,6 +239,13 @@ export const experiences: ExperienceItem[] = [
 ]
 
 // Built for Flywing USA. Shown as projects only, not as a role.
+export const flywingResults: Stat[] = [
+  { value: '+33%', label: 'Online revenue' },
+  { value: '0 → 5.5%', label: 'Conversion rate within a month' },
+  { value: '10%', label: 'Of online sales from EDM flows' },
+  { value: '90%', label: 'Less manual work with custom Shopify features' },
+]
+
 export const featuredBuilds: FeaturedBuild[] = [
   {
     title: 'Webhook-Driven Commerce Sync',
@@ -264,13 +271,15 @@ export const freelanceProjects: Project[] = [
   { name: 'Flywing USA', url: 'https://flywingusa.com' },
   { name: 'SJD Tech', url: 'https://sjdtech.com.au/' },
   { name: 'SJD Auto', url: 'https://sjdauto.com.au' },
-  { name: 'IT&A Bit Computing Solutions', url: '/archive/itabit', archived: true },
+  { name: 'Gateway Innovation', url: 'https://gatewaybuy.com' },
   { name: 'Blast Energy', url: 'https://blastenergy.com.au' },
   { name: 'Ginger and Spice', url: 'https://gingerandspice.com.au' },
-  { name: '926 Trades', url: '/archive/926-trades', archived: true },
   { name: 'Bashan', url: 'https://bashan.com.au' },
   { name: 'Dumpling Social', url: 'https://dumplingsocial.com.au' },
   { name: 'QR Code Generator & Management' },
+  // Retired sites, kept as snapshots: listed last.
+  { name: 'IT&A Bit Computing Solutions', url: '/archive/itabit', archived: true },
+  { name: '926 Trades', url: '/archive/926-trades', archived: true },
 ]
 
 export const skillCategories: SkillCategory[] = [

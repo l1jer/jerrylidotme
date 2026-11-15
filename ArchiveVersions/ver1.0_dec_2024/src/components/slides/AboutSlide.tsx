@@ -11,7 +11,7 @@ const capabilities = [
   {
     icon: FiShoppingCart,
     title: 'eCommerce',
-    text: 'WooCommerce, Shopify and BigCommerce stores, ERP integrations and B2B dealer portals.',
+    text: 'WooCommerce and Shopify stores (plus BigCommerce), ERP integrations and B2B dealer portals.',
   },
   {
     icon: FiTrendingUp,
@@ -50,9 +50,9 @@ function Intro() {
   return (
     <>
       <p className="reveal text-sm sm:text-base md:text-lg short:md:text-base text-gray-300 leading-relaxed" style={stagger(2)}>
-        Web developer with 6+ years of building and running online stores, from WooCommerce and Shopify
-        builds to ERP integrations and B2B portals, plus the growth work around them: SEO, GEO and AEO,
-        paid media, email automation and analytics.
+        Web developer with 6+ years of building and running WooCommerce and Shopify stores, from custom
+        themes and apps to ERP integrations and B2B portals, plus the growth work around them: SEO, GEO
+        and AEO, paid media, email automation and analytics.
         <span className="mt-1 block text-xs text-gray-500">Speaks {spokenLanguages.join(' · ')}</span>
       </p>
       <dl className="reveal mt-5 short:mt-4 grid grid-cols-3 gap-2 sm:gap-3" style={stagger(3)}>

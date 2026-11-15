@@ -1,7 +1,8 @@
 'use client'
 
 import { createContext, ReactNode, useCallback, useContext, useEffect, useRef, useState } from 'react'
-import { FiArrowUp, FiMenu, FiX } from 'react-icons/fi'
+import { IconType } from 'react-icons'
+import { FiArrowRight, FiArrowUp, FiMenu, FiX } from 'react-icons/fi'
 
 export interface Slide {
   id: string
@@ -13,8 +14,11 @@ export interface Slide {
   steps?: number
   /** Optional label per frame, shown in the HUD. */
   stepLabels?: string[]
-  /** Extra entries under this slide in the jump menu (e.g. each job in Experience). */
-  menu?: { label: string; step: number }[]
+  /** One line on what this slide holds, shown in the jump menu. */
+  description?: string
+  icon?: IconType
+  /** Shortcuts under this slide in the jump menu (e.g. each job in Experience); `end` is exclusive. */
+  menu?: { label: string; step: number; end?: number }[]
 }
 
 interface SlideState {
@@ -55,6 +59,11 @@ export default function FullPage({ slides }: { slides: Slide[] }) {
   const [menuOpen, setMenuOpen] = useState(false)
   const menuOpenRef = useRef(false)
   menuOpenRef.current = menuOpen
+
+  // Lets controls outside the deck (e.g. the sound button) step aside while the menu is open.
+  useEffect(() => {
+    document.documentElement.toggleAttribute('data-menu-open', menuOpen)
+  }, [menuOpen])
 
   const stepsOf = useCallback((i: number) => Math.max(1, slides[i]?.steps ?? 1), [slides])
 
@@ -310,7 +319,8 @@ export default function FullPage({ slides }: { slides: Slide[] }) {
         ))}
       </div>
 
-      {/* HUD: progress line, monogram, page counter and menu (kept above the open menu so it can close it) */}
+      {/* HUD: progress line, monogram and a section pill that opens the jump menu.
+          Kept above the open menu so the same pill can close it. */}
       <div className="pointer-events-none fixed inset-x-0 top-0 z-[70]">
         <div className="h-[2px] bg-white/5">
           <div
@@ -318,7 +328,7 @@ export default function FullPage({ slides }: { slides: Slide[] }) {
             style={{ width: `${((index + (step + 1) / stepsOf(index)) / slides.length) * 100}%` }}
           />
         </div>
-        <div className="flex items-center justify-between gap-4 px-5 sm:px-8 py-2.5">
+        <div className="flex items-center justify-between gap-4 px-4 sm:px-8 py-2.5">
           <button
             type="button"
             onClick={() => jump(0)}
@@ -327,71 +337,110 @@ export default function FullPage({ slides }: { slides: Slide[] }) {
           >
             JL<span className="text-indigo-400">.</span>
           </button>
-          <div className="flex items-center gap-4">
-            <p id="hud-counter" className="font-mono text-[11px] tracking-[0.25em] uppercase text-gray-400" aria-live="polite">
-              <span className="hidden md:inline mr-3 text-gray-300">
-                {current.label}
-                {stepLabel ? ` · ${stepLabel}` : ''}
-              </span>
-              <span className="text-white">{pad(index + 1)}</span>
-              <span className="text-gray-500"> / {pad(slides.length)}</span>
-            </p>
-            <button
-              type="button"
-              onClick={() => setMenuOpen((o) => !o)}
-              aria-expanded={menuOpen}
-              aria-controls="jump-menu"
-              aria-label={menuOpen ? 'Close menu' : 'Open menu'}
-              className="pointer-events-auto rounded-full border border-white/15 bg-white/[0.06] p-2 text-white backdrop-blur-sm transition hover:border-indigo-400/50"
-            >
-              {menuOpen ? <FiX className="h-4 w-4" /> : <FiMenu className="h-4 w-4" />}
-            </button>
-          </div>
+          <button
+            id="hud-counter"
+            type="button"
+            onClick={() => setMenuOpen((o) => !o)}
+            aria-expanded={menuOpen}
+            aria-controls="jump-menu"
+            aria-label={menuOpen ? 'Close menu' : `Open menu (current: ${current.label})`}
+            className="pointer-events-auto flex items-center gap-2.5 rounded-full border border-white/15 bg-slate-950/50 py-1.5 pl-3.5 pr-2 font-mono text-[11px] uppercase tracking-[0.2em] text-gray-300 backdrop-blur-md transition hover:border-indigo-400/50 hover:text-white"
+          >
+            <span className="max-w-[46vw] truncate sm:max-w-none">
+              <span className="text-white">{current.label}</span>
+              {stepLabel && <span className="hidden md:inline text-gray-400"> · {stepLabel}</span>}
+            </span>
+            <span className="text-gray-500">
+              {pad(index + 1)}/{pad(slides.length)}
+            </span>
+            <span className="flex h-6 w-6 items-center justify-center rounded-full bg-white/10 text-white">
+              {menuOpen ? <FiX className="h-3.5 w-3.5" /> : <FiMenu className="h-3.5 w-3.5" />}
+            </span>
+          </button>
         </div>
       </div>
 
-      {/* Jump menu: every slide, plus sub-entries such as each job */}
+      {/* Jump menu: a card per slide with what's inside, the current one marked, plus shortcuts
+          such as each job in Experience. */}
       <div
         id="jump-menu"
         role="dialog"
         aria-modal="true"
         aria-label="Jump to section"
-        className={`fixed inset-0 z-[60] overflow-y-auto bg-slate-950/90 backdrop-blur-xl transition-opacity duration-300 ${
+        className={`fixed inset-0 z-[60] overflow-y-auto bg-slate-950/85 backdrop-blur-xl transition-opacity duration-300 ${
           menuOpen ? 'opacity-100' : 'pointer-events-none opacity-0'
         }`}
         inert={!menuOpen}
       >
-        <nav className="mx-auto flex min-h-full max-w-3xl flex-col justify-center px-6 py-16">
-          <ol className="grid gap-x-10 sm:grid-cols-2">
-            {slides.map((slide, i) => (
-              <li key={slide.id} className="border-b border-white/10 py-2 sm:py-2.5">
-                <button
-                  type="button"
-                  onClick={() => jump(i)}
-                  className={`flex w-full items-baseline gap-3 text-left font-display text-lg sm:text-xl transition-colors hover:text-indigo-300 ${
-                    i === index ? 'text-indigo-300' : 'text-white'
+        <nav className="mx-auto flex min-h-full max-w-4xl flex-col justify-center px-4 sm:px-8 pt-14 sm:pt-16 pb-6 sm:pb-10">
+          <p className="mb-2 sm:mb-5 font-mono text-[10px] uppercase tracking-[0.35em] text-gray-500">Jump to</p>
+          <ol className="grid grid-cols-1 gap-1.5 sm:gap-3 sm:grid-cols-2">
+            {slides.map((slide, i) => {
+              const Icon = slide.icon
+              const here = i === index
+              return (
+                <li
+                  key={slide.id}
+                  className={`min-w-0 transition-all duration-500 ${menuOpen ? 'translate-y-0 opacity-100' : 'translate-y-3 opacity-0'} ${
+                    slide.menu ? 'sm:col-span-2' : ''
                   }`}
+                  style={{ transitionDelay: menuOpen ? `${80 + i * 40}ms` : '0ms' }}
                 >
-                  <span className="font-mono text-[11px] text-gray-500">{pad(i + 1)}</span>
-                  {slide.label}
-                </button>
-                {slide.menu && (
-                  <ul className="mt-1 flex flex-wrap gap-x-4 gap-y-1 pl-8">
-                    {slide.menu.map((item) => (
-                      <li key={item.label}>
-                        <button
-                          type="button"
-                          onClick={() => jump(i, item.step)}
-                          className="text-sm text-gray-400 transition-colors hover:text-white"
-                        >
-                          {item.label}
-                        </button>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </li>
-            ))}
+                  <div
+                    className={`glass spot overflow-hidden ${here ? 'border-indigo-400/60 bg-indigo-500/[0.12]' : 'hover:border-white/25'}`}
+                  >
+                    <button type="button" onClick={() => jump(i)} className="group flex w-full items-center gap-3 px-3 sm:px-3.5 py-2 sm:py-3 text-left">
+                      <span
+                        className={`flex h-8 w-8 sm:h-9 sm:w-9 flex-shrink-0 items-center justify-center rounded-xl border ${
+                          here ? 'border-indigo-300/60 bg-indigo-400/20 text-white' : 'border-white/10 bg-white/[0.04] text-indigo-300'
+                        }`}
+                      >
+                        {Icon ? <Icon className="h-4 w-4" aria-hidden /> : <span className="font-mono text-[11px]">{pad(i + 1)}</span>}
+                      </span>
+                      <span className="min-w-0 flex-1">
+                        <span className="flex items-center gap-2">
+                          <span className="font-mono text-[10px] text-gray-500">{pad(i + 1)}</span>
+                          <span className="font-display text-base sm:text-lg font-semibold text-white">{slide.label}</span>
+                          {here && (
+                            <span className="rounded-full bg-indigo-400/20 px-2 py-0.5 font-mono text-[9px] uppercase tracking-widest text-indigo-200">
+                              You are here
+                            </span>
+                          )}
+                        </span>
+                        {slide.description && <span className="block truncate text-xs text-gray-400">{slide.description}</span>}
+                      </span>
+                      <FiArrowRight
+                        className="h-4 w-4 flex-shrink-0 text-gray-500 transition group-hover:translate-x-0.5 group-hover:text-white"
+                        aria-hidden
+                      />
+                    </button>
+                    {slide.menu && (
+                      <ul className="flex flex-wrap gap-1.5 border-t border-white/10 px-3 sm:px-3.5 py-1.5 sm:py-2.5">
+                        {slide.menu.map((item) => {
+                          const atItem = here && step >= item.step && step < (item.end ?? item.step + 1)
+                          return (
+                            <li key={item.label}>
+                              <button
+                                type="button"
+                                onClick={() => jump(i, item.step)}
+                                className={`flex items-center gap-1 rounded-full border px-2.5 py-0.5 sm:py-1 text-[11px] sm:text-xs transition ${
+                                  atItem
+                                    ? 'border-indigo-400/60 bg-indigo-500/20 text-white'
+                                    : 'border-white/10 bg-white/[0.04] text-gray-300 hover:border-white/25 hover:text-white'
+                                }`}
+                              >
+                                {item.label}
+                                <FiArrowRight className="h-3 w-3 opacity-60" aria-hidden />
+                              </button>
+                            </li>
+                          )
+                        })}
+                      </ul>
+                    )}
+                  </div>
+                </li>
+              )
+            })}
           </ol>
         </nav>
       </div>
