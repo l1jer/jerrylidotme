@@ -3,7 +3,7 @@ import './animations.css'
 import { Metadata } from 'next'
 import { Analytics } from "@vercel/analytics/react"
 import { SpeedInsights } from "@vercel/speed-insights/next"
-import { Schoolbell } from 'next/font/google'
+import { Schoolbell, Inter, Space_Grotesk, JetBrains_Mono } from 'next/font/google'
 
 const schoolbell = Schoolbell({
   weight: '400',
@@ -11,6 +11,10 @@ const schoolbell = Schoolbell({
   variable: '--font-schoolbell',
   display: 'swap',
 })
+
+const inter = Inter({ subsets: ['latin'], variable: '--font-sans', display: 'swap' })
+const spaceGrotesk = Space_Grotesk({ subsets: ['latin'], variable: '--font-display', display: 'swap' })
+const jetbrainsMono = JetBrains_Mono({ subsets: ['latin'], variable: '--font-mono', display: 'swap' })
 
 export const metadata: Metadata = {
   title: 'Jerry Li - Frontend/Web Developer | UI/UX Designer | SEO Specialist',
@@ -36,7 +40,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className={schoolbell.variable}>
+    <html lang="en" className={`${schoolbell.variable} ${inter.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable}`}>
       <head>
         <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%231f2937'/><text x='50%' y='50%' fill='%23ffffff' font-size='60' font-family='Arial, sans-serif' text-anchor='middle' alignment-baseline='central'>JL</text></svg>" />
       </head>

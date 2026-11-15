@@ -63,7 +63,7 @@ export default function UniverseSoundControl() {
       type="button"
       onClick={toggleMute}
       className={`
-        fixed bottom-8 right-8 z-50 p-3 rounded-full 
+        fixed bottom-5 right-4 sm:bottom-8 sm:right-8 z-50 p-2.5 sm:p-3 rounded-full 
         bg-white/10 backdrop-blur-sm border border-white/20 
         text-white hover:bg-white/20 focus:outline-none
         transition-all duration-300 ease-in-out

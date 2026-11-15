@@ -35,6 +35,9 @@ export default function Universe({ layer = 'mid' }: UniverseProps) {
     let pointerY: number | null = null
     const velocity = { x: 0, y: 0, tx: 0, ty: 0, z: 0.0005 }
     let touchInput = false
+    // Extra forward speed added during a slide change ("warp"), decays back to cruising speed.
+    let warpZ = 0
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
     // Layer depth configuration for parallax effect with atmospheric colour
     const layerConfig = {
@@ -143,6 +146,9 @@ export default function Universe({ layer = 'mid' }: UniverseProps) {
       velocity.tx *= 0.96
       velocity.ty *= 0.96
 
+      warpZ *= 0.94
+      velocity.z = 0.0005 + warpZ
+
       velocity.x += (velocity.tx - velocity.x) * 0.8
       velocity.y += (velocity.ty - velocity.y) * 0.8
 
@@ -226,6 +232,14 @@ export default function Universe({ layer = 'mid' }: UniverseProps) {
       // Don't prevent default to allow scrolling
     }
 
+    // Slide changes jump the starfield to light speed in the direction of travel.
+    function onWarp(event: Event) {
+      if (reducedMotion) return
+      const direction = (event as CustomEvent<{ direction: number }>).detail?.direction ?? 1
+      velocity.ty += -direction * 28 * scale
+      warpZ = 0.01
+    }
+
     function onMouseLeave() {
       pointerX = null
       pointerY = null
@@ -236,6 +250,7 @@ export default function Universe({ layer = 'mid' }: UniverseProps) {
     step()
 
     window.addEventListener('resize', resize)
+    window.addEventListener('universe:warp', onWarp)
     document.addEventListener('mousemove', onMouseMove)
     document.addEventListener('touchmove', onTouchMove, { passive: true })
     document.addEventListener('touchend', onMouseLeave)
@@ -244,6 +259,7 @@ export default function Universe({ layer = 'mid' }: UniverseProps) {
     return () => {
       if (animationRef.current) cancelAnimationFrame(animationRef.current)
       window.removeEventListener('resize', resize)
+      window.removeEventListener('universe:warp', onWarp)
       document.removeEventListener('mousemove', onMouseMove)
       document.removeEventListener('touchmove', onTouchMove)
       document.removeEventListener('touchend', onMouseLeave)

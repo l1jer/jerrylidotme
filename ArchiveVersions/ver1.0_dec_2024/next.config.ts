@@ -1,13 +1,18 @@
 import type { NextConfig } from "next";
 
-// Retired client sites are kept as static snapshots under public/archive/<site>/.
-const archivedSites = ["926-trades", "itabit"];
+// Static snapshots served from public/: retired client sites and earlier versions of this portfolio.
+const staticSnapshots = [
+  "archive/926-trades",
+  "archive/itabit",
+  "versions/v1",
+  "versions/v2",
+];
 
 const nextConfig: NextConfig = {
   async rewrites() {
-    return archivedSites.map((site) => ({
-      source: `/archive/${site}`,
-      destination: `/archive/${site}/index.html`,
+    return staticSnapshots.map((path) => ({
+      source: `/${path}`,
+      destination: `/${path}/index.html`,
     }));
   },
 };

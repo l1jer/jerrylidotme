@@ -1,7 +1,6 @@
-'use client'
+import { EducationItem, ExperienceItem, PersonalityTrait, Project, SkillCategory } from '../types'
 
-import { ExperienceItem } from '../types'
-import { useScrollAnimation } from '../hooks/useScrollAnimation'
+// All portfolio content lives here so the slide components only handle layout.
 
 export const experiences: ExperienceItem[] = [
   {
@@ -185,100 +184,130 @@ export const experiences: ExperienceItem[] = [
   },
 ]
 
-export default function Experience({ exp, index }: { exp: ExperienceItem; index: number }) {
-  const { ref, isVisible } = useScrollAnimation()
+export const freelanceProjects: Project[] = [
+  { name: 'Flywing USA', url: 'https://flywingusa.com' },
+  { name: 'SJD Tech', url: 'https://sjdtech.com.au/' },
+  { name: 'SJD Auto', url: 'https://sjdauto.com.au' },
+  { name: 'IT&A Bit Computing Solutions', url: '/archive/itabit', archived: true },
+  { name: 'Blast Energy', url: 'https://blastenergy.com.au' },
+  { name: 'Ginger and Spice', url: 'https://gingerandspice.com.au' },
+  { name: '926 Trades', url: '/archive/926-trades', archived: true },
+  { name: 'Bashan', url: 'https://bashan.com.au' },
+  { name: 'Dumpling Social', url: 'https://dumplingsocial.com.au' },
+  { name: 'QR Code Generator & Management' },
+]
 
-  return (
-    <section ref={ref} className={`relative scroll-fade-in ${isVisible ? 'visible' : ''}`}>
-      {/* Title Section with Stunning Design */}
-      <div className="relative mb-12">
-        <div className="text-center">
-          <div className="inline-block relative">
-            {/* Animated background glow */}
-            <div className="absolute inset-0 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 blur-2xl opacity-30 animate-pulse"></div>
-            
-            {/* Title */}
-            <h2 className="relative text-3xl sm:text-4xl md:text-5xl font-bold bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent mb-4 px-4">
-              Experience
-            </h2>
-            <p className="relative text-sm text-gray-300 tracking-widest">
-              {String(index + 1).padStart(2, '0')} / {String(experiences.length).padStart(2, '0')}
-            </p>
-          </div>
-          
-          {/* Decorative separator */}
-          <div className="w-16 sm:w-24 h-1 sm:h-1.5 bg-gradient-to-r from-indigo-500 to-purple-500 mx-auto rounded-full"></div>
-        </div>
-      </div>
+export const skillCategories: SkillCategory[] = [
+  {
+    title: 'AI & LLM Integration',
+    icon: 'FaRobot',
+    skills: [
+      { name: 'Prompt Engineering', description: 'Designing effective prompts for large language models to produce reliable, high-quality outputs.' },
+      { name: 'OpenAI API', description: 'Integrating GPT and other LLMs into web applications via REST APIs.' },
+      { name: 'LangChain', description: 'Building LLM-powered applications with chains, agents, and retrieval-augmented generation.' },
+      { name: 'AI-Assisted Development', description: 'Leveraging Cursor, GitHub Copilot, and other AI coding assistants to accelerate development workflows.' },
+      { name: 'Vercel AI SDK', description: 'Streaming AI responses in React and Next.js apps with built-in UI primitives.' },
+      { name: 'RAG', description: 'Retrieval-augmented generation for building AI features grounded on custom data sources.' },
+    ],
+  },
+  {
+    title: 'Frontend',
+    icon: 'FaCode',
+    skills: [
+      { name: 'HTML5', description: 'Semantic structure for accessible and SEO-optimized web pages.' },
+      { name: 'CSS3', description: 'Responsive layouts, animations, and visual styling.' },
+      { name: 'JavaScript', description: 'Interactive functionality and client-side logic for web apps.' },
+      { name: 'React', description: 'Component-based architecture for dynamic and scalable UIs.' },
+      { name: 'Redux', description: 'State management for complex frontend applications.' },
+      { name: 'Tailwind', description: 'Utility-first CSS framework for rapid UI development.' },
+      { name: 'shadcn/ui', description: 'Accessible, customisable component library built on Radix UI and Tailwind CSS.' },
+    ],
+  },
+  {
+    title: 'Backend',
+    icon: 'FaDatabase',
+    skills: [
+      { name: 'Node.js', description: 'Asynchronous server-side programming for scalable apps.' },
+      { name: 'Next.js', description: 'Server-side rendering and static site generation for React apps.' },
+      { name: 'Express.js', description: 'Framework for building robust APIs and web apps.' },
+      { name: 'MySQL', description: 'Relational database management for structured data.' },
+      { name: 'MongoDB', description: 'NoSQL database for scalable, high-performance data storage.' },
+      { name: 'GraphQL', description: 'Query language and runtime for precise data fetching.' },
+    ],
+  },
+  {
+    title: 'Deployment',
+    icon: 'FaCloud',
+    skills: [
+      { name: 'Netlify', description: 'Static site hosting and serverless functions.' },
+      { name: 'Heroku', description: 'Cloud platform for deploying and managing apps.' },
+      { name: 'AWS EC2', description: 'Virtual servers for scalable cloud applications.' },
+      { name: 'Render', description: 'Cloud platform for deploying web services, databases, and static sites with zero DevOps.' },
+      { name: 'SiteGround', description: 'Managed WordPress hosting with advanced features.' },
+      { name: 'Hostinger', description: 'Web hosting with integrated development tools.' },
+      { name: 'GitHub Pages', description: 'Static site hosting directly from GitHub repositories.' },
+      { name: 'Vercel', description: 'Frontend deployment and serverless functions platform.' },
+    ],
+  },
+  {
+    title: 'Design',
+    icon: 'FaPalette',
+    skills: [
+      { name: 'Photoshop', description: 'Image editing and manipulation for web graphics.' },
+      { name: 'Adobe XD', description: 'UX/UI prototyping and wireframing tools.' },
+      { name: 'Figma', description: 'Collaborative design for modern web and mobile interfaces.' },
+    ],
+  },
+]
 
-      {/* Experience Timeline */}
-      <div className={`stagger-fade-in ${isVisible ? 'visible' : ''}`}>
-          <div className="backdrop-blur-sm bg-white/[.02] border border-white/10 rounded-2xl p-4 sm:p-8">
-            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-2">
-              <h3 className="text-xl sm:text-2xl font-bold text-indigo-300">{exp.title}</h3>
-              <p className="text-gray-300 mt-1 sm:mt-0">{exp.period}</p>
-            </div>
-            <p className="text-indigo-200 font-medium mb-4">{exp.company}</p>
+export const professionalDevelopment: EducationItem[] = [
+  {
+    title: 'JavaScript Development',
+    institution: 'General Assembly',
+    period: '2021',
+  },
+  {
+    title: 'Senior Frontend Development',
+    institution: 'NetEase Cloud Classroom',
+    period: '2020',
+  },
+]
 
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-3 mb-6">
-              {exp.skills.map((skill, skillIndex) => (
-                  <div
-                    key={skillIndex}
-                    className="relative backdrop-blur-sm bg-white/5 hover:bg-indigo-500/10 border border-white/10 hover:border-indigo-400/50 rounded-lg p-3 transition-all duration-300 group/skill cursor-pointer hover:z-50 min-h-[60px] flex items-center justify-center"
-                  >
-                    <h4 className="text-base font-medium text-gray-300 group-hover/skill:text-white text-center transition-colors">
-                      {skill.title}
-                    </h4>
-                  <div className="opacity-0 group-hover/skill:opacity-100 absolute left-1/2 -translate-x-1/2 top-full mt-2 w-48 sm:w-64 p-2 sm:p-3 backdrop-blur-xl bg-slate-900/95 border border-indigo-400/20  text-gray-300 rounded-lg z-[100] pointer-events-none transition-opacity duration-300 shadow-xl">
-                    {skill.description}
-                  </div>
-                </div>
-              ))}
-            </div>
+export const universityEducation: EducationItem[] = [
+  {
+    title: 'Graduate Diploma of Information Technology',
+    institution: 'University of Canberra',
+    period: '2019 – 2020',
+  },
+  {
+    title: 'Double Bachelors of Information Technology & Media Arts and Production',
+    institution: 'University of Canberra',
+    period: '2013 – 2016',
+  },
+]
 
-            {exp.projects && (
-              <div className="mt-6 pt-6 border-t border-white/10">
-                <h4 className="text-base font-bold text-white mb-4 flex items-center">
-
-                  Projects
-                </h4>
-                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-3">
-                  {exp.projects.map((project) =>
-                    project.url ? (
-                      <a
-                        key={project.name}
-                        href={project.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="group backdrop-blur-sm bg-indigo-500/5 hover:bg-indigo-500/15 border border-indigo-400/20 hover:border-indigo-400/50 rounded-lg px-3 py-3 transition-all duration-300 hover:-translate-y-0.5 min-h-[60px] flex items-center justify-between gap-2"
-                      >
-                        <span className="font-medium text-gray-300 group-hover:text-white transition-colors leading-snug break-words">
-                          {project.name}
-                        </span>
-                        <svg className="w-3.5 h-3.5 flex-shrink-0 text-indigo-400 group-hover:text-indigo-300 transition-all group-hover:translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                        </svg>
-                      </a>
-                    ) : (
-                      <div
-                        key={project.name}
-                        className="backdrop-blur-sm bg-emerald-500/5 border border-emerald-400/20 rounded-lg px-3 py-3 min-h-[60px] flex items-center justify-between gap-2"
-                      >
-                        <span className="font-medium text-gray-300 leading-snug break-words">
-                          {project.name}
-                        </span>
-                        <svg className="w-3.5 h-3.5 flex-shrink-0 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                        </svg>
-                      </div>
-                    )
-                  )}
-                </div>
-              </div>
-            )}
-          </div>
-      </div>
-    </section>
-  )
-}
+export const personalityTraits: PersonalityTrait[] = [
+  {
+    icon: '💡',
+    title: 'INTP Personality Traits',
+    description:
+      'Both outgoing and reserved (slightly more reserved), cautious, and focused on excellence according to the DISC Assessment.',
+  },
+  {
+    icon: '🧠',
+    title: 'Thirst for Knowledge',
+    description: 'Exhibits curiosity, patience, and a keenness to learn.',
+  },
+  {
+    icon: '🔧',
+    title: 'Problem-Solving Approach',
+    description:
+      'Maintains an open mind, actively questions, excels in problem-solving, and is collaborative, supportive, yet dominant.',
+  },
+  {
+    icon: '🤔',
+    title: 'Critical Thinking',
+    description:
+      'Demonstrates a blend of flexibility and adaptability, paired with critical thinking that is objective.',
+  },
+]

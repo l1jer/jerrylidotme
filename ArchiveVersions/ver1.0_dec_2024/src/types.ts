@@ -4,15 +4,25 @@ export interface SkillCard {
   color: string;
 }
 
+export interface Project {
+  name: string;
+  url?: string;
+  /** Retired site kept as a static snapshot under /archive. */
+  archived?: boolean;
+}
+
 export interface ExperienceItem {
   title: string;
   company: string;
   period: string;
   skills: SkillCard[];
-  projects?: Array<{
-    name: string;
-    url?: string;
-  }>;
+  projects?: Project[];
+}
+
+export interface SkillCategory {
+  title: string;
+  icon: 'FaRobot' | 'FaCode' | 'FaDatabase' | 'FaCloud' | 'FaPalette';
+  skills: { name: string; description: string }[];
 }
 
 export interface EducationItem {
@@ -26,10 +36,4 @@ export interface PersonalityTrait {
   icon: string;
   title: string;
   description: string;
-}
-
-export interface SocialLink {
-  platform: string;
-  url: string;
-  icon: React.ReactNode;
 }
