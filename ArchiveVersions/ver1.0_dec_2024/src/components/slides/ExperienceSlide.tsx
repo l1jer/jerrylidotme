@@ -1,100 +1,162 @@
 'use client'
 
-import { useState } from 'react'
-import { FiArrowUpRight, FiCalendar, FiMapPin, FiSettings } from 'react-icons/fi'
-import { ExperienceItem } from '../../types'
+import { FiArrowRight, FiArrowUpRight, FiCalendar, FiMapPin } from 'react-icons/fi'
 import { experiences } from '../../data/portfolio'
+import { ExperienceItem, Highlight } from '../../types'
+import Frames, { Frame, FrameGroup } from '../Frames'
+import { useSlide } from '../FullPage'
 import SlideHeading, { stagger } from './SlideHeading'
 
-/** One job per slide. Focus areas are compact chips; the selected one's detail shows alongside. */
-export default function ExperienceSlide({ exp, index }: { exp: ExperienceItem; index: number }) {
-  const [selected, setSelected] = useState(0)
-  // "Company, Location" — split on the last comma so names like "Co., Ltd." stay intact.
-  const cut = exp.company.lastIndexOf(',')
-  const company = cut > 0 ? exp.company.slice(0, cut) : exp.company
-  const place = cut > 0 ? exp.company.slice(cut + 1).trim() : ''
-  const skill = exp.skills[selected]
+interface ExperienceFrame {
+  job: ExperienceItem
+  jobIndex: number
+  kind: 'overview' | 'highlights'
+  highlights: Highlight[]
+  page: number
+  pages: number
+}
 
+/** Splits `items` into the fewest pages of at most `perPage`, balanced so no page is left nearly empty. */
+function balancedPages<T>(items: T[], perPage: number): T[][] {
+  const pages = Math.max(1, Math.ceil(items.length / perPage))
+  const base = Math.floor(items.length / pages)
+  const extra = items.length % pages
+  const out: T[][] = []
+  let start = 0
+  for (let i = 0; i < pages; i++) {
+    const size = base + (i < extra ? 1 : 0)
+    out.push(items.slice(start, start + size))
+    start += size
+  }
+  return out
+}
+
+/** Splits every job into an overview frame plus balanced pages of highlights (at most `perPage` each). */
+export function buildExperienceFrames(perPage: number): ExperienceFrame[] {
+  return experiences.flatMap((job, jobIndex) => {
+    const chunks = balancedPages(job.highlights, perPage)
+    return [
+      { job, jobIndex, kind: 'overview' as const, highlights: [], page: 0, pages: chunks.length },
+      ...chunks.map((highlights, page) => ({
+        job,
+        jobIndex,
+        kind: 'highlights' as const,
+        highlights,
+        page: page + 1,
+        pages: chunks.length,
+      })),
+    ]
+  })
+}
+
+export function experienceGroups(frames: ExperienceFrame[]): FrameGroup[] {
+  return experiences.map((job, jobIndex) => {
+    const start = frames.findIndex((f) => f.jobIndex === jobIndex)
+    return { label: job.company, start, count: frames.filter((f) => f.jobIndex === jobIndex).length }
+  })
+}
+
+function JobMeta({ job }: { job: ExperienceItem }) {
+  return (
+    <p className="mt-1.5 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs sm:text-sm text-gray-400">
+      <span className="flex items-center gap-1.5">
+        <FiCalendar className="h-3.5 w-3.5" aria-hidden />
+        {job.period}
+      </span>
+      <span className="flex items-center gap-1.5">
+        <FiMapPin className="h-3.5 w-3.5" aria-hidden />
+        {job.location}
+      </span>
+    </p>
+  )
+}
+
+function Overview({ frame, on }: { frame: ExperienceFrame; on: boolean }) {
+  const { job, jobIndex } = frame
   return (
     <>
-      <SlideHeading kicker={`Experience ${index + 1} / ${experiences.length}`} title={company} />
-
-      <div className="reveal mb-5 short:mb-3 tiny:mb-2" style={stagger(1)}>
-        <h3 className="text-lg sm:text-xl md:text-2xl short:md:text-xl font-semibold text-indigo-200 leading-snug">
-          {exp.title}
-        </h3>
-        <p className="mt-1.5 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs sm:text-sm text-gray-400">
-          <span className="flex items-center gap-1.5">
-            <FiCalendar className="h-3.5 w-3.5" aria-hidden />
-            {exp.period}
-          </span>
-          {place && (
-            <span className="flex items-center gap-1.5">
-              <FiMapPin className="h-3.5 w-3.5" aria-hidden />
-              {place}
-            </span>
-          )}
-        </p>
+      <SlideHeading kicker={`Experience ${jobIndex + 1} / ${experiences.length}`} title={job.company} active={on} />
+      <div className="reveal" style={stagger(1)}>
+        <h3 className="text-lg sm:text-2xl short:sm:text-xl font-semibold text-indigo-200 leading-snug">{job.title}</h3>
+        <JobMeta job={job} />
       </div>
+      <p className="reveal mt-3 sm:mt-4 max-w-3xl text-sm sm:text-base md:text-lg short:md:text-base text-gray-300 leading-relaxed tiny:leading-snug" style={stagger(2)}>
+        {job.summary}
+      </p>
 
-      <div className="grid gap-4 lg:gap-6 lg:grid-cols-[1.25fr_1fr]">
-        <div className="reveal min-w-0" style={stagger(2)}>
-          <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.3em] text-gray-500">Focus areas</p>
-          <div className="flex flex-nowrap overflow-x-auto -mx-5 px-5 pb-1 gap-1.5 sm:flex-wrap sm:overflow-visible sm:mx-0 sm:px-0 sm:pb-0 sm:gap-2 chip-strip" role="tablist" aria-label="Focus areas">
-            {exp.skills.map((s, i) => (
-              <button
-                key={s.title}
-                type="button"
-                role="tab"
-                aria-selected={i === selected}
-                onMouseEnter={() => setSelected(i)}
-                onFocus={() => setSelected(i)}
-                onClick={() => setSelected(i)}
-                className={`flex-shrink-0 whitespace-nowrap rounded-full border px-3 py-1 sm:py-1.5 text-[11px] sm:text-xs md:text-sm transition ${
-                  i === selected
-                    ? 'border-indigo-400/60 bg-indigo-500/20 text-white shadow-[0_0_20px_rgba(129,140,248,0.25)]'
-                    : 'border-white/10 bg-white/[0.04] text-gray-300 hover:border-white/25 hover:text-white'
-                }`}
-              >
-                {s.title}
-              </button>
+      {job.stats && (
+        <dl className="reveal mt-5 short:mt-3 grid max-w-3xl grid-cols-3 gap-2 sm:gap-3" style={stagger(3)}>
+          {job.stats.map((s) => (
+            <div key={s.label} className="glass spot px-2.5 py-2 sm:px-4 sm:py-3">
+              <dt className="sr-only">{s.label}</dt>
+              <dd className="font-display text-lg sm:text-3xl font-bold text-white">{s.value}</dd>
+              <dd className="mt-0.5 text-[10px] sm:text-xs text-gray-400 leading-snug">{s.label}</dd>
+            </div>
+          ))}
+        </dl>
+      )}
+
+      {job.sites && (
+        <div className="reveal mt-5 short:mt-3" style={stagger(4)}>
+          <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.3em] text-gray-500">Live sites</p>
+          <ul className="flex flex-wrap gap-1.5 sm:gap-2">
+            {job.sites.map((p) => (
+              <li key={p.name}>
+                <a
+                  href={p.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-1 rounded-lg border border-indigo-400/20 bg-indigo-500/[0.06] px-2 sm:px-2.5 py-0.5 sm:py-1.5 text-xs sm:text-sm text-gray-200 transition hover:border-indigo-400/50 hover:text-white"
+                >
+                  {p.name}
+                  <FiArrowUpRight className="h-3 w-3 text-indigo-300" aria-hidden />
+                </a>
+              </li>
             ))}
-          </div>
-
-          <div className="glass mt-3 p-3 sm:p-4 min-h-[7.5rem] sm:min-h-[5.5rem]" role="tabpanel" aria-live="polite">
-            <p className="text-sm font-semibold text-white">{skill.title}</p>
-            <p className="mt-1 text-xs sm:text-sm text-gray-300 leading-relaxed">{skill.description}</p>
-          </div>
+          </ul>
         </div>
+      )}
 
-        {exp.projects && (
-          <div className="reveal min-w-0" style={stagger(3)}>
-            <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.3em] text-gray-500">Projects</p>
-            <ul className="flex flex-nowrap overflow-x-auto -mx-5 px-5 pb-1 gap-1.5 sm:flex-wrap sm:overflow-visible sm:mx-0 sm:px-0 sm:pb-0 sm:gap-2 chip-strip">
-              {exp.projects.map((p) => (
-                <li key={p.name} className="flex-shrink-0 whitespace-nowrap">
-                  {p.url ? (
-                    <a
-                      href={p.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-1 rounded-lg border border-indigo-400/20 bg-indigo-500/[0.06] px-2.5 py-1 sm:py-1.5 text-[11px] sm:text-xs md:text-sm text-gray-200 transition hover:border-indigo-400/50 hover:text-white"
-                    >
-                      {p.name}
-                      <FiArrowUpRight className="h-3 w-3 text-indigo-300" aria-hidden />
-                    </a>
-                  ) : (
-                    <span className="flex items-center gap-1 rounded-lg border border-emerald-400/20 bg-emerald-500/[0.06] px-2.5 py-1 sm:py-1.5 text-[11px] sm:text-xs md:text-sm text-gray-200">
-                      <FiSettings className="h-3 w-3 text-emerald-300" aria-hidden />
-                      {p.name}
-                    </span>
-                  )}
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
-      </div>
+      <p className="reveal mt-6 short:mt-4 tiny:hidden flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.3em] text-gray-500" style={stagger(5)}>
+        Scroll for highlights <FiArrowRight className="h-3 w-3 animate-pulse" aria-hidden />
+      </p>
     </>
   )
+}
+
+function Highlights({ frame }: { frame: ExperienceFrame }) {
+  const { job } = frame
+  return (
+    <>
+      <div className="reveal mb-4 sm:mb-6 short:mb-3" style={stagger(0)}>
+        <p className="font-mono text-[11px] uppercase tracking-[0.3em] text-indigo-300/80">
+          Highlights {frame.page} / {frame.pages}
+        </p>
+        <h3 className="mt-1.5 font-display text-2xl sm:text-3xl short:sm:text-2xl font-bold text-white leading-tight">
+          {job.company}
+          <span className="ml-3 align-middle text-sm sm:text-base font-sans font-medium text-indigo-200/80">{job.title}</span>
+        </h3>
+      </div>
+      <ul className="grid gap-2.5 sm:gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        {frame.highlights.map((h, i) => (
+          <li key={h.title} className="reveal glass spot p-3 sm:p-4" style={stagger(1 + i * 0.6)}>
+            <h4 className="text-sm sm:text-base font-semibold text-white leading-snug">{h.title}</h4>
+            <p className="mt-1 text-xs sm:text-sm text-gray-400 leading-relaxed">{h.description}</p>
+          </li>
+        ))}
+      </ul>
+    </>
+  )
+}
+
+/** All jobs in one slide: scrolling down moves sideways through each job's overview and highlights. */
+export default function ExperienceSlide({ perPage }: { perPage: number }) {
+  const { step, active } = useSlide()
+  const data = buildExperienceFrames(perPage)
+  const frames: Frame[] = data.map((frame, i) => ({
+    key: `${frame.jobIndex}-${frame.page}`,
+    content:
+      frame.kind === 'overview' ? <Overview frame={frame} on={active && step === i} /> : <Highlights frame={frame} />,
+  }))
+  return <Frames frames={frames} groups={experienceGroups(data)} />
 }

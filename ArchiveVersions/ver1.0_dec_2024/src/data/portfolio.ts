@@ -1,119 +1,178 @@
-import { EducationItem, ExperienceItem, PersonalityTrait, Project, SkillCategory } from '../types'
+import {
+  EducationItem,
+  ExperienceItem,
+  FeaturedBuild,
+  PersonalityTrait,
+  Project,
+  SkillCategory,
+  Stat,
+} from '../types'
 
 // All portfolio content lives here so the slide components only handle layout.
+// Source: Jerry Li resume, Nov 2026.
+
+export const aboutStats: Stat[] = [
+  { value: '6+', label: 'Years building for the web' },
+  { value: '10', label: 'Live WooCommerce stores (AU · US · NZ · EU)' },
+  { value: '41%', label: "Of a brand's 2024 orders from organic search" },
+]
 
 export const experiences: ExperienceItem[] = [
   {
-    title: 'Web Developer, UX/UI Designer, Technical Consultant and SEO Specialist',
-    company: 'TSA OUTDOORS, Brookvale NSW',
+    title: 'Web Developer, UX Designer & SEO Specialist',
+    company: 'TSA Outdoors',
+    location: 'Brookvale NSW · Remote',
     period: 'Aug 2022 – Current',
-    skills: [
+    summary:
+      'Own the web platform for a multi-brand outdoor and optics distributor: 10 live WordPress/WooCommerce stores across AU, US, NZ and EU, a Pronto Avenue B2B dealer portal and the Pronto Xi ERP integrations.',
+    stats: [
+      { value: '10', label: 'Live stores across four markets' },
+      { value: '41%', label: "Of a brand's 2024 orders from organic search" },
+      { value: '~80%', label: 'Less manual order and stock entry' },
+    ],
+    highlights: [
       {
-        title: 'Platform Architecture',
-        description: 'Led end-to-end WordPress and WooCommerce development across six brand websites, including custom plugin development and a React-based LMS integrated with MySQL.',
-        color: 'purple',
+        title: 'AI-Assisted Engineering',
+        description:
+          'Since Aug 2026, ship projects with Claude Code as a coding agent: plan-first workflow, parallel subagents and multi-lens review, with guardrails for secrets, read-only ERP access and tested rollbacks.',
       },
       {
-        title: 'Project & Stakeholder Management',
-        description: 'Planned and tracked deliverables in Monday.com with sprint-based workflows; coordinated cross-functional updates via Microsoft Teams.',
-        color: 'blue',
+        title: 'WooCommerce ↔ ERP Integration',
+        description:
+          'PHP 8 plugins syncing orders, inventory, fulfilment and tracking with Pronto in near real time; idempotent pipelines handling 100+ orders a day at peak.',
       },
       {
-        title: 'UI/UX Design',
-        description: 'Designed high-fidelity prototypes and responsive layouts in Figma, iterating on user feedback to improve navigation and conversion flows.',
-        color: 'indigo',
+        title: 'Next-Gen Order Sync',
+        description:
+          'State machine with leased jobs, retries, a circuit breaker and reconciliation (130 classes, 829 unit tests), proven with fault and concurrency injection.',
       },
       {
-        title: 'Performance Engineering',
-        description: 'Achieved measurable page speed improvements through asset minification, server-side caching, lazy loading, and CDN integration across all brand sites.',
-        color: 'pink',
+        title: 'Unified Stock Sync',
+        description:
+          'One configurable sync replacing per-site plugins: 23,500 rows in about 31 seconds, an anomaly guard, dry run by default and a live re-check at checkout.',
       },
       {
-        title: 'SEO & Content Visibility',
-        description: 'Drove organic traffic growth through technical SEO audits, keyword strategies, and content optimisation using RankMath, Ahrefs, and SEMrush.',
-        color: 'green',
+        title: 'Supplier Delivery-Date Automation',
+        description:
+          'Plugin that chases suppliers for missing PO dates with tokenised forms and reminders (143 classes, 577 tests), tracking 64 POs across 47 suppliers.',
       },
       {
-        title: 'Systems Integration & APIs',
-        description: 'Architected RESTful API integrations connecting WooCommerce with inventory, shipping, and third-party platforms to automate order and product sync workflows.',
-        color: 'yellow',
+        title: 'Multi-Site Stockist Map',
+        description:
+          'Hub-and-spoke plugin replacing a commercial map on nine sites: REST feed, MapLibre GL clustering and a rate-limited geocoder; 1,173 stores merged.',
       },
       {
-        title: 'Technical Documentation',
-        description: 'Authored internal documentation covering plugin architecture, API contracts, deployment procedures, and troubleshooting runbooks for the development team.',
-        color: 'red',
+        title: 'WooCommerce Theme Rebuild',
+        description:
+          'A 301-product store rebuilt as a lean custom theme via idempotent WP-CLI migrations; mobile Lighthouse up from 27–59 to 58–94.',
       },
       {
-        title: 'Asset & Media Standards',
-        description: 'Established and enforced image optimisation guidelines covering format selection (WebP/AVIF), aspect ratios, and resolution standards to ensure consistent load performance.',
-        color: 'teal',
+        title: 'B2B Dealer Portal Redesign',
+        description:
+          'About 450 Liquid files reworked on Pronto Avenue: stock badges, Fast Order with paste from spreadsheet, and a responsive retrofit of a fixed layout.',
       },
       {
-        title: 'Client & Technical Liaison',
-        description: 'Served as the primary technical point of contact for brand stakeholders, maintaining 90%+ satisfaction through proactive communication and rapid issue resolution.',
-        color: 'orange',
+        title: 'Cloudflare Edge & Security',
+        description:
+          'Geo-redirect plugin replaced by Redirect Rules and Workers, a scraper stopped with a WAF rule, and SPF/DKIM fixed after an email outage.',
       },
       {
-        title: 'Analytics & Conversion Tracking',
-        description: 'Configured GA4 properties, Google Tag Manager containers, and conversion events to measure campaign ROI and inform data-driven marketing decisions.',
-        color: 'cyan',
+        title: 'Promotions & Store Features',
+        description:
+          'Gift-with-purchase campaign with Stripe dealer claims, three-tier role pricing and a UPS shipping module (OAuth 2.0).',
+      },
+      {
+        title: 'Product Launch Automation',
+        description:
+          'Scripted pipelines listing products across stores with different schemas, a brand-page generator and Mailchimp campaign drafts via API.',
+      },
+      {
+        title: 'Product Resources Site',
+        description:
+          'Next.js static site for 139 products in 23 categories, with JSON-LD, sitemap and llms.txt for search engines and AI assistants.',
+      },
+      {
+        title: '3D / WebGL Prototypes',
+        description:
+          'three.js product-model platform with an embeddable viewer SDK, plus a look-through-the-scope experience over generated terrain.',
+      },
+      {
+        title: 'Shipping Label App',
+        description:
+          'Node/TypeScript and PostgreSQL app on the Australia Post API: label time cut from 5–8 minutes to 30 seconds per order.',
+      },
+      {
+        title: 'SEO & Content',
+        description:
+          'Rank Math, Ahrefs, GA4 and Search Console-led strategy; organic search drove 41% of orders and revenue for one brand in 2024.',
+      },
+      {
+        title: 'Analytics & Tracking',
+        description:
+          'GTM, GA4, Google Ads and Meta CAPI; fixed Pixel over-reporting (161 vs 60 real orders) and built GA4 and Search Console API clients.',
+      },
+      {
+        title: 'Performance Optimisation',
+        description:
+          'Minification, lazy loading, Memcached and Cloudflare CDN with WebP images for faster stores across every brand.',
+      },
+      {
+        title: 'UI/UX & LMS',
+        description:
+          'Mobile-first Figma designs, and a React/Next.js learning platform on a headless WordPress backend.',
       },
     ],
-    projects: [
+    sites: [
       { name: 'ZeroTech', url: 'https://zerotech.com.au' },
       { name: 'ZeroTech Optics', url: 'https://zerotechoptics.com' },
       { name: 'ZeroTech NZ', url: 'https://zerotech.co.nz' },
       { name: 'BushPig Shotguns', url: 'https://bushpigshotguns.com.au' },
       { name: 'ZeroTech Outdoors', url: 'https://zerotechoutdoors.com.au' },
       { name: 'SkyWatcher', url: 'https://skywatcher.com.au' },
-      { name: 'Order Sync Automation' },
-      { name: 'Product Sync Automation' },
-      { name: 'Shipping Label Generator' },
-      { name: 'Customised User Tier System' },
     ],
   },
   {
-    title: 'Web Developer and IT Support',
-    company: 'Caronlab, North Geelong VIC',
+    title: 'Web Developer & IT Support',
+    company: 'Caronlab',
+    location: 'North Geelong VIC · Remote',
     period: 'Sep 2020 – Aug 2022',
-    skills: [
+    summary:
+      'Designed and built 13+ custom WordPress sites for a multi-regional beauty brand group, turning Figma and XD designs into mobile-first, cross-browser builds.',
+    stats: [
+      { value: '13+', label: 'Custom WordPress sites' },
+      { value: '+25%', label: 'MySQL performance after tuning' },
+    ],
+    highlights: [
       {
-        title: 'Custom Theme Development',
-        description: 'Built bespoke WordPress themes from scratch using PHP, JavaScript, and CSS, delivering fully responsive designs across seven multi-regional brand websites.',
-        color: 'purple',
+        title: 'Custom WordPress Development',
+        description: 'Responsive sites in JavaScript and SASS/Bootstrap, built from Figma and XD designs with cross-browser support.',
       },
       {
-        title: 'PHP Template Engineering',
-        description: 'Developed reusable WordPress PHP templates and custom post types with dynamic functionality powered by ACF, JavaScript, and WP REST API.',
-        color: 'blue',
+        title: 'Templates & Functionality',
+        description: 'Custom WordPress/WooCommerce templates with ACF and complex queries, plus dynamic features in JavaScript and PHP hooks.',
       },
       {
-        title: 'Marketing Automation & Integrations',
-        description: 'Integrated Yotpo reviews, Zapier automation workflows, and MailChimp email campaigns to streamline customer engagement and retention.',
-        color: 'indigo',
+        title: 'Systems & Tool Integration',
+        description: 'Yotpo reviews, Zapier and Integrately automations, and Gravity Forms linked to Mailchimp, Campaign Monitor and WooCommerce.',
       },
       {
-        title: 'Infrastructure & DNS Management',
-        description: 'Administered domain registrations, Cloudflare DNS, SSL certificates, and SiteGround hosting environments with proactive uptime monitoring.',
-        color: 'pink',
+        title: 'Domain, DNS & Email',
+        description: 'Domains and DNS on Cloudflare, SiteGround hosting, and troubleshooting of servers and email deliverability.',
       },
       {
-        title: 'Migrations & Performance Tuning',
-        description: 'Executed zero-downtime website migrations between hosting providers and reduced server memory consumption by 25% through code and query optimisation.',
-        color: 'green',
+        title: 'Migrations & Performance',
+        description: 'Seamless site migrations, MySQL tuned for a 25% boost, and Cloudflare/NGINX caching with WebP and lazy loading.',
       },
       {
-        title: 'Payment Gateway Integration',
-        description: 'Implemented PCI-compliant payment flows via Braintree and Stripe, including SSL configuration, tokenised checkout, and merchant API optimisation.',
-        color: 'yellow',
+        title: 'Secure Payments',
+        description: 'Braintree payment integration with SSL/TLS configuration and merchant API tuning.',
       },
       {
-        title: 'Technical SEO & Content Strategy',
-        description: 'Defined and executed SEO strategies using RankMath and Yoast, covering schema markup, site structure, crawl optimisation, and keyword-driven content planning.',
-        color: 'red',
+        title: 'SEO Strategy',
+        description: 'Technical SEO with Rank Math and Yoast: schema and structured data, .htaccess rules and custom XML sitemaps.',
       },
     ],
-    projects: [
+    sites: [
       { name: 'Waxxxpress US', url: 'https://us.waxxxpress.com' },
       { name: 'Waxxxpress UK', url: 'https://waxxxpress.co.uk' },
       { name: 'Ocean Road Australia', url: 'https://thisisoceanroad.com.au' },
@@ -124,63 +183,80 @@ export const experiences: ExperienceItem[] = [
     ],
   },
   {
-    title: 'Multimedia Developer (Contract / Remote)',
-    company: 'TAFE Queensland, Southbank QLD',
+    title: 'Multimedia Developer (Contract)',
+    company: 'TAFE Queensland',
+    location: 'Southbank QLD · Remote',
     period: 'Aug 2022 – Dec 2022',
-    skills: [
+    summary: 'Produced interactive, accessible online learning content with educators and subject-matter experts.',
+    highlights: [
       {
         title: 'Stakeholder Collaboration',
-        description: 'Partnered with subject-matter experts and educators to align multimedia deliverables with institutional learning outcomes and accessibility standards.',
-        color: 'purple',
+        description: 'Aligned multimedia deliverables with learning outcomes and accessibility standards alongside educators.',
       },
       {
         title: 'Learning Experience Design',
-        description: 'Scoped and storyboarded interactive course modules, advising on content structure, platform constraints, and learner engagement strategies.',
-        color: 'blue',
+        description: 'Scoped and storyboarded interactive course modules, advising on structure, platform constraints and engagement.',
       },
       {
         title: 'Multimedia Production',
-        description: 'Produced video, animation, and rich-media assets for blended and fully online course delivery using Adobe Creative Suite and After Effects.',
-        color: 'indigo',
+        description: 'Video, animation and rich-media assets for blended and online delivery in Adobe Creative Suite and After Effects.',
       },
       {
         title: 'UI/UX for Education',
-        description: 'Designed intuitive, WCAG-compliant interfaces for online learning platforms, prioritising clarity, navigation consistency, and mobile responsiveness.',
-        color: 'pink',
+        description: 'WCAG-compliant interfaces for online learning, prioritising clarity, consistent navigation and mobile use.',
       },
       {
         title: 'Interactive Web Development',
-        description: 'Built interactive learning resources with HTML, CSS, and JavaScript, including quizzes, drag-and-drop activities, and progress-tracked modules.',
-        color: 'green',
+        description: 'Quizzes, drag-and-drop activities and progress-tracked modules in HTML, CSS and JavaScript.',
       },
       {
         title: 'QA & Usability Testing',
-        description: 'Conducted cross-browser and cross-device usability testing, ensuring compliance with WCAG guidelines, institutional style guides, and LMS compatibility.',
-        color: 'yellow',
+        description: 'Cross-browser and cross-device testing against WCAG, institutional style guides and LMS compatibility.',
       },
     ],
   },
   {
-    title: 'Graduate Frontend Developer (Full-time)',
-    company: 'Beijing HiRain Technologies Co., Ltd., China',
+    title: 'Graduate Frontend Developer',
+    company: 'Beijing HiRain Technologies',
+    location: 'Beijing, China',
     period: 'Feb – Aug 2020',
-    skills: [
+    summary: 'Built production UI for a multithreaded automotive diagnostics platform.',
+    highlights: [
       {
         title: 'React UI Engineering',
-        description: 'Developed production-ready UI features for a multithreaded automotive diagnostics platform using React, Ant Design, and Node.js with RESTful API consumption.',
-        color: 'purple',
+        description: 'Production features in React, Ant Design and Node.js consuming RESTful APIs.',
       },
       {
         title: 'Performance & Debugging',
-        description: 'Profiled and optimised React component rendering, resolved layout regressions, and reduced unnecessary re-renders in complex data-driven dashboards.',
-        color: 'blue',
+        description: 'Profiled React rendering, fixed layout regressions and cut unnecessary re-renders in data-heavy dashboards.',
       },
       {
-        title: 'Agile & Cross-Team Collaboration',
-        description: 'Participated in sprint planning, daily stand-ups, and retrospectives within a cross-functional team; completed an Agile Project Management seminar led by senior leadership.',
-        color: 'indigo',
+        title: 'Agile Collaboration',
+        description: 'Sprint planning, stand-ups and retrospectives in a cross-functional team; Agile Project Management seminar.',
       },
     ],
+  },
+]
+
+// Built for Flywing USA. Shown as projects only, not as a role.
+export const featuredBuilds: FeaturedBuild[] = [
+  {
+    title: 'Webhook-Driven Commerce Sync',
+    description:
+      'Production microservice keeping a central Shopify marketplace in sync with vendor stores by SKU through the Shopify Admin GraphQL API, with webhooks, scheduled jobs, Redis caching, rate limiting and monitoring.',
+    tags: ['Shopify GraphQL', 'Webhooks', 'Redis', 'OpenAPI'],
+  },
+  {
+    title: 'Browser Flight Trainer',
+    description:
+      'WebGL trainer for a VTOL RC aircraft shipped as a Shopify theme app extension: PX4-tuned physics, gamepad calibration, English/Chinese UI and 768 automated tests, delivered in five weeks.',
+    tags: ['three.js', 'TypeScript', 'Vite', 'Vercel'],
+  },
+  {
+    title: 'Scripted Shopify Operations',
+    description:
+      'Product-page builds automated through the Shopify Admin API with an image pipeline, backups and a go-live step, plus an Express, MySQL and Chart.js sales dashboard.',
+    tags: ['Shopify Admin API', 'Express', 'MySQL', 'Chart.js'],
   },
 ]
 
@@ -199,115 +275,87 @@ export const freelanceProjects: Project[] = [
 
 export const skillCategories: SkillCategory[] = [
   {
-    title: 'AI & LLM Integration',
-    icon: 'FaRobot',
-    skills: [
-      { name: 'Prompt Engineering', description: 'Designing effective prompts for large language models to produce reliable, high-quality outputs.' },
-      { name: 'OpenAI API', description: 'Integrating GPT and other LLMs into web applications via REST APIs.' },
-      { name: 'LangChain', description: 'Building LLM-powered applications with chains, agents, and retrieval-augmented generation.' },
-      { name: 'AI-Assisted Development', description: 'Leveraging Cursor, GitHub Copilot, and other AI coding assistants to accelerate development workflows.' },
-      { name: 'Vercel AI SDK', description: 'Streaming AI responses in React and Next.js apps with built-in UI primitives.' },
-      { name: 'RAG', description: 'Retrieval-augmented generation for building AI features grounded on custom data sources.' },
-    ],
+    title: 'AI-Assisted Engineering',
+    icon: 'ai',
+    skills: ['Claude Code', 'Plan-first workflow', 'Parallel subagents', 'Multi-lens review', 'Cursor', 'Augment', 'Claude · GPT · Gemini', 'Prompt engineering', 'RAG', 'Vercel AI SDK', 'LangChain'],
   },
   {
-    title: 'Frontend',
-    icon: 'FaCode',
-    skills: [
-      { name: 'HTML5', description: 'Semantic structure for accessible and SEO-optimized web pages.' },
-      { name: 'CSS3', description: 'Responsive layouts, animations, and visual styling.' },
-      { name: 'JavaScript', description: 'Interactive functionality and client-side logic for web apps.' },
-      { name: 'React', description: 'Component-based architecture for dynamic and scalable UIs.' },
-      { name: 'Redux', description: 'State management for complex frontend applications.' },
-      { name: 'Tailwind', description: 'Utility-first CSS framework for rapid UI development.' },
-      { name: 'shadcn/ui', description: 'Accessible, customisable component library built on Radix UI and Tailwind CSS.' },
-    ],
+    title: 'SEO · GEO · AEO',
+    icon: 'search',
+    skills: ['Technical SEO', 'Schema / JSON-LD', 'XML sitemaps', 'llms.txt', 'Rank Math', 'Yoast', 'Ahrefs', 'Keyword research', 'Core Web Vitals'],
   },
   {
-    title: 'Backend',
-    icon: 'FaDatabase',
-    skills: [
-      { name: 'Node.js', description: 'Asynchronous server-side programming for scalable apps.' },
-      { name: 'Next.js', description: 'Server-side rendering and static site generation for React apps.' },
-      { name: 'Express.js', description: 'Framework for building robust APIs and web apps.' },
-      { name: 'MySQL', description: 'Relational database management for structured data.' },
-      { name: 'MongoDB', description: 'NoSQL database for scalable, high-performance data storage.' },
-      { name: 'GraphQL', description: 'Query language and runtime for precise data fetching.' },
-    ],
+    title: 'Digital Marketing & Analytics',
+    icon: 'chart',
+    skills: ['GA4 APIs', 'Search Console API', 'Tag Manager', 'Google Ads', 'Meta Pixel / CAPI', 'Server-side tracking', 'EDM automation', 'Mailchimp API', 'CRO & A/B testing', 'Metorik'],
   },
   {
-    title: 'Deployment',
-    icon: 'FaCloud',
-    skills: [
-      { name: 'Netlify', description: 'Static site hosting and serverless functions.' },
-      { name: 'Heroku', description: 'Cloud platform for deploying and managing apps.' },
-      { name: 'AWS EC2', description: 'Virtual servers for scalable cloud applications.' },
-      { name: 'Render', description: 'Cloud platform for deploying web services, databases, and static sites with zero DevOps.' },
-      { name: 'SiteGround', description: 'Managed WordPress hosting with advanced features.' },
-      { name: 'Hostinger', description: 'Web hosting with integrated development tools.' },
-      { name: 'GitHub Pages', description: 'Static site hosting directly from GitHub repositories.' },
-      { name: 'Vercel', description: 'Frontend deployment and serverless functions platform.' },
-    ],
+    title: 'eCommerce & ERP',
+    icon: 'cart',
+    skills: ['WooCommerce', 'Shopify', 'Shopify Admin API', 'Theme app extensions', 'BigCommerce', 'Pronto Avenue (Liquid)', 'Pronto Xi / Connect REST', 'Stripe', 'Braintree'],
+  },
+  {
+    title: 'WordPress',
+    icon: 'wordpress',
+    skills: ['Custom plugins & themes', 'WooCommerce hooks', 'HPOS', 'Action Scheduler', 'WP-CLI', 'REST API', 'Custom post types', 'ACF', 'Elementor'],
+  },
+  {
+    title: 'Languages',
+    icon: 'code',
+    skills: ['JavaScript (ES6+)', 'TypeScript', 'Node.js', 'PHP 8.2', 'Python', 'SQL', 'Bash', 'Liquid', 'HTML / CSS'],
+  },
+  {
+    title: 'Frameworks & Libraries',
+    icon: 'layers',
+    skills: ['React', 'Next.js', 'Redux', 'Express', 'GraphQL', 'Tailwind CSS', 'shadcn/ui', 'Bootstrap', 'Vite', 'three.js / WebGL', 'MapLibre GL', 'Leaflet', 'D3'],
+  },
+  {
+    title: 'Testing & QA',
+    icon: 'check',
+    skills: ['PHPUnit', 'Vitest', 'Jest', 'Playwright', 'Screenshot diffing', 'Contract tests', 'Fault injection', 'Lighthouse', 'axe'],
+  },
+  {
+    title: 'Cloud & DevOps',
+    icon: 'cloud',
+    skills: ['Cloudflare Rules · Workers · WAF', 'AWS', 'Vercel', 'Netlify', 'Render', 'Heroku', 'SiteGround', 'GitHub Actions', 'SPF / DKIM / DMARC'],
+  },
+  {
+    title: 'Databases',
+    icon: 'database',
+    skills: ['MySQL', 'PostgreSQL', 'MongoDB', 'Redis'],
+  },
+  {
+    title: 'Tools',
+    icon: 'tool',
+    skills: ['Git', 'npm / Yarn', 'Postman', 'SSH', 'jq', 'curl'],
   },
   {
     title: 'Design',
-    icon: 'FaPalette',
-    skills: [
-      { name: 'Photoshop', description: 'Image editing and manipulation for web graphics.' },
-      { name: 'Adobe XD', description: 'UX/UI prototyping and wireframing tools.' },
-      { name: 'Figma', description: 'Collaborative design for modern web and mobile interfaces.' },
-    ],
+    icon: 'pen',
+    skills: ['Figma', 'Adobe XD', 'Photoshop'],
   },
 ]
 
 export const professionalDevelopment: EducationItem[] = [
-  {
-    title: 'JavaScript Development',
-    institution: 'General Assembly',
-    period: '2021',
-  },
-  {
-    title: 'Senior Frontend Development',
-    institution: 'NetEase Cloud Classroom',
-    period: '2020',
-  },
+  { title: 'JavaScript Development', institution: 'General Assembly', period: '2021' },
+  { title: 'Advanced Frontend Development', institution: 'NetEase Cloud Classroom', period: '2020' },
 ]
 
 export const universityEducation: EducationItem[] = [
+  { title: 'Graduate Diploma of Information Technology', institution: 'University of Canberra', period: '2019 – 2020' },
   {
-    title: 'Graduate Diploma of Information Technology',
-    institution: 'University of Canberra',
-    period: '2019 – 2020',
-  },
-  {
-    title: 'Double Bachelors of Information Technology & Media Arts and Production',
+    title: 'Bachelor of Information Technology & Bachelor of Media Arts and Production',
     institution: 'University of Canberra',
     period: '2013 – 2016',
   },
 ]
 
 export const personalityTraits: PersonalityTrait[] = [
-  {
-    icon: '💡',
-    title: 'INTP Personality Traits',
-    description:
-      'Both outgoing and reserved (slightly more reserved), cautious, and focused on excellence according to the DISC Assessment.',
-  },
-  {
-    icon: '🧠',
-    title: 'Thirst for Knowledge',
-    description: 'Exhibits curiosity, patience, and a keenness to learn.',
-  },
-  {
-    icon: '🔧',
-    title: 'Problem-Solving Approach',
-    description:
-      'Maintains an open mind, actively questions, excels in problem-solving, and is collaborative, supportive, yet dominant.',
-  },
-  {
-    icon: '🤔',
-    title: 'Critical Thinking',
-    description:
-      'Demonstrates a blend of flexibility and adaptability, paired with critical thinking that is objective.',
-  },
+  { icon: '🎯', title: 'INTJ', description: 'Detail-oriented, driven by excellence and intellectual curiosity.' },
+  { icon: '🤝', title: 'Team & Solo', description: 'Balanced between collaborative teamwork and focused independent work.' },
+  { icon: '🧠', title: 'Critical Thinking', description: 'Approaches challenges with critical thinking and objective analysis.' },
+  { icon: '🔧', title: 'Methodical', description: 'Patient, methodical problem-solving through active questioning.' },
+  { icon: '🌱', title: 'Always Learning', description: 'Adaptable, with a structured approach to continuous learning.' },
 ]
+
+export const spokenLanguages = ['English', 'Mandarin']

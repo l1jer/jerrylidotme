@@ -1,7 +1,9 @@
 'use client'
 
 import { FiArchive, FiArrowUpRight, FiGitBranch } from 'react-icons/fi'
-import { freelanceProjects } from '../../data/portfolio'
+import { featuredBuilds, freelanceProjects } from '../../data/portfolio'
+import Frames from '../Frames'
+import { useSlide } from '../FullPage'
 import SlideHeading, { stagger } from './SlideHeading'
 
 const host = (url: string) => {
@@ -12,11 +14,40 @@ const host = (url: string) => {
   }
 }
 
-export default function WorkSlide() {
+function FeaturedBuilds({ on, builds, offset, page, pages }: { on: boolean; builds: typeof featuredBuilds; offset: number; page: number; pages: number }) {
   return (
     <>
-      <SlideHeading kicker="Selected work" title="Freelance portfolio" />
+      <SlideHeading kicker={pages > 1 ? `Projects ${page} / ${pages}` : 'Projects'} title="Featured builds" active={on} />
+      <p className="reveal -mt-3 mb-5 short:mb-3 text-sm text-gray-400" style={stagger(1)}>
+        Built for{' '}
+        <a href="https://flywingusa.com" target="_blank" rel="noopener noreferrer" className="text-indigo-300 hover:text-white">
+          Flywing USA
+        </a>
+      </p>
+      <ul className="grid gap-2.5 sm:gap-4 md:grid-cols-3">
+        {builds.map((build, i) => (
+          <li key={build.title} className="reveal glass spot flex flex-col p-3.5 sm:p-5" style={stagger(2 + i)}>
+            <span className="font-mono text-[10px] text-indigo-300/70">{String(offset + i + 1).padStart(2, '0')}</span>
+            <h3 className="mt-1 font-display text-base sm:text-xl font-semibold text-white">{build.title}</h3>
+            <p className="mt-1.5 flex-1 text-xs sm:text-sm text-gray-400 leading-relaxed">{build.description}</p>
+            <ul className="mt-3 flex flex-wrap gap-1.5">
+              {build.tags.map((tag) => (
+                <li key={tag} className="rounded-md border border-white/10 bg-white/[0.04] px-2 py-0.5 text-[11px] text-gray-300">
+                  {tag}
+                </li>
+              ))}
+            </ul>
+          </li>
+        ))}
+      </ul>
+    </>
+  )
+}
 
+function ClientSites({ on }: { on: boolean }) {
+  return (
+    <>
+      <SlideHeading kicker="Freelance" title="Client websites" active={on} />
       <ul className="grid grid-cols-2 gap-2.5 sm:gap-3 sm:grid-cols-3 lg:grid-cols-5">
         {freelanceProjects.map((project, i) => {
           const body = (
@@ -40,7 +71,7 @@ export default function WorkSlide() {
             </>
           )
           return (
-            <li key={project.name} className="reveal" style={stagger(1 + Math.min(i, 9) * 0.5)}>
+            <li key={project.name} className="reveal" style={stagger(1 + i * 0.5)}>
               {project.url ? (
                 <a
                   href={project.url}
@@ -63,4 +94,28 @@ export default function WorkSlide() {
       </ul>
     </>
   )
+}
+
+/** Featured builds are split into pages of `perPage` cards, followed by the client websites. */
+export function workFrameLabels(perPage: number): string[] {
+  const pages = Math.ceil(featuredBuilds.length / perPage)
+  return [...Array.from({ length: pages }, (_, i) => (pages > 1 ? `Featured ${i + 1}/${pages}` : 'Featured builds')), 'Client websites']
+}
+
+export default function WorkSlide({ perPage }: { perPage: number }) {
+  const { step, active } = useSlide()
+  const pages = Math.ceil(featuredBuilds.length / perPage)
+  const featured = Array.from({ length: pages }, (_, i) => ({
+    key: `featured-${i}`,
+    content: (
+      <FeaturedBuilds
+        on={active && step === i}
+        builds={featuredBuilds.slice(i * perPage, (i + 1) * perPage)}
+        offset={i * perPage}
+        page={i + 1}
+        pages={pages}
+      />
+    ),
+  }))
+  return <Frames frames={[...featured, { key: 'clients', content: <ClientSites on={active && step === pages} /> }]} />
 }

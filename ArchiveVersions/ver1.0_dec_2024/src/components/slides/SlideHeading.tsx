@@ -5,8 +5,10 @@ import ScrambleText from '../fx/ScrambleText'
 import { useSlide } from '../FullPage'
 
 /** Section heading with the slide number, a kicker line and a decoding gradient title. */
-export default function SlideHeading({ kicker, title }: { kicker: string; title: string }) {
-  const { active, number } = useSlide()
+export default function SlideHeading({ kicker, title, active: activeOverride }: { kicker: string; title: string; active?: boolean }) {
+  const slide = useSlide()
+  const active = activeOverride ?? slide.active
+  const { number } = slide
   return (
     <div className="reveal mb-6 sm:mb-8 short:mb-4 tiny:mb-3" style={{ '--i': 0 } as CSSProperties}>
       <div className="flex items-center gap-3 font-mono text-[11px] uppercase tracking-[0.3em] text-indigo-300/80">

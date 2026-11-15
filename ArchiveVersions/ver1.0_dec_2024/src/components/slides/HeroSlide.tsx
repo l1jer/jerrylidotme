@@ -1,23 +1,23 @@
 'use client'
 
-import { FaCodepen, FaGithub } from 'react-icons/fa'
-import { FiCode, FiCpu, FiPenTool, FiSearch, FiTerminal, FiZap } from 'react-icons/fi'
+import { FaGithub } from 'react-icons/fa'
+import { FiCode, FiCpu, FiDatabase, FiPenTool, FiSearch, FiShoppingCart, FiTrendingUp } from 'react-icons/fi'
 import ScrambleText from '../fx/ScrambleText'
 import { useSlide } from '../FullPage'
 import { stagger } from './SlideHeading'
 
 const roles = [
-  { title: 'Frontend Development', icon: FiCode },
+  { title: 'eCommerce', icon: FiShoppingCart },
+  { title: 'Digital Marketing', icon: FiTrendingUp },
+  { title: 'SEO · GEO · AEO', icon: FiSearch },
+  { title: 'Frontend & Full-Stack', icon: FiCode },
+  { title: 'ERP Integration', icon: FiDatabase },
   { title: 'UI/UX Design', icon: FiPenTool },
-  { title: 'API Integration', icon: FiTerminal },
-  { title: 'Autoflow', icon: FiZap },
-  { title: 'SEO Optimisation', icon: FiSearch },
-  { title: 'Technical Consultant', icon: FiCpu },
+  { title: 'AI-Assisted Engineering', icon: FiCpu },
 ]
 
 export const socialLinks = [
   { platform: 'GitHub', url: 'https://github.com/l1jer', icon: FaGithub },
-  { platform: 'CodePen', url: 'https://codepen.io/jerrylidotme', icon: FaCodepen },
 ]
 
 export default function HeroSlide() {
@@ -36,9 +36,9 @@ export default function HeroSlide() {
         <ScrambleText text="Jerry Li" active={active} />
       </h1>
 
-      <p className="reveal mt-4 max-w-xl text-base sm:text-lg text-gray-300" style={stagger(2)}>
-        Frontend developer &amp; UI/UX designer building fast, search-friendly websites, e-commerce
-        platforms and AI-powered features.
+      <p className="reveal mt-4 max-w-2xl text-base sm:text-lg text-gray-300" style={stagger(2)}>
+        Web developer &amp; eCommerce specialist building fast online stores, ERP integrations and the
+        SEO, GEO and AEO that get them found by search engines and AI assistants.
       </p>
 
       <ul className="reveal mt-7 short:mt-5 flex max-w-3xl flex-wrap justify-center gap-2" style={stagger(3)}>

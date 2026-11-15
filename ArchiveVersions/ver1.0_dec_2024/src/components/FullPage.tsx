@@ -1,14 +1,20 @@
 'use client'
 
 import { createContext, ReactNode, useCallback, useContext, useEffect, useRef, useState } from 'react'
-import { FiArrowUp } from 'react-icons/fi'
+import { FiArrowUp, FiMenu, FiX } from 'react-icons/fi'
 
 export interface Slide {
   id: string
   label: string
   content: ReactNode
-  /** Render without the default centred container (e.g. a full-bleed hero). */
+  /** Render without the default centred container (e.g. a full-bleed hero or a frame track). */
   bare?: boolean
+  /** Number of horizontal frames inside this slide. Scrolling down walks through them sideways first. */
+  steps?: number
+  /** Optional label per frame, shown in the HUD. */
+  stepLabels?: string[]
+  /** Extra entries under this slide in the jump menu (e.g. each job in Experience). */
+  menu?: { label: string; step: number }[]
 }
 
 interface SlideState {
@@ -16,65 +22,104 @@ interface SlideState {
   /** 1-based position of this slide in the deck. */
   number: number
   total: number
-  goTo: (index: number) => void
+  /** Current horizontal frame of this slide. */
+  step: number
+  goTo: (index: number, step?: number) => void
 }
 
-const SlideContext = createContext<SlideState>({ active: true, number: 1, total: 1, goTo: () => {} })
+const SlideContext = createContext<SlideState>({ active: true, number: 1, total: 1, step: 0, goTo: () => {} })
 
-/** Lets slide content know whether it is on screen (to replay entrance effects) and where it sits. */
+/** Lets slide content know whether it is on screen, which frame is showing and where it sits. */
 export const useSlide = () => useContext(SlideContext)
 
 const TRANSITION_MS = 800
-// A new gesture must start this long after the last wheel event before it can change slides,
+// A new gesture must start this long after the last wheel event before it can move again,
 // so trackpad momentum from one swipe can't skip several pages.
 const GESTURE_GAP_MS = 200
 const SWIPE_THRESHOLD_PX = 50
 
 /**
- * Full-screen slide navigation: wheel, swipe, keyboard, the dot nav and #hash links move one
- * slide at a time. Slides are designed to fit the screen; on unusually small screens a slide
- * scrolls inside itself first and the next gesture past its edge moves on.
+ * Full-screen slide navigation. Wheel, swipe, keyboard, the dot nav, the jump menu and #hash
+ * links move one page at a time. A slide with `steps` holds a row of frames: scrolling down moves
+ * sideways through them before continuing to the next slide. Slides are designed to fit the
+ * screen; on unusually small screens a page scrolls inside itself first.
  */
 export default function FullPage({ slides }: { slides: Slide[] }) {
-  const [index, setIndex] = useState(0)
-  const indexRef = useRef(0)
+  const [pos, setPos] = useState({ index: 0, step: 0 })
+  const posRef = useRef(pos)
   const slideRefs = useRef<(HTMLElement | null)[]>([])
   const animatingRef = useRef(false)
   const lastWheelRef = useRef(0)
-  const touchRef = useRef<{ y: number; atTop: boolean; atBottom: boolean } | null>(null)
+  const touchRef = useRef<{ x: number; y: number; atTop: boolean; atBottom: boolean } | null>(null)
   const [reducedMotion, setReducedMotion] = useState(false)
+  const [menuOpen, setMenuOpen] = useState(false)
+  const menuOpenRef = useRef(false)
+  menuOpenRef.current = menuOpen
+
+  const stepsOf = useCallback((i: number) => Math.max(1, slides[i]?.steps ?? 1), [slides])
 
   const goTo = useCallback(
-    (next: number) => {
-      const target = Math.max(0, Math.min(slides.length - 1, next))
-      if (target === indexRef.current) return
-      const goingUp = target < indexRef.current
-      const el = slideRefs.current[target]
-      // Arriving from below lands at the bottom of an overflowing slide, so reading order stays natural.
-      if (el) el.scrollTop = goingUp ? el.scrollHeight : 0
-      indexRef.current = target
-      setIndex(target)
+    (nextIndex: number, nextStep = 0) => {
+      const index = Math.max(0, Math.min(slides.length - 1, nextIndex))
+      const step = Math.max(0, Math.min(stepsOf(index) - 1, nextStep))
+      const prev = posRef.current
+      if (index === prev.index && step === prev.step) return
+      const vertical = index !== prev.index
+      const forward = index > prev.index || (index === prev.index && step > prev.step)
+      if (vertical) {
+        const el = slideRefs.current[index]
+        // Arriving from below lands at the bottom of an overflowing slide, so reading order stays natural.
+        if (el) el.scrollTop = forward ? 0 : el.scrollHeight
+      }
+      posRef.current = { index, step }
+      setPos({ index, step })
       animatingRef.current = true
       window.setTimeout(() => {
         animatingRef.current = false
       }, TRANSITION_MS)
-      window.dispatchEvent(new CustomEvent('universe:warp', { detail: { direction: goingUp ? -1 : 1 } }))
-      const id = slides[target].id
-      window.history.replaceState(null, '', target === 0 ? window.location.pathname : `#${id}`)
+      window.dispatchEvent(
+        new CustomEvent('universe:warp', { detail: { direction: forward ? 1 : -1, axis: vertical ? 'y' : 'x' } })
+      )
+      if (vertical) {
+        window.history.replaceState(null, '', index === 0 ? window.location.pathname : `#${slides[index].id}`)
+      }
     },
-    [slides]
+    [slides, stepsOf]
   )
+
+  /** One page forward or back: through a slide's frames first, then to the neighbouring slide. */
+  const move = useCallback(
+    (dir: 1 | -1) => {
+      const { index, step } = posRef.current
+      if (dir > 0) {
+        if (step < stepsOf(index) - 1) goTo(index, step + 1)
+        else goTo(index + 1, 0)
+      } else if (step > 0) goTo(index, step - 1)
+      else if (index > 0) goTo(index - 1, stepsOf(index - 1) - 1)
+    },
+    [goTo, stepsOf]
+  )
+
+  // Frame counts can change (e.g. phones split content into more frames): keep the position valid.
+  useEffect(() => {
+    const { index, step } = posRef.current
+    const last = stepsOf(index) - 1
+    if (step > last) {
+      posRef.current = { index, step: last }
+      setPos({ index, step: last })
+    }
+  }, [stepsOf])
 
   // Start on the slide named in the URL hash, follow later hash links, and lock page scrolling.
   useEffect(() => {
     const hashIndex = slides.findIndex((s) => `#${s.id}` === window.location.hash)
     if (hashIndex > 0) {
-      indexRef.current = hashIndex
-      setIndex(hashIndex)
+      posRef.current = { index: hashIndex, step: 0 }
+      setPos({ index: hashIndex, step: 0 })
     }
     const onHashChange = () => {
       const i = slides.findIndex((s) => `#${s.id}` === window.location.hash)
-      goTo(i < 0 ? 0 : i)
+      goTo(i < 0 ? 0 : i, 0)
     }
     window.addEventListener('hashchange', onHashChange)
 
@@ -93,11 +138,18 @@ export default function FullPage({ slides }: { slides: Slide[] }) {
       media.removeEventListener('change', onMotionChange)
       window.removeEventListener('hashchange', onHashChange)
     }
-  }, [slides, goTo])
+    // Only on mount: later slide-array changes must not reset the position.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   useEffect(() => {
+    // The element that may scroll on a tiny screen: the visible frame if the slide has frames.
+    const scroller = () => {
+      const section = slideRefs.current[posRef.current.index]
+      return (section?.querySelector('[data-frame-active="true"]') as HTMLElement | null) ?? section
+    }
     const edges = () => {
-      const el = slideRefs.current[indexRef.current]
+      const el = scroller()
       if (!el) return { atTop: true, atBottom: true }
       return {
         atTop: el.scrollTop <= 1,
@@ -106,51 +158,85 @@ export default function FullPage({ slides }: { slides: Slide[] }) {
     }
 
     const onWheel = (e: WheelEvent) => {
-      if (e.ctrlKey) return // pinch-zoom
+      if (menuOpenRef.current || e.ctrlKey) return
       const now = Date.now()
       const sinceLast = now - lastWheelRef.current
       lastWheelRef.current = now
-      const down = e.deltaY > 0
-      const { atTop, atBottom } = edges()
-      if (down ? !atBottom : !atTop) return // let an overflowing slide scroll natively
+      // Trackpads also scroll sideways; treat a mostly-horizontal swipe as moving through frames.
+      const horizontal = Math.abs(e.deltaX) > Math.abs(e.deltaY)
+      const delta = horizontal ? e.deltaX : e.deltaY
+      const down = delta > 0
+      if (!horizontal) {
+        const { atTop, atBottom } = edges()
+        if (down ? !atBottom : !atTop) return // let an overflowing page scroll natively
+      }
       e.preventDefault()
-      if (animatingRef.current || sinceLast < GESTURE_GAP_MS || Math.abs(e.deltaY) < 4) return
-      goTo(indexRef.current + (down ? 1 : -1))
+      if (animatingRef.current || sinceLast < GESTURE_GAP_MS || Math.abs(delta) < 4) return
+      if (horizontal) {
+        const { index, step } = posRef.current
+        if (down && step < stepsOf(index) - 1) goTo(index, step + 1)
+        else if (!down && step > 0) goTo(index, step - 1)
+        return
+      }
+      move(down ? 1 : -1)
     }
 
     const onTouchStart = (e: TouchEvent) => {
-      touchRef.current = { y: e.touches[0].clientY, ...edges() }
+      if (menuOpenRef.current) return
+      touchRef.current = { x: e.touches[0].clientX, y: e.touches[0].clientY, ...edges() }
     }
     const onTouchEnd = (e: TouchEvent) => {
       const start = touchRef.current
       touchRef.current = null
-      if (!start || animatingRef.current) return
+      if (!start || animatingRef.current || menuOpenRef.current) return
+      const dx = start.x - e.changedTouches[0].clientX
       const dy = start.y - e.changedTouches[0].clientY
+      if (Math.abs(dx) > Math.abs(dy)) {
+        // Sideways swipe: move between frames of the current slide only.
+        if (Math.abs(dx) < SWIPE_THRESHOLD_PX) return
+        const { index, step } = posRef.current
+        if (dx > 0 && step < stepsOf(index) - 1) goTo(index, step + 1)
+        else if (dx < 0 && step > 0) goTo(index, step - 1)
+        return
+      }
       if (Math.abs(dy) < SWIPE_THRESHOLD_PX) return
-      // Only change slides if the slide was already at that edge when the swipe began.
-      if (dy > 0 && start.atBottom) goTo(indexRef.current + 1)
-      else if (dy < 0 && start.atTop) goTo(indexRef.current - 1)
+      // Only change pages if the page was already at that edge when the swipe began.
+      if (dy > 0 && start.atBottom) move(1)
+      else if (dy < 0 && start.atTop) move(-1)
     }
 
     const onKeyDown = (e: KeyboardEvent) => {
-      const target = e.target as HTMLElement | null
-      if (target && (target.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(target.tagName))) return
-      if (e.key === 'Home' || e.key === 'End') {
-        e.preventDefault()
-        goTo(e.key === 'Home' ? 0 : slides.length - 1)
+      if (e.key === 'Escape') {
+        setMenuOpen(false)
         return
       }
-      let dir = 0
+      if (menuOpenRef.current) return
+      const target = e.target as HTMLElement | null
+      if (target && (target.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(target.tagName))) return
+      const { index, step } = posRef.current
+      if (e.key === 'Home' || e.key === 'End') {
+        e.preventDefault()
+        if (e.key === 'Home') goTo(0, 0)
+        else goTo(slides.length - 1, stepsOf(slides.length - 1) - 1)
+        return
+      }
+      if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+        if (stepsOf(index) < 2 || animatingRef.current) return
+        e.preventDefault()
+        goTo(index, step + (e.key === 'ArrowRight' ? 1 : -1))
+        return
+      }
+      let dir: 0 | 1 | -1 = 0
       if (['ArrowDown', 'PageDown'].includes(e.key) || (e.key === ' ' && !e.shiftKey)) dir = 1
       else if (['ArrowUp', 'PageUp'].includes(e.key) || (e.key === ' ' && e.shiftKey)) dir = -1
       if (!dir) return
       e.preventDefault()
-      const el = slideRefs.current[indexRef.current]
+      const el = scroller()
       const { atTop, atBottom } = edges()
-      const step = el ? el.clientHeight * 0.8 : 0
-      if (el && dir > 0 && !atBottom) el.scrollBy({ top: step, behavior: 'smooth' })
-      else if (el && dir < 0 && !atTop) el.scrollBy({ top: -step, behavior: 'smooth' })
-      else if (!animatingRef.current) goTo(indexRef.current + dir)
+      const page = el ? el.clientHeight * 0.8 : 0
+      if (el && dir > 0 && !atBottom) el.scrollBy({ top: page, behavior: 'smooth' })
+      else if (el && dir < 0 && !atTop) el.scrollBy({ top: -page, behavior: 'smooth' })
+      else if (!animatingRef.current) move(dir)
     }
 
     // Feed the pointer position to the hovered card's spotlight.
@@ -174,9 +260,16 @@ export default function FullPage({ slides }: { slides: Slide[] }) {
       window.removeEventListener('keydown', onKeyDown)
       window.removeEventListener('pointermove', onPointerMove)
     }
-  }, [goTo, slides.length])
+  }, [goTo, move, slides.length, stepsOf])
 
+  const { index, step } = pos
+  const current = slides[index]
+  const stepLabel = current.stepLabels?.[step]
   const pad = (n: number) => String(n).padStart(2, '0')
+  const jump = (i: number, s = 0) => {
+    setMenuOpen(false)
+    goTo(i, s)
+  }
 
   return (
     <div className="fixed inset-0 overflow-hidden">
@@ -202,7 +295,9 @@ export default function FullPage({ slides }: { slides: Slide[] }) {
             inert={i !== index}
             className={`slide-scroll h-full w-full overflow-y-auto overscroll-contain ${i === index ? 'is-active' : ''}`}
           >
-            <SlideContext.Provider value={{ active: i === index, number: i + 1, total: slides.length, goTo }}>
+            <SlideContext.Provider
+              value={{ active: i === index, number: i + 1, total: slides.length, step: i === index ? step : 0, goTo }}
+            >
               {slide.bare ? (
                 slide.content
               ) : (
@@ -215,36 +310,94 @@ export default function FullPage({ slides }: { slides: Slide[] }) {
         ))}
       </div>
 
-      {/* HUD: progress line, monogram and slide counter */}
-      <div className="pointer-events-none fixed inset-x-0 top-0 z-50">
+      {/* HUD: progress line, monogram, page counter and menu (kept above the open menu so it can close it) */}
+      <div className="pointer-events-none fixed inset-x-0 top-0 z-[70]">
         <div className="h-[2px] bg-white/5">
           <div
             className="h-full bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 transition-[width] duration-700 ease-out"
-            style={{ width: `${((index + 1) / slides.length) * 100}%` }}
+            style={{ width: `${((index + (step + 1) / stepsOf(index)) / slides.length) * 100}%` }}
           />
         </div>
-        <div className="flex items-center justify-between px-5 sm:px-8 py-3">
+        <div className="flex items-center justify-between gap-4 px-5 sm:px-8 py-2.5">
           <button
             type="button"
-            onClick={() => goTo(0)}
+            onClick={() => jump(0)}
             aria-label="Jerry Li — back to start"
             className="pointer-events-auto font-display text-sm font-bold tracking-widest text-white/90 hover:text-indigo-300 transition-colors"
           >
             JL<span className="text-indigo-400">.</span>
           </button>
-          <p id="hud-counter" className="font-mono text-[11px] tracking-[0.25em] uppercase text-gray-400" aria-live="polite">
-            <span className="hidden sm:inline mr-3 text-gray-300">{slides[index].label}</span>
-            <span className="text-white">{pad(index + 1)}</span>
-            <span className="text-gray-500"> / {pad(slides.length)}</span>
-          </p>
+          <div className="flex items-center gap-4">
+            <p id="hud-counter" className="font-mono text-[11px] tracking-[0.25em] uppercase text-gray-400" aria-live="polite">
+              <span className="hidden md:inline mr-3 text-gray-300">
+                {current.label}
+                {stepLabel ? ` · ${stepLabel}` : ''}
+              </span>
+              <span className="text-white">{pad(index + 1)}</span>
+              <span className="text-gray-500"> / {pad(slides.length)}</span>
+            </p>
+            <button
+              type="button"
+              onClick={() => setMenuOpen((o) => !o)}
+              aria-expanded={menuOpen}
+              aria-controls="jump-menu"
+              aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+              className="pointer-events-auto rounded-full border border-white/15 bg-white/[0.06] p-2 text-white backdrop-blur-sm transition hover:border-indigo-400/50"
+            >
+              {menuOpen ? <FiX className="h-4 w-4" /> : <FiMenu className="h-4 w-4" />}
+            </button>
+          </div>
         </div>
       </div>
 
-      {/* Slide dots */}
-      <nav
-        aria-label="Sections"
-        className="fixed right-5 top-1/2 -translate-y-1/2 z-50 hidden sm:flex flex-col gap-3"
+      {/* Jump menu: every slide, plus sub-entries such as each job */}
+      <div
+        id="jump-menu"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Jump to section"
+        className={`fixed inset-0 z-[60] overflow-y-auto bg-slate-950/90 backdrop-blur-xl transition-opacity duration-300 ${
+          menuOpen ? 'opacity-100' : 'pointer-events-none opacity-0'
+        }`}
+        inert={!menuOpen}
       >
+        <nav className="mx-auto flex min-h-full max-w-3xl flex-col justify-center px-6 py-16">
+          <ol className="grid gap-x-10 sm:grid-cols-2">
+            {slides.map((slide, i) => (
+              <li key={slide.id} className="border-b border-white/10 py-2 sm:py-2.5">
+                <button
+                  type="button"
+                  onClick={() => jump(i)}
+                  className={`flex w-full items-baseline gap-3 text-left font-display text-lg sm:text-xl transition-colors hover:text-indigo-300 ${
+                    i === index ? 'text-indigo-300' : 'text-white'
+                  }`}
+                >
+                  <span className="font-mono text-[11px] text-gray-500">{pad(i + 1)}</span>
+                  {slide.label}
+                </button>
+                {slide.menu && (
+                  <ul className="mt-1 flex flex-wrap gap-x-4 gap-y-1 pl-8">
+                    {slide.menu.map((item) => (
+                      <li key={item.label}>
+                        <button
+                          type="button"
+                          onClick={() => jump(i, item.step)}
+                          className="text-sm text-gray-400 transition-colors hover:text-white"
+                        >
+                          {item.label}
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </li>
+            ))}
+          </ol>
+        </nav>
+      </div>
+
+      {/* Slide dots */}
+      <nav aria-label="Sections" className="fixed right-5 top-1/2 -translate-y-1/2 z-50 hidden sm:flex flex-col gap-3">
         {slides.map((slide, i) => (
           <button
             key={slide.id}
@@ -276,7 +429,7 @@ export default function FullPage({ slides }: { slides: Slide[] }) {
           index > 0 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'
         }`}
       >
-        <FiArrowUp className="h-6 w-6" />
+        <FiArrowUp className="h-5 w-5 sm:h-6 sm:w-6" />
       </button>
     </div>
   )

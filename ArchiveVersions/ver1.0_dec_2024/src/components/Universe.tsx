@@ -235,8 +235,11 @@ export default function Universe({ layer = 'mid' }: UniverseProps) {
     // Slide changes jump the starfield to light speed in the direction of travel.
     function onWarp(event: Event) {
       if (reducedMotion) return
-      const direction = (event as CustomEvent<{ direction: number }>).detail?.direction ?? 1
-      velocity.ty += -direction * 28 * scale
+      const detail = (event as CustomEvent<{ direction: number; axis?: 'x' | 'y' }>).detail
+      const direction = detail?.direction ?? 1
+      // Stars stream opposite to the direction of travel: up for the next slide, left for the next frame.
+      if (detail?.axis === 'x') velocity.tx += -direction * 28 * scale
+      else velocity.ty += -direction * 28 * scale
       warpZ = 0.01
     }
 

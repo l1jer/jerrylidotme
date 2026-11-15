@@ -113,14 +113,11 @@ body {
   }
 }
 
-/* Single-row chip lists on phones: swipe sideways, no scrollbar, edges fade out. */
-@media (max-width: 639px) {
-  .chip-strip {
-    scrollbar-width: none;
-    -webkit-mask-image: linear-gradient(to right, transparent 0, #000 16px, #000 calc(100% - 28px), transparent 100%);
-    mask-image: linear-gradient(to right, transparent 0, #000 16px, #000 calc(100% - 28px), transparent 100%);
-  }
-  .chip-strip::-webkit-scrollbar {
-    display: none;
-  }
+/* Frames inside a slide: content of off-screen frames waits, then re-runs its entrance when its frame
+   slides in (sideways, to match the direction of travel). */
+.frame:not(.frame-on) .reveal {
+  opacity: 0;
+  transform: translateX(28px);
+  filter: blur(6px);
+  transition-delay: 0ms;
 }
