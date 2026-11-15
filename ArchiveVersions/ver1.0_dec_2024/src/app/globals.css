@@ -230,3 +230,8 @@ a:hover {
     transform: translateY(0);
   }
 }
+/* Slides scroll internally when their content is taller than the screen; keep the scrollbar subtle. */
+.slide-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.15) transparent;
+}

@@ -33,7 +33,7 @@ export default function Personality() {
   const { ref, isVisible } = useScrollAnimation()
   
   return (
-    <section ref={ref} className={`mb-16 relative scroll-fade-in ${isVisible ? 'visible' : ''}`}>
+    <section ref={ref} className={`relative scroll-fade-in ${isVisible ? 'visible' : ''}`}>
       {/* Title Section with Stunning Design */}
       <div className="relative mb-12">
         <div className="text-center">

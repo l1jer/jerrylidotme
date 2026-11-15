@@ -86,7 +86,7 @@ const roles = [
 
 export default function Header() {
   return (
-    <header className="relative overflow-hidden min-h-screen flex flex-col">
+    <header className="relative overflow-hidden min-h-full flex flex-col">
       <div className="relative container mx-auto px-6 py-16 sm:py-20 text-center flex-1 flex flex-col justify-center">
         <h1 className="text-5xl sm:text-6xl md:text-7xl font-bold text-white mb-4 tracking-tight fade-in">
           Jerry Li

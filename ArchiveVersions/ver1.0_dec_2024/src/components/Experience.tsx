@@ -3,7 +3,7 @@
 import { ExperienceItem } from '../types'
 import { useScrollAnimation } from '../hooks/useScrollAnimation'
 
-const experiences: ExperienceItem[] = [
+export const experiences: ExperienceItem[] = [
   {
     title: 'Web Developer, UX/UI Designer, Technical Consultant and SEO Specialist',
     company: 'TSA OUTDOORS, Brookvale NSW',
@@ -185,11 +185,11 @@ const experiences: ExperienceItem[] = [
   },
 ]
 
-export default function Experience() {
+export default function Experience({ exp, index }: { exp: ExperienceItem; index: number }) {
   const { ref, isVisible } = useScrollAnimation()
-  
+
   return (
-    <section ref={ref} className={`mb-16 relative scroll-fade-in ${isVisible ? 'visible' : ''}`}>
+    <section ref={ref} className={`relative scroll-fade-in ${isVisible ? 'visible' : ''}`}>
       {/* Title Section with Stunning Design */}
       <div className="relative mb-12">
         <div className="text-center">
@@ -201,6 +201,9 @@ export default function Experience() {
             <h2 className="relative text-3xl sm:text-4xl md:text-5xl font-bold bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent mb-4 px-4">
               Experience
             </h2>
+            <p className="relative text-sm text-gray-300 tracking-widest">
+              {String(index + 1).padStart(2, '0')} / {String(experiences.length).padStart(2, '0')}
+            </p>
           </div>
           
           {/* Decorative separator */}
@@ -209,9 +212,8 @@ export default function Experience() {
       </div>
 
       {/* Experience Timeline */}
-      <div className={`space-y-12 stagger-fade-in ${isVisible ? 'visible' : ''}`}>
-        {experiences.map((exp, index) => (
-          <div key={index} className="backdrop-blur-sm bg-white/[.02] border border-white/10 rounded-2xl p-4 sm:p-8">
+      <div className={`stagger-fade-in ${isVisible ? 'visible' : ''}`}>
+          <div className="backdrop-blur-sm bg-white/[.02] border border-white/10 rounded-2xl p-4 sm:p-8">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-2">
               <h3 className="text-xl sm:text-2xl font-bold text-indigo-300">{exp.title}</h3>
               <p className="text-gray-300 mt-1 sm:mt-0">{exp.period}</p>
@@ -276,7 +278,6 @@ export default function Experience() {
               </div>
             )}
           </div>
-        ))}
       </div>
     </section>
   )

@@ -6,17 +6,17 @@ import { useScrollAnimation } from '../hooks/useScrollAnimation'
 interface Project {
   name: string;
   url?: string;
+  archived?: boolean;
 }
 
 const freelanceProjects: Project[] = [
   { name: 'Flywing USA', url: 'https://flywingusa.com' },
-  { name: 'Flywing Australia', url: 'https://flywingrc.com.au' },
   { name: 'SJD Tech', url: 'https://sjdtech.com.au/' },
   { name: 'SJD Auto', url: 'https://sjdauto.com.au' },
-  { name: 'IT&A Bit Computing Solutions', url: 'https://www.itabitcanberra.com.au/' },
+  { name: 'IT&A Bit Computing Solutions', url: '/archive/itabit', archived: true },
   { name: 'Blast Energy', url: 'https://blastenergy.com.au' },
   { name: 'Ginger and Spice', url: 'https://gingerandspice.com.au' },
-  { name: '926 Trades', url: 'https://926-trades.com' },
+  { name: '926 Trades', url: '/archive/926-trades', archived: true },
   { name: 'Bashan', url: 'https://bashan.com.au' },
   { name: 'Dumpling Social', url: 'https://dumplingsocial.com.au' },
   { name: 'QR Code Generator & Management' },
@@ -26,7 +26,7 @@ export default function About() {
   const { ref, isVisible } = useScrollAnimation()
 
   return (
-    <section ref={ref} className={`mb-12 sm:mb-16 relative overflow-visible scroll-fade-in ${isVisible ? 'visible' : ''}`}>
+    <section ref={ref} className={`relative overflow-visible scroll-fade-in ${isVisible ? 'visible' : ''}`}>
       {/* Animated background gradient orbs */}
       <div className="absolute -top-10 sm:-top-20 -left-10 sm:-left-20 w-48 sm:w-72 h-48 sm:h-72 rounded-full blur-3xl animate-pulse"></div>
       <div className="absolute -bottom-10 sm:-bottom-20 -right-10 sm:-right-20 w-64 sm:w-96 h-64 sm:h-96 bg-purple-500/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
@@ -166,9 +166,13 @@ export default function About() {
                             <span className="font-semibold text-gray-100 group-hover:text-white transition-colors leading-snug break-words">
                               {project.name}
                             </span>
+                            {project.archived ? (
+                              <span className="text-xs font-medium text-amber-300 whitespace-nowrap">Archived</span>
+                            ) : (
                             <svg className="w-4 h-4 flex-shrink-0 text-indigo-400 group-hover:text-indigo-100 transition-all group-hover:translate-x-1 group-hover:-translate-y-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                             </svg>
+                            )}
                           </a>
                           ) : (
                           <div
