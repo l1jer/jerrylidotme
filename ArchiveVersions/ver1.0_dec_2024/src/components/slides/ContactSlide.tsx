@@ -10,14 +10,14 @@ import { stagger } from './SlideHeading'
 
 /** Final slide: headline and a glass contact form, with a quiet credits line in place of a footer. */
 export default function ContactSlide() {
-  const { active, number } = useSlide()
+  const { active } = useSlide()
 
   return (
     <div className="flex h-full flex-col">
       <div className="mx-auto grid w-full max-w-6xl flex-1 content-center items-center gap-5 sm:gap-8 px-5 sm:px-8 pt-16 pb-4 short:pt-14 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] lg:gap-14">
         <div>
           <p className="reveal font-mono text-[11px] uppercase tracking-[0.3em] text-indigo-300/80" style={stagger(0)}>
-            {String(number).padStart(2, '0')} — What&apos;s next
+            What&apos;s next
           </p>
           <h2
             className="reveal mt-3 font-display text-3xl sm:text-5xl lg:text-6xl short:lg:text-5xl font-bold leading-[1.05] tracking-tight"

@@ -12,8 +12,6 @@ export interface Slide {
   bare?: boolean
   /** Number of horizontal frames inside this slide. Scrolling down walks through them sideways first. */
   steps?: number
-  /** Optional label per frame, shown in the HUD. */
-  stepLabels?: string[]
   /** One line on what this slide holds, shown in the jump menu. */
   description?: string
   icon?: IconType
@@ -273,7 +271,6 @@ export default function FullPage({ slides }: { slides: Slide[] }) {
 
   const { index, step } = pos
   const current = slides[index]
-  const stepLabel = current.stepLabels?.[step]
   const pad = (n: number) => String(n).padStart(2, '0')
   const jump = (i: number, s = 0) => {
     setMenuOpen(false)
@@ -346,10 +343,7 @@ export default function FullPage({ slides }: { slides: Slide[] }) {
             aria-label={menuOpen ? 'Close menu' : `Open menu (current: ${current.label})`}
             className="pointer-events-auto flex items-center gap-2.5 rounded-full border border-white/15 bg-slate-950/50 py-1.5 pl-3.5 pr-2 font-mono text-[11px] uppercase tracking-[0.2em] text-gray-300 backdrop-blur-md transition hover:border-indigo-400/50 hover:text-white"
           >
-            <span className="max-w-[46vw] truncate sm:max-w-none">
-              <span className="text-white">{current.label}</span>
-              {stepLabel && <span className="hidden md:inline text-gray-400"> · {stepLabel}</span>}
-            </span>
+            <span className="max-w-[46vw] truncate sm:max-w-none text-white">{current.label}</span>
             <span className="text-gray-500">
               {pad(index + 1)}/{pad(slides.length)}
             </span>
@@ -444,29 +438,6 @@ export default function FullPage({ slides }: { slides: Slide[] }) {
           </ol>
         </nav>
       </div>
-
-      {/* Slide dots */}
-      <nav aria-label="Sections" className="fixed right-5 top-1/2 -translate-y-1/2 z-50 hidden sm:flex flex-col gap-3">
-        {slides.map((slide, i) => (
-          <button
-            key={slide.id}
-            type="button"
-            onClick={() => goTo(i)}
-            aria-label={slide.label}
-            aria-current={i === index ? 'true' : undefined}
-            className="group relative flex items-center justify-end p-1"
-          >
-            <span className="pointer-events-none absolute right-6 whitespace-nowrap rounded-md bg-slate-900/90 border border-white/10 px-2 py-1 text-xs text-gray-200 opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100">
-              {slide.label}
-            </span>
-            <span
-              className={`block rounded-full transition-all duration-300 ${
-                i === index ? 'h-6 w-2 bg-indigo-400' : 'h-2 w-2 bg-white/30 group-hover:bg-white/60'
-              }`}
-            />
-          </button>
-        ))}
-      </nav>
 
       {/* Back to first slide */}
       <button

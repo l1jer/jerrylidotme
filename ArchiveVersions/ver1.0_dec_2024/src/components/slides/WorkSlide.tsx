@@ -57,12 +57,12 @@ function BuildCard({ build, n, i }: { build: (typeof featuredBuilds)[number]; n:
   )
 }
 
-function FeaturedBuilds({ on, items, page, pages }: { on: boolean; items: FeaturedItem[]; page: number; pages: number }) {
+function FeaturedBuilds({ on, items }: { on: boolean; items: FeaturedItem[] }) {
   const builds = items.filter((it): it is Extract<FeaturedItem, { kind: 'build' }> => it.kind === 'build')
   const hasResults = items.some((it) => it.kind === 'results')
   return (
     <>
-      <SlideHeading kicker={pages > 1 ? `Projects ${page} / ${pages}` : 'Projects'} title="Featured builds" active={on} />
+      <SlideHeading kicker="Projects" title="Featured builds" active={on} />
       <p className="reveal -mt-3 mb-4 short:mb-3 text-sm text-gray-400" style={stagger(1)}>
         Shopify platform work for{' '}
         <a href="https://flywingusa.com" target="_blank" rel="noopener noreferrer" className="text-indigo-300 hover:text-white">
@@ -148,7 +148,7 @@ export default function WorkSlide({ perPage }: { perPage: number }) {
   const pages = chunk(featuredItems, perPage)
   const featured = pages.map((items, i) => ({
     key: `featured-${i}`,
-    content: <FeaturedBuilds on={active && step === i} items={items} page={i + 1} pages={pages.length} />,
+    content: <FeaturedBuilds on={active && step === i} items={items} />,
   }))
   return <Frames frames={[...featured, { key: 'clients', content: <ClientSites on={active && step === pages.length} /> }]} />
 }

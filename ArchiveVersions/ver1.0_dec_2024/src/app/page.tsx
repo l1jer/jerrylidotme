@@ -8,7 +8,7 @@ import FullPage, { Slide } from '../components/FullPage'
 import HeroSlide from '../components/slides/HeroSlide'
 import AboutSlide, { ABOUT_PHONE_FRAMES } from '../components/slides/AboutSlide'
 import WorkSlide, { workFrameLabels } from '../components/slides/WorkSlide'
-import ExperienceSlide, { buildExperienceFrames, experienceGroups, experienceStepLabel } from '../components/slides/ExperienceSlide'
+import ExperienceSlide, { buildExperienceFrames, experienceGroups } from '../components/slides/ExperienceSlide'
 import SkillsSlide, { buildSkillFrames } from '../components/slides/SkillsSlide'
 import BackgroundSlide, { BACKGROUND_PHONE_FRAMES } from '../components/slides/BackgroundSlide'
 import ContactSlide from '../components/slides/ContactSlide'
@@ -41,7 +41,6 @@ export default function Home() {
         content: <AboutSlide split={phone} />,
         bare: true,
         steps: phone ? ABOUT_PHONE_FRAMES.length : 1,
-        stepLabels: phone ? ABOUT_PHONE_FRAMES : undefined,
       },
       {
         id: 'experience',
@@ -51,7 +50,6 @@ export default function Home() {
         content: <ExperienceSlide perPage={cardsPerPage} separateIntro={!wide} />,
         bare: true,
         steps: expFrames.length,
-        stepLabels: expFrames.map(experienceStepLabel),
         menu: experienceGroups(expFrames).map((g) => ({ label: g.label, step: g.start, end: g.start + g.count })),
       },
       {
@@ -62,7 +60,6 @@ export default function Home() {
         content: <WorkSlide perPage={featuredPerPage} />,
         bare: true,
         steps: workLabels.length,
-        stepLabels: workLabels,
         menu: [
           { label: 'Featured builds', step: 0, end: workLabels.length - 1 },
           { label: 'Client websites', step: workLabels.length - 1 },
@@ -76,7 +73,6 @@ export default function Home() {
         content: <SkillsSlide budget={skillBudget} maxCategories={skillCategoriesPerPage} />,
         bare: true,
         steps: skillFrames.length,
-        stepLabels: skillFrames.map((_, i) => `${i + 1}/${skillFrames.length}`),
       },
       {
         id: 'background',
@@ -86,7 +82,6 @@ export default function Home() {
         content: <BackgroundSlide split={phone} />,
         bare: true,
         steps: phone ? BACKGROUND_PHONE_FRAMES.length : 1,
-        stepLabels: phone ? BACKGROUND_PHONE_FRAMES : undefined,
       },
       { id: 'contact', label: 'Contact', icon: FiSend, description: 'Send me a message', content: <ContactSlide />, bare: true },
     ]

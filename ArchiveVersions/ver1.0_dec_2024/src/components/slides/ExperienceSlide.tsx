@@ -53,14 +53,13 @@ export function experienceGroups(frames: ExperienceFrame[]): FrameGroup[] {
   }))
 }
 
-export const experienceStepLabel = (f: ExperienceFrame) => (f.pages > 1 ? `${f.job.company} ${f.page}/${f.pages}` : f.job.company)
 
 function JobDetails({ frame, on }: { frame: ExperienceFrame; on: boolean }) {
-  const { job, jobIndex, full, page, pages } = frame
+  const { job, full } = frame
   return (
     <div>
       <SlideHeading
-        kicker={`Experience ${jobIndex + 1} / ${experiences.length}${pages > 1 ? ` · ${page}/${pages}` : ''}`}
+        kicker="Experience"
         title={job.company}
         active={on}
       />

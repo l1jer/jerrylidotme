@@ -40,10 +40,10 @@ export function buildSkillFrames(budget: number, maxCategories: number): SkillCa
   return pages
 }
 
-function SkillPage({ categories, page, pages, on }: { categories: SkillCategory[]; page: number; pages: number; on: boolean }) {
+function SkillPage({ categories, on }: { categories: SkillCategory[]; on: boolean }) {
   return (
     <>
-      <SlideHeading kicker={`Toolkit ${page} / ${pages}`} title="Professional skills" active={on} />
+      <SlideHeading kicker="Toolkit" title="Professional skills" active={on} />
       <div className="grid gap-2.5 sm:gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {categories.map((category, i) => {
           const Icon = icons[category.icon]
@@ -75,7 +75,7 @@ export default function SkillsSlide({ budget, maxCategories }: { budget: number;
     <Frames
       frames={pages.map((categories, i) => ({
         key: categories[0].title,
-        content: <SkillPage categories={categories} page={i + 1} pages={pages.length} on={active && step === i} />,
+        content: <SkillPage categories={categories} on={active && step === i} />,
       }))}
     />
   )
