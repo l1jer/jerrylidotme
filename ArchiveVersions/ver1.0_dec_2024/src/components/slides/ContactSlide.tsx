@@ -1,14 +1,12 @@
 'use client'
 
-import { FiArrowUpRight } from 'react-icons/fi'
-import ContactForm from '../ContactForm'
+import EmailCard from '../EmailCard'
 import ScrambleText from '../fx/ScrambleText'
 import { useSlide } from '../FullPage'
 import VersionHistory from '../VersionHistory'
-import { socialLinks } from './HeroSlide'
 import { stagger } from './SlideHeading'
 
-/** Final slide: headline and a glass contact form, with a quiet credits line in place of a footer. */
+/** Final slide: headline and a glass email card, with a quiet credits line in place of a footer. */
 export default function ContactSlide() {
   const { active } = useSlide()
 
@@ -30,27 +28,12 @@ export default function ContactSlide() {
             />
           </h2>
           <p className="reveal mt-3 sm:mt-5 max-w-md text-sm sm:text-base text-gray-300" style={stagger(2)}>
-            Available for freelance and full-time work, and always open to collaboration. Send a message and
-            I&apos;ll reply by email.
+            Available for freelance and full-time work, and always open to collaboration. Drop me a line
+            and I&apos;ll get back to you.
           </p>
-          <div className="reveal mt-4 sm:mt-6 hidden sm:flex flex-wrap gap-3" style={stagger(3)}>
-            {socialLinks.map(({ platform, url, icon: Icon }) => (
-              <a
-                key={platform}
-                href={url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="glass spot group flex items-center gap-2 px-4 py-2.5 text-sm text-white transition hover:-translate-y-0.5 hover:border-indigo-400/50"
-              >
-                <Icon className="h-4 w-4" aria-hidden />
-                {platform}
-                <FiArrowUpRight className="h-4 w-4 text-indigo-300 transition group-hover:-translate-y-0.5 group-hover:translate-x-0.5" aria-hidden />
-              </a>
-            ))}
-          </div>
         </div>
         <div className="reveal" style={stagger(3)}>
-          <ContactForm />
+          <EmailCard />
         </div>
       </div>
 
@@ -63,12 +46,6 @@ export default function ContactSlide() {
           <a className="text-gray-400 hover:text-indigo-300 transition-colors" href="https://digolasforge.com" target="_blank" rel="noopener noreferrer">
             Digolas Forge
           </a>
-          <span className="sm:hidden">
-            {' · '}
-            <a className="text-gray-400 hover:text-indigo-300" href="https://github.com/l1jer" target="_blank" rel="noopener noreferrer">
-              GitHub
-            </a>
-          </span>
         </p>
         <div className="flex items-center gap-4">
           <span className="hidden sm:inline">Crafted in Canberra, under the stars</span>
