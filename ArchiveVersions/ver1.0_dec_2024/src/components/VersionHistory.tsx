@@ -8,7 +8,14 @@ const versions = [
   { label: 'v1', period: 'Dec 2024', note: 'Plain HTML', href: '/versions/v1' },
 ]
 
-/** A deliberately quiet version tag that opens links to earlier versions of this site. */
+// The same portfolio as scroll-driven 3D journeys (three.js), built from /lab.
+const labs = [
+  { label: 'Voyage', note: 'Planets along a route', href: '/lab?world=voyage' },
+  { label: 'Flight', note: 'RC helicopter at dusk', href: '/lab?world=flight' },
+  { label: 'Dataflow', note: 'Packets over a server city', href: '/lab?world=flow' },
+]
+
+/** A deliberately quiet tag that opens links to earlier versions of this site and to the 3D lab. */
 export default function VersionHistory() {
   const [open, setOpen] = useState(false)
   const ref = useRef<HTMLDivElement>(null)
@@ -33,12 +40,12 @@ export default function VersionHistory() {
         onClick={() => setOpen((o) => !o)}
         aria-expanded={open}
         className="font-mono text-[11px] text-gray-600 hover:text-gray-300 transition-colors"
-        title="Version history"
+        title="Version history and 3D lab"
       >
-        v3.0
+        v3.0 · lab
       </button>
       {open && (
-        <div className="absolute bottom-full right-0 mb-3 w-60 rounded-xl border border-white/10 bg-slate-950/95 p-3 text-left shadow-2xl backdrop-blur">
+        <div className="absolute bottom-full right-0 mb-3 w-72 rounded-xl border border-white/10 bg-slate-950/95 p-3 text-left shadow-2xl backdrop-blur">
           <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.25em] text-gray-500">Version history</p>
           <ul className="space-y-1">
             {versions.map((v) => {
@@ -61,6 +68,17 @@ export default function VersionHistory() {
                 </li>
               )
             })}
+          </ul>
+          <p className="mb-2 mt-3 font-mono text-[10px] uppercase tracking-[0.25em] text-gray-500">3D lab</p>
+          <ul className="space-y-1">
+            {labs.map((l) => (
+              <li key={l.label}>
+                <a href={l.href} className="flex items-center gap-3 rounded-md px-2 py-1.5 hover:bg-white/5">
+                  <span className="font-mono text-indigo-300">{l.label}</span>
+                  <span className="flex-1 text-right text-gray-500">{l.note}</span>
+                </a>
+              </li>
+            ))}
           </ul>
         </div>
       )}
