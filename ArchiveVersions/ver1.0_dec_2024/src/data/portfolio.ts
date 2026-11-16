@@ -184,7 +184,7 @@ export const experiences: ExperienceItem[] = [
   },
   {
     title: 'Multimedia Developer (Contract)',
-    company: 'TAFE Queensland',
+    company: 'TAFE QLD',
     location: 'Southbank QLD · Remote',
     period: 'Aug 2022 – Dec 2022',
     summary: 'Produced interactive, accessible online learning content with educators and subject-matter experts.',
@@ -212,27 +212,6 @@ export const experiences: ExperienceItem[] = [
       {
         title: 'QA & Usability Testing',
         description: 'Cross-browser and cross-device testing against WCAG, institutional style guides and LMS compatibility.',
-      },
-    ],
-  },
-  {
-    title: 'Graduate Frontend Developer',
-    company: 'Beijing HiRain Technologies',
-    location: 'Beijing, China',
-    period: 'Feb – Aug 2020',
-    summary: 'Built production UI for a multithreaded automotive diagnostics platform.',
-    highlights: [
-      {
-        title: 'React UI Engineering',
-        description: 'Production features in React, Ant Design and Node.js consuming RESTful APIs.',
-      },
-      {
-        title: 'Performance & Debugging',
-        description: 'Profiled React rendering, fixed layout regressions and cut unnecessary re-renders in data-heavy dashboards.',
-      },
-      {
-        title: 'Agile Collaboration',
-        description: 'Sprint planning, stand-ups and retrospectives in a cross-functional team; Agile Project Management seminar.',
       },
     ],
   },

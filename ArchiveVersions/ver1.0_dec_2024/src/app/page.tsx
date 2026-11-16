@@ -30,7 +30,8 @@ export default function Home() {
     const expFrames = buildExperienceFrames(cardsPerPage, !wide)
     const skillFrames = buildSkillFrames(skillBudget, skillCategoriesPerPage)
     const workLabels = workFrameLabels(featuredPerPage)
-    const years = `${experiences[experiences.length - 1].period.match(/\d{4}/)?.[0]} – now`
+    // Earliest year across all roles, e.g. "2020 – now".
+    const years = `${Math.min(...experiences.flatMap((e) => (e.period.match(/\d{4}/g) ?? []).map(Number)))} – now`
     return [
       { id: 'home', label: 'Home', icon: FiHome, description: 'Who I am and what I do', content: <HeroSlide />, bare: true },
       {
