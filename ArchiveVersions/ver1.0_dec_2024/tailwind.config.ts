@@ -8,6 +8,17 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      screens: {
+        // Height breakpoints so every slide fits on one screen without scrolling.
+        short: { raw: '(max-height: 760px)' },
+        tiny: { raw: '(max-height: 680px)' },
+        micro: { raw: '(max-height: 650px)' },
+      },
+      fontFamily: {
+        sans: ['var(--font-sans)', 'system-ui', 'sans-serif'],
+        display: ['var(--font-display)', 'var(--font-sans)', 'system-ui', 'sans-serif'],
+        mono: ['var(--font-mono)', 'ui-monospace', 'monospace'],
+      },
       colors: {
         gray: {
           900: '#1f2937',
