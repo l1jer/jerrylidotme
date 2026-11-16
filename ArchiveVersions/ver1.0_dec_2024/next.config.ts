@@ -6,6 +6,8 @@ const staticSnapshots = [
   "archive/itabit",
   "versions/v1",
   "versions/v2",
+  // 3D lab, built from /lab with `npm run build:site`.
+  "lab",
 ];
 
 // Archived pages must never appear in search results. The header applies to every file under

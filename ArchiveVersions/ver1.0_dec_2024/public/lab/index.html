@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Jerry Li — Lab</title>
+    <meta name="description" content="Jerry Li's portfolio as a scroll-driven 3D journey, built with three.js and custom shaders." />
+    <meta name="theme-color" content="#05060f" />
+    <!-- An experiment alongside the main portfolio: same content, so keep it out of search results. -->
+    <meta name="robots" content="noindex, follow" />
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='18' fill='%2305060f'/><text x='50%' y='54%' fill='%23ffffff' font-size='52' font-family='Arial, sans-serif' font-weight='700' text-anchor='middle' dominant-baseline='middle'>JL</text></svg>" />
+    <script type="module" crossorigin src="/lab/assets/index-Ctx2Z9pk.js"></script>
+    <link rel="stylesheet" crossorigin href="/lab/assets/index-CvDq1cop.css">
+  </head>
+  <body>
+    <canvas id="gl" aria-hidden="true"></canvas>
+    <!-- Tall element that gives the page its scroll length; the scene reads the scroll position. -->
+    <div id="scroll" aria-hidden="true"></div>
+
+    <div id="hud">
+      <header class="bar">
+        <a class="mark" id="mark" href="#" aria-label="Jerry Li — back to start">JL<i>.</i><span>Jerry Li</span></a>
+        <nav class="worlds" id="worlds" aria-label="Choose a world"></nav>
+        <button class="sound" id="sound" type="button" aria-pressed="false">Sound <b>off</b></button>
+      </header>
+
+      <main class="chapter" id="chapter" aria-live="polite">
+        <p class="kicker"><span id="ch-num"></span><i></i><span id="ch-kicker"></span></p>
+        <h1 id="ch-title"></h1>
+        <p class="line" id="ch-line"></p>
+        <dl class="stats" id="ch-stats"></dl>
+        <ul class="tags" id="ch-tags"></ul>
+        <div class="actions" id="ch-actions"></div>
+      </main>
+
+      <aside class="telemetry" id="telemetry" aria-hidden="true"></aside>
+
+      <p class="hint" id="hint">Scroll to travel <i></i></p>
+
+      <nav class="track" id="track" aria-label="Chapters"></nav>
+    </div>
+
+    <div id="loader" role="status"><p>Preparing the journey</p><span><i></i></span></div>
+    <noscript><p style="color:#fff;padding:2rem">This page needs JavaScript and WebGL. The standard portfolio is at <a href="https://jerryli.me">jerryli.me</a>.</p></noscript>
+  </body>
+</html>
