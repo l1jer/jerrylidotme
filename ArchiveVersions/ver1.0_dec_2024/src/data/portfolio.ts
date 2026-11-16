@@ -215,6 +215,27 @@ export const experiences: ExperienceItem[] = [
       },
     ],
   },
+  {
+    title: 'Graduate Frontend Developer',
+    company: 'HiRain Technologies',
+    location: 'Beijing, China',
+    period: 'Feb – Aug 2020',
+    summary: 'Built production UI for a multithreaded automotive diagnostics platform.',
+    highlights: [
+      {
+        title: 'React UI Engineering',
+        description: 'Production features in React, Ant Design and Node.js consuming RESTful APIs.',
+      },
+      {
+        title: 'Performance & Debugging',
+        description: 'Profiled React rendering, fixed layout regressions and cut unnecessary re-renders in data-heavy dashboards.',
+      },
+      {
+        title: 'Agile Collaboration',
+        description: 'Sprint planning, stand-ups and retrospectives in a cross-functional team; Agile Project Management seminar.',
+      },
+    ],
+  },
 ]
 
 // Built for Flywing USA. Shown as projects only, not as a role.
