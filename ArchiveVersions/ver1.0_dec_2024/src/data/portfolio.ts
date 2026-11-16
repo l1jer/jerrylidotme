@@ -271,7 +271,6 @@ export const freelanceProjects: Project[] = [
   { name: 'Flywing USA', url: 'https://flywingusa.com' },
   { name: 'SJD Tech', url: 'https://sjdtech.com.au/' },
   { name: 'SJD Auto', url: 'https://sjdauto.com.au' },
-  { name: 'Gateway Innovation', url: 'https://gatewaybuy.com' },
   { name: 'Blast Energy', url: 'https://blastenergy.com.au' },
   { name: 'Ginger and Spice', url: 'https://gingerandspice.com.au' },
   { name: 'Bashan', url: 'https://bashan.com.au' },
