@@ -52,7 +52,7 @@ export default function VersionHistory() {
               return (
                 <li key={v.label}>
                   {v.href ? (
-                    <a href={v.href} className="flex items-center gap-3 rounded-md px-2 py-1.5 hover:bg-white/5">
+                    <a href={v.href} rel="nofollow" className="flex items-center gap-3 rounded-md px-2 py-1.5 hover:bg-white/5">
                       {row}
                     </a>
                   ) : (
