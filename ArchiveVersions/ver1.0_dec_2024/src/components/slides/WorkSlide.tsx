@@ -113,7 +113,7 @@ function ClientSites({ on }: { on: boolean }) {
                 <a
                   href={project.url}
                   target={project.archived ? undefined : '_blank'}
-                  rel={project.archived ? undefined : 'noopener noreferrer'}
+                  rel={project.archived ? 'nofollow' : 'noopener noreferrer'}
                   className="glass spot group flex h-full items-start justify-between gap-2 p-3 sm:p-4 tiny:p-2.5 transition hover:-translate-y-0.5 hover:border-indigo-400/40"
                 >
                   <span className="min-w-0">{body}</span>

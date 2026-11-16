@@ -8,7 +8,18 @@ const staticSnapshots = [
   "versions/v2",
 ];
 
+// Archived pages must never appear in search results. The header applies to every file under
+// these folders (HTML, CSS, fonts, images). Crawling stays allowed in robots.txt on purpose:
+// a crawler that cannot fetch a page never sees its noindex and may still list the URL.
+const noIndexPaths = ["/archive/:path*", "/versions/:path*"];
+
 const nextConfig: NextConfig = {
+  async headers() {
+    return noIndexPaths.map((source) => ({
+      source,
+      headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow, noarchive, nosnippet, noimageindex" }],
+    }));
+  },
   async rewrites() {
     return staticSnapshots.map((path) => ({
       source: `/${path}`,
