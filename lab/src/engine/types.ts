@@ -9,8 +9,8 @@ export interface Quality {
   /** Anti-aliasing samples for the scene. */
   msaa: number
   bloom: boolean
-  /** Depth-of-field samples; 0 turns the effect off. */
-  dofTaps: number
+  /** Depth of field: distant things go soft. */
+  dof: boolean
   /** Ray-march steps for the volumetric nebula. */
   fogSteps: number
   mobile: boolean
@@ -60,6 +60,8 @@ export interface Theme {
   fov: number
   bloom: { strength: number; radius: number; threshold: number }
   build(scene: THREE.Scene, q: Quality): void
+  /** One-off work that needs the renderer, such as baking the sky to a texture. */
+  prepare?(renderer: THREE.WebGLRenderer, q: Quality): void
   /** Camera pose for an eased chapter position. */
   pose(s: FrameState, out: CameraPose): void
   update(s: FrameState, camera: THREE.PerspectiveCamera): void
