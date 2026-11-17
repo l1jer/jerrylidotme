@@ -4,7 +4,7 @@ import '@fontsource-variable/inter'
 import '@fontsource-variable/jetbrains-mono'
 import './style.css'
 import { chapters } from './content'
-import { createAudio } from './engine/audio'
+import { createAudio, renderPreview } from './engine/audio'
 import { smoother } from './engine/glsl'
 import { createHud } from './engine/hud'
 import { createPost } from './engine/post'
@@ -47,7 +47,7 @@ function start() {
   const jump = (i: number) => scrollTo({ top: i * segment(), behavior: reducedMotion ? 'auto' : 'smooth' })
   const hud = createHud(theme, jump)
 
-  const state: FrameState = { time: 0, dt: 0.016, f: 0, u: 0, speed: 0, pointer: new THREE.Vector2(), aspect: innerWidth / innerHeight }
+  const state: FrameState = { time: 0, dt: 0.016, f: 0, u: 0, speed: 0, pointer: new THREE.Vector2(), aspect: innerWidth / innerHeight, beat: 0 }
   const pose: CameraPose = { pos: new THREE.Vector3(), look: new THREE.Vector3(), roll: 0 }
   const subject: Subject = { center: new THREE.Vector3(), radius: 1 }
   const pointerTarget = new THREE.Vector2()
@@ -91,7 +91,7 @@ function start() {
     theme.update(state, camera)
     theme.subject(state, subject)
     hud.update(state, capture)
-    post.render(state.time, warp, subject)
+    post.render(state.time, warp, subject, state.beat)
   }
 
   const govern = createGovernor(
@@ -121,6 +121,7 @@ function start() {
       audio.whoosh()
     }
     audio.motion(state.speed)
+    state.beat = audio.pulse()
     render()
     if (!document.hidden) govern(dt)
     requestAnimationFrame(tick)
@@ -140,6 +141,7 @@ function start() {
     const on = await audio.toggle()
     soundBtn.setAttribute('aria-pressed', String(on))
     soundBtn.querySelector('b')!.textContent = on ? 'on' : 'off'
+    document.getElementById('sound-tip')?.remove()
   })
 
   resize()
@@ -151,6 +153,12 @@ function start() {
       state.time = time
       state.speed = speed
       render()
+    }
+    // Renders the music offline and returns it as 16-bit PCM samples, for exporting a preview.
+    ;(window as unknown as { __music: (bars: number) => Promise<{ rate: number; left: number[]; right: number[] }> }).__music = async (bars) => {
+      const buffer = await renderPreview(bars, Math.round(12 * Math.log2(theme.tone / 110)))
+      const pcm = (c: number) => Array.from(buffer.getChannelData(c), (v) => Math.round(Math.max(-1, Math.min(1, v)) * 32767))
+      return { rate: buffer.sampleRate, left: pcm(0), right: pcm(1) }
     }
     ;(window as unknown as { __three: object }).__three = { camera, scene, state, pose }
     render()

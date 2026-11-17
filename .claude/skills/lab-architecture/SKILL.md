@@ -19,7 +19,7 @@ overlay, and scroll position driving a camera. The live site serves a **committe
 | `lab/src/engine/hud.ts` | DOM overlay. Opacity is computed from `f`, never from CSS transitions. |
 | `lab/src/engine/post.ts` | Scene with depth; nebula and blur at half resolution; depth of field, bloom, lens (warp, flare), output. |
 | `lab/src/engine/quality.ts` | `low` / `med` / `high` presets (`?q=` overrides) and the frame-rate governor. |
-| `lab/src/engine/audio.ts` | Synthesised pad and whoosh. No audio files. |
+| `lab/src/engine/audio.ts` | Synthesised music (pad, arpeggio, bass, kick, hat) and whoosh; `pulse()` drives visuals. Set `MUSIC_URL` to use a licensed file instead. Never copy tracks from other sites. |
 | `lab/src/themes/voyage.ts` | The world: `build`, `pose`, `update`, `subject`, `telemetry`. |
 
 `f` is the raw chapter position (0..N-1). `u` is `f` eased so the camera lingers at whole

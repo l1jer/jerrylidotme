@@ -244,7 +244,7 @@ export function createPost(renderer: THREE.WebGLRenderer, scene: THREE.Scene, ca
   const ndc = new THREE.Vector3()
   let halfTexel = new THREE.Vector2(1, 1)
   return {
-    render(time: number, warp: number, subject: Subject) {
+    render(time: number, warp: number, subject: Subject, beat = 0) {
       renderer.setRenderTarget(sceneTarget)
       renderer.render(scene, camera)
 
@@ -277,7 +277,8 @@ export function createPost(renderer: THREE.WebGLRenderer, scene: THREE.Scene, ca
       lens.uniforms.uLightUv.value.set(ndc.x * 0.5 + 0.5, ndc.y * 0.5 + 0.5)
       lens.uniforms.uLightDepth.value = -view.z
       // Strongest from afar, where the star is a point; fades as it grows into a disc.
-      lens.uniforms.uLightOn.value = inFront ? THREE.MathUtils.smoothstep(-view.z, 70, 320) * 0.85 + 0.12 : 0
+      // The flare breathes with the music when it is playing.
+      lens.uniforms.uLightOn.value = inFront ? (THREE.MathUtils.smoothstep(-view.z, 70, 320) * 0.85 + 0.12) * (1 + beat * 0.45) : 0
       lens.uniforms.uTime.value = time
       lens.uniforms.uWarp.value = warp
       composer.render()

@@ -273,16 +273,16 @@ export function createVoyage(): Theme {
       transparent: true,
       depthWrite: false,
       blending: THREE.AdditiveBlending,
-      uniforms: { uTime: { value: 0 }, uHead: { value: 0 } },
+      uniforms: { uTime: { value: 0 }, uHead: { value: 0 }, uBeat: { value: 0 } },
       vertexShader: /* glsl */ `varying vec2 vUv; void main(){ vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }`,
       fragmentShader: /* glsl */ `
-        uniform float uTime, uHead; varying vec2 vUv;
+        uniform float uTime, uHead, uBeat; varying vec2 vUv;
         void main(){
           float dash = smoothstep(0.0, 0.5, fract(vUv.x * 260.0 - uTime * 0.8));
           // Brighter just ahead of the traveller.
           float head = exp(-pow((vUv.x - uHead) * 18.0, 2.0));
           vec3 col = mix(vec3(0.38, 0.42, 1.0), vec3(1.0, 0.5, 0.85), vUv.x);
-          float a = 0.07 + dash * 0.26 + head * 0.9;
+          float a = (0.07 + dash * 0.26) * (1.0 + uBeat * 1.2) + head * 0.9;
           gl_FragColor = vec4(col * a, a);
         }`,
     })
@@ -440,6 +440,7 @@ export function createVoyage(): Theme {
 
     const head = Math.min(1, (1 + s.u + 0.16) / N)
     routeMat.uniforms.uHead.value = head
+    routeMat.uniforms.uBeat.value = s.beat
     route.getPoint(head, probe.position)
 
     for (const o of orbits) {
