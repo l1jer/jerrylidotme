@@ -36,6 +36,8 @@ export interface FrameState {
   pointer: THREE.Vector2
   /** Viewport width / height. */
   aspect: number
+  /** 0..1, peaking on the music's strong beats; 0 while the music is off. */
+  beat: number
 }
 
 export interface CameraPose {

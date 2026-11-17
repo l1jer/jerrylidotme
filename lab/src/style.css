@@ -35,7 +35,17 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .worlds a { padding: 6px 12px; border-radius: 999px; color: var(--ink-2); transition: color 0.3s, background 0.3s; }
 .worlds a:hover { color: var(--ink); }
 .worlds a[aria-current='true'] { background: color-mix(in srgb, var(--accent) 26%, transparent); color: var(--ink); }
-.sound { font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-2); padding: 8px 0; }
+.sound { position: relative; display: flex; align-items: center; gap: 9px; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink); padding: 8px 14px; border: 1px solid var(--line); border-radius: 999px; background: rgba(5, 6, 15, 0.45); backdrop-filter: blur(10px); transition: border-color 0.3s; }
+.sound:hover { border-color: var(--accent); }
+/* Three bars that dance while the music plays. */
+.sound i { display: flex; align-items: flex-end; gap: 2px; height: 11px; }
+.sound s { width: 2px; height: 3px; background: var(--ink-3); border-radius: 1px; }
+.sound[aria-pressed='true'] s { background: var(--accent); animation: bars 0.9s ease-in-out infinite alternate; }
+.sound[aria-pressed='true'] s:nth-child(2) { animation-delay: -0.3s; }
+.sound[aria-pressed='true'] s:nth-child(3) { animation-delay: -0.6s; }
+@keyframes bars { from { height: 3px; } to { height: 11px; } }
+#sound-tip { position: absolute; top: calc(100% + 8px); right: 0; white-space: nowrap; font-size: 10px; letter-spacing: 0.12em; color: var(--ink-2); animation: tip 2.4s ease-in-out infinite; }
+@keyframes tip { 50% { opacity: 0.35; } }
 .sound b { font-weight: 400; color: var(--ink-3); }
 .sound[aria-pressed='true'] b { color: var(--accent); }
 
@@ -96,7 +106,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   .track { gap: 4px; }
   .track button { font-size: 0; padding-top: 12px; }
 }
-@media (prefers-reduced-motion: reduce) { .hint i, #loader i { animation: none; } }
+@media (prefers-reduced-motion: reduce) { .hint i, #loader i, .sound s, #sound-tip { animation: none !important; } }
 /* Short, wide windows: keep the chapter text clear of the top bar. */
 @media (max-height: 640px) and (min-width: 761px) {
   .chapter h1 { font-size: clamp(30px, 4.2vw, 54px); margin-top: 10px; }

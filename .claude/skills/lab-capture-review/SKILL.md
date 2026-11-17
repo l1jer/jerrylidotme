@@ -38,4 +38,5 @@ Look at the images; do not ship on a passing build alone.
 ## Limits to state in the report
 
 - Frame rate on real GPUs cannot be measured here. Say so; ask the user to check on their devices.
-- Sound is not captured.
+- Sound is not captured in stills or video. To let the user hear the music, call
+  `window.__music(bars)` in capture mode (returns PCM samples), write a WAV and send it.
