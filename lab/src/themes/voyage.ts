@@ -99,7 +99,7 @@ const WORLDS: World[] = [
   { type: 1, r: 13, a: 0xb8336a, b: 0xf7a8c4, c: 0xfff0f5, ring: [1.5, 2.0, -0.3] }, // Caronlab
   { type: 2, r: 7, a: 0x1a1c2e, b: 0x3a3f66, c: 0x7dd3fc }, // earlier: a pair of small worlds
   { type: 1, r: 14, a: 0x9a3412, b: 0xfbbf24, c: 0xfff3c4 }, // Flywing builds
-  { type: 2, r: 8, a: 0x10121f, b: 0x2b2f52, c: 0xa5b4fc }, // toolkit: a station
+  { type: 0, r: 11, a: 0x2a1f5c, b: 0x5b6ee1, c: 0xdbe4ff, ring: [1.35, 1.6, 0.25] }, // toolkit: twelve moons
   { type: 3, r: 24, a: 0xff7a18, b: 0xffd166, c: 0xfff6d6 }, // contact: the star
 ]
 
@@ -121,15 +121,36 @@ export function createVoyage(): Theme {
 
   const timeUniforms: { value: number }[] = []
   const spinners: { obj: THREE.Object3D; speed: number }[] = []
-  const orbits: { mesh: THREE.InstancedMesh; center: THREE.Vector3; items: { r: number; speed: number; phase: number; tilt: number; node: number }[] }[] = []
+  const orbits: { mesh: THREE.InstancedMesh; center: THREE.Vector3; items: { size: number; r: number; speed: number; phase: number; tilt: number; node: number }[] }[] = []
   const dummy = new THREE.Object3D()
   let sky: THREE.Mesh, stars: THREE.Points, dust: THREE.Points, probe: THREE.Mesh
   let routeMat: THREE.ShaderMaterial, dustMat: THREE.ShaderMaterial, skyMat: THREE.ShaderMaterial
 
   function addOrbiters(scene: THREE.Scene, center: THREE.Vector3, count: number, rMin: number, rMax: number, size: number, color: number, seed: number) {
     const rand = rng(seed)
-    const mesh = new THREE.InstancedMesh(new THREE.IcosahedronGeometry(size, 1), new THREE.MeshBasicMaterial({ color }), count)
+    // Moons are small lit spheres: same sun as the planets, so they show a day and a night side.
+    const moon = new THREE.ShaderMaterial({
+      uniforms: { uColor: { value: new THREE.Color(color) }, uSun: { value: SUN } },
+      vertexShader: /* glsl */ `
+        varying vec3 vN; varying vec3 vW;
+        void main(){
+          mat4 m = modelMatrix * instanceMatrix;
+          vN = normalize(mat3(m) * normal);
+          vec4 w = m * vec4(position, 1.0); vW = w.xyz;
+          gl_Position = projectionMatrix * viewMatrix * w;
+        }`,
+      fragmentShader: /* glsl */ `
+        uniform vec3 uColor, uSun; varying vec3 vN; varying vec3 vW;
+        void main(){
+          vec3 N = normalize(vN); vec3 V = normalize(cameraPosition - vW);
+          float lit = smoothstep(-0.12, 0.62, dot(N, uSun));
+          float rim = pow(1.0 - max(dot(N, V), 0.0), 3.0);
+          gl_FragColor = vec4(uColor * mix(0.03, 0.95, lit) + uColor * rim * (0.05 + lit * 0.35), 1.0);
+        }`,
+    })
+    const mesh = new THREE.InstancedMesh(new THREE.SphereGeometry(1, 24, 16), moon, count)
     const items = Array.from({ length: count }, () => ({
+      size: size * (0.7 + rand() * 0.6),
       r: rMin + rand() * (rMax - rMin),
       speed: (0.12 + rand() * 0.2) * (rand() > 0.5 ? 1 : -1),
       phase: rand() * Math.PI * 2,
@@ -311,31 +332,6 @@ export function createVoyage(): Theme {
         return
       }
 
-      if (i === 6) {
-        // "Toolkit": a station. Twelve lit modules on a ring, one per toolkit.
-        const station = new THREE.Group()
-        station.position.copy(center)
-        const line = new THREE.LineBasicMaterial({ color: 0xa5b4fc, transparent: true, opacity: 0.55 })
-        station.add(new THREE.LineSegments(new THREE.WireframeGeometry(new THREE.IcosahedronGeometry(w.r * 0.55, 1)), line))
-        station.add(new THREE.Mesh(new THREE.IcosahedronGeometry(w.r * 0.3, 2), material))
-        const hoop = new THREE.Mesh(new THREE.TorusGeometry(w.r * 1.25, 0.16, 8, 120), new THREE.MeshBasicMaterial({ color: 0x6366f1 }))
-        hoop.rotation.x = Math.PI / 2
-        station.add(hoop)
-        for (let k = 0; k < 12; k++) {
-          const a = (k / 12) * Math.PI * 2
-          const pod = new THREE.Mesh(new THREE.BoxGeometry(1.1, 1.1, 1.1), new THREE.MeshBasicMaterial({ color: k % 3 ? 0xc7d2fe : 0xf0abfc }))
-          pod.position.set(Math.cos(a) * w.r * 1.25, 0, Math.sin(a) * w.r * 1.25)
-          pod.rotation.y = -a
-          station.add(pod)
-          const spoke = new THREE.Line(new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(), pod.position.clone()]), line)
-          station.add(spoke)
-        }
-        station.rotation.set(0.5, 0, 0.25)
-        scene.add(station)
-        spinners.push({ obj: station, speed: 0.09 })
-        return
-      }
-
       const planet = new THREE.Mesh(new THREE.SphereGeometry(w.r, q.tier === 'low' ? 48 : 96, q.tier === 'low' ? 32 : 64), material)
       planet.position.copy(center)
       planet.rotation.z = 0.2
@@ -363,6 +359,8 @@ export function createVoyage(): Theme {
         scene.add(ring)
       }
 
+      // Twelve moons for the twelve toolkits.
+      if (i === 6) addOrbiters(scene, center, 12, w.r * 1.4, w.r * 1.95, 0.6, 0xc7d2fe, 47)
       if (i === 0) addOrbiters(scene, center, 1, w.r * 1.9, w.r * 1.9, 1.1, 0xcbd5e1, 11)
       // Ten satellites for the ten live stores.
       if (i === 2) addOrbiters(scene, center, 10, w.r * 1.35, w.r * 2.1, 0.5, 0x9ef0c6, 23)
@@ -412,7 +410,8 @@ export function createVoyage(): Theme {
       o.items.forEach((it, k) => {
         const a = s.time * it.speed + it.phase
         dummy.position.set(Math.cos(a) * it.r, 0, Math.sin(a) * it.r).applyAxisAngle(new THREE.Vector3(1, 0, 0), it.tilt).applyAxisAngle(new THREE.Vector3(0, 1, 0), it.node).add(o.center)
-        dummy.rotation.set(a, a * 0.7, 0)
+        dummy.rotation.set(0, 0, 0)
+        dummy.scale.setScalar(it.size)
         dummy.updateMatrix()
         o.mesh.setMatrixAt(k, dummy.matrix)
       })
