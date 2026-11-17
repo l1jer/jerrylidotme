@@ -1,7 +1,7 @@
 // Usage: node scripts/capture-stills.cjs [worlds] [WxH] [chapters]   e.g. voyage 1280x720 0,2,7
 // Needs `npm run build && npx vite preview --port 4173` running. Output: lab/.capture/
 const {chromium}=require('playwright');const fs=require('fs');const OUT=require('path').join(__dirname,'..','.capture');fs.mkdirSync(OUT,{recursive:true});
-const worlds=(process.argv[2]||'voyage,flight,flow').split(',');
+const worlds=(process.argv[2]||'voyage').split(',');
 const size=(process.argv[3]||'1280x720').split('x').map(Number);
 const only=process.argv[4]?process.argv[4].split(',').map(Number):null;
 (async()=>{

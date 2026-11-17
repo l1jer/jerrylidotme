@@ -5,11 +5,8 @@ import type { FrameState, Theme, ThemeId } from './types'
 const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T
 const pad = (n: number) => String(n).padStart(2, '0')
 
-const WORLDS: [ThemeId, string][] = [
-  ['voyage', 'Voyage'],
-  ['flight', 'Flight'],
-  ['flow', 'Dataflow'],
-]
+// Worlds offered in the switcher. With a single world the switcher is hidden.
+const WORLDS: [ThemeId, string][] = [['voyage', 'Voyage']]
 
 /** DOM overlay: chapter text, chapter bar, world switcher and live readouts. All driven by scroll position. */
 export function createHud(theme: Theme, onJump: (chapter: number) => void) {
@@ -23,6 +20,7 @@ export function createHud(theme: Theme, onJump: (chapter: number) => void) {
   const telemetry = $('telemetry')
   const track = $('track')
 
+  $('worlds').hidden = WORLDS.length < 2
   $('worlds').innerHTML = WORLDS.map(
     ([id, label]) => `<a href="?world=${id}" ${id === theme.id ? 'aria-current="true"' : ''}>${label}</a>`
   ).join('')

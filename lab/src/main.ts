@@ -10,11 +10,9 @@ import { createHud } from './engine/hud'
 import { createPost } from './engine/post'
 import type { CameraPose, FrameState, Quality, Theme, ThemeId } from './engine/types'
 import { createVoyage } from './themes/voyage'
-import { createFlight } from './themes/flight'
-import { createFlow } from './themes/flow'
 
 const params = new URLSearchParams(location.search)
-const worlds: Record<ThemeId, () => Theme> = { voyage: createVoyage, flight: createFlight, flow: createFlow }
+const worlds: Record<ThemeId, () => Theme> = { voyage: createVoyage }
 const worldId = (params.get('world') as ThemeId) in worlds ? (params.get('world') as ThemeId) : 'voyage'
 // Capture mode renders single frames on request, for deterministic screenshots and video.
 const capture = params.has('capture')

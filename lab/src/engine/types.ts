@@ -31,7 +31,7 @@ export interface CameraPose {
   roll: number
 }
 
-export type ThemeId = 'voyage' | 'flight' | 'flow'
+export type ThemeId = 'voyage'
 
 export interface Theme {
   id: ThemeId

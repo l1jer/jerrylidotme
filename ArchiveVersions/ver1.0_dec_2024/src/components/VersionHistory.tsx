@@ -8,12 +8,8 @@ const versions = [
   { label: 'v1', period: 'Dec 2024', note: 'Plain HTML', href: '/versions/v1' },
 ]
 
-// The same portfolio as scroll-driven 3D journeys (three.js), built from /lab.
-const labs = [
-  { label: 'Voyage', note: 'Planets along a route', href: '/lab?world=voyage' },
-  { label: 'Flight', note: 'RC helicopter at dusk', href: '/lab?world=flight' },
-  { label: 'Dataflow', note: 'Packets over a server city', href: '/lab?world=flow' },
-]
+// The same portfolio as a scroll-driven 3D journey (three.js), built from /lab.
+const labs = [{ label: 'Voyage', note: 'The portfolio as a flight through space', href: '/lab' }]
 
 /** A deliberately quiet tag that opens links to earlier versions of this site and to the 3D lab. */
 export default function VersionHistory() {
