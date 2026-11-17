@@ -22,7 +22,8 @@ them") and were removed. The likely reasons are below. Check new work against th
 
 ## Rules
 
-1. Subject on the right two-fifths on wide screens, above the text on phones. Text keeps the
+1. Subject large and cropped by the frame edge (it should not float as a small ball), on the
+   right on wide screens, above the text on phones. Text keeps the
    left. Nothing bright behind the text block.
 2. Exposure: after tone mapping, only small accents should clip to white. If a subject is a
    white blob, lower its colour multiplier first, then the bloom. Bloom threshold stays at or
@@ -40,14 +41,14 @@ Verified in its bundle, not guessed. These are the gap between "acceptable" and 
 
 | Technique | Evidence in the reference | Lab today |
 |---|---|---|
-| Depth of field | `uAperture`, `uFocus`, `uBokeh`, tier `dofR` | done: focus follows the chapter's subject; sky kept sharp |
+| Depth of field | `uAperture`, `uFocus`, `uBokeh`, tier `dofR` | done: mix of sharp and a half-resolution Gaussian blur by depth. A sparse gather blur was tried first and turned distant planets into dotted, faceted blobs: do not go back to it |
 | Volumetric fog | ray-marched "vapour" (`uRayO`, `uRayD`, tier `vapourSteps`) | done: ray-marched nebula, clear around the subject, lit towards the star |
 | Physically based materials | `MeshPhysicalMaterial`, transmission, env map, shadows, AO | unlit or simple lit shaders |
 | Fluid that follows the cursor | `uLiquid`, `uSplat`, `uVisc`, tier `liquidRes` | pointer parallax only |
 | Music-reactive visuals | audio analyser feeding `uBeat`, two music tracks | synthesised pad, not reactive |
 | Quality tiers | `low` / `med` / `high` presets plus live resolution scaling by frame time | done: same scheme in `engine/quality.ts` |
 | Real media | project videos as textures and in a viewer | none |
-| Cinematic framing | `uLetterbox`, `uStreak`, `uGlitch`, custom bloom (`uKnee`, `uPrefilter`) | bloom, fringe, vignette, grain |
+| Cinematic framing | `uLetterbox`, `uStreak`, `uGlitch`, custom bloom (`uKnee`, `uPrefilter`) | bloom, fringe, vignette, grain, radial warp streaks at speed, star flare, arrival fly-in |
 
 Next by impact: physically based materials with an environment map, then real project media.
 Keep the nebula patchy: when it covers the frame evenly it reads as haze and flattens contrast.

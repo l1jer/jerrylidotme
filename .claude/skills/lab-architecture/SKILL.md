@@ -17,7 +17,7 @@ overlay, and scroll position driving a camera. The live site serves a **committe
 | `lab/src/main.ts` | Renderer, scroll to chapter position `f`, eased position `u`, loop, capture hook. |
 | `lab/src/engine/types.ts` | The `Theme` contract every world implements. |
 | `lab/src/engine/hud.ts` | DOM overlay. Opacity is computed from `f`, never from CSS transitions. |
-| `lab/src/engine/post.ts` | Scene with depth, then volumetric nebula, depth of field, bloom, lens, output. |
+| `lab/src/engine/post.ts` | Scene with depth; nebula and blur at half resolution; depth of field, bloom, lens (warp, flare), output. |
 | `lab/src/engine/quality.ts` | `low` / `med` / `high` presets (`?q=` overrides) and the frame-rate governor. |
 | `lab/src/engine/audio.ts` | Synthesised pad and whoosh. No audio files. |
 | `lab/src/themes/voyage.ts` | The world: `build`, `pose`, `update`, `subject`, `telemetry`. |

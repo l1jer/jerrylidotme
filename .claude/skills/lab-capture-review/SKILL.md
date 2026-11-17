@@ -17,6 +17,7 @@ node scripts/capture-stills.cjs voyage 1280x720          # every chapter of one 
 node scripts/capture-stills.cjs voyage 390x844 2,7       # phone, chapters 2 and 7
 Q=low node scripts/capture-stills.cjs voyage 960x540 2   # a lower quality tier (default: high)
 node scripts/smoke.cjs                                   # live mode, exits non-zero on failure
+node scripts/bench.cjs high                              # relative cost per frame; compare before and after
 node scripts/capture-video.cjs voyage                    # 576 frames, about 6 minutes
 ffmpeg -framerate 24 -i .capture/frames-voyage/%04d.jpg -c:v libx264 -crf 28 -pix_fmt yuv420p voyage.mp4
 ```

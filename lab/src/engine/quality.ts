@@ -2,9 +2,9 @@ import type { Quality } from './types'
 
 /** Presets. Heavier effects only switch on where there is headroom for them. */
 const TIERS: Record<Quality['tier'], Omit<Quality, 'mobile'>> = {
-  low: { tier: 'low', dpr: 1, density: 0.45, msaa: 0, bloom: true, dofTaps: 0, fogSteps: 4 },
-  med: { tier: 'med', dpr: 1.5, density: 0.8, msaa: 2, bloom: true, dofTaps: 12, fogSteps: 6 },
-  high: { tier: 'high', dpr: 2, density: 1, msaa: 4, bloom: true, dofTaps: 20, fogSteps: 8 },
+  low: { tier: 'low', dpr: 1, density: 0.45, msaa: 0, bloom: true, dof: false, fogSteps: 4 },
+  med: { tier: 'med', dpr: 1.25, density: 0.8, msaa: 0, bloom: true, dof: true, fogSteps: 5 },
+  high: { tier: 'high', dpr: 1.5, density: 1, msaa: 2, bloom: true, dof: true, fogSteps: 6 },
 }
 
 /** Picks a starting tier from the device; `?q=low|med|high` overrides it. */
@@ -30,13 +30,14 @@ export function createGovernor(q: Quality, apply: (dpr: number) => void, degrade
     if (++frames < 45) return
     const avg = acc / frames
     acc = frames = 0
-    if (avg > 1 / 40) {
+    // Below about 50 frames a second, give up resolution first.
+    if (avg > 1 / 50) {
       if (dpr > floor + 0.01) apply((dpr = Math.max(floor, dpr - 0.25)))
       else if (!degraded && ++strikes >= 2) {
         degraded = true
         degrade()
       }
-    } else if (avg < 1 / 57 && dpr < max && !degraded) {
+    } else if (avg < 1 / 58 && dpr < max && !degraded) {
       apply((dpr = Math.min(max, dpr + 0.15)))
     }
   }

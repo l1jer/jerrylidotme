@@ -29,12 +29,13 @@ const planetFragment = /* glsl */ `
     vec3 p = vObj * 2.2 + uSeed;
     vec3 N = normalize(vN);
     vec3 V = normalize(cameraPosition - vW);
-    vec3 col; float seam = 0.0;
+    vec3 col; float seam = 0.0, land = 0.0, cloud = 0.0, ocean = 0.0;
     if (uType < 0.5) {
-      float land = smoothstep(0.46, 0.58, fbm(p * 1.6));
+      land = smoothstep(0.46, 0.58, fbm(p * 1.6));
       col = mix(uA, uB, land);
-      float cloud = smoothstep(0.55, 0.75, fbm(p * 2.6 + vec3(uTime * 0.015, 0.0, 7.0)));
+      cloud = smoothstep(0.55, 0.75, fbm(p * 2.6 + vec3(uTime * 0.015, 0.0, 7.0)));
       col = mix(col, uC, cloud * 0.75);
+      ocean = (1.0 - land) * (1.0 - cloud);
     } else if (uType < 1.5) {
       float warp = fbm(p * 1.2 + vec3(0.0, uTime * 0.01, 0.0));
       float y = vObj.y * 7.0 + warp * 2.4;
@@ -54,6 +55,10 @@ const planetFragment = /* glsl */ `
       col *= mix(0.012, 0.85, lit);
       col += uC * seam * 1.6;
       col += uC * rim * (0.05 + lit * 0.42);
+      // Sun glint on open water, and settlements lighting up on the night side.
+      col += vec3(1.0, 0.95, 0.85) * pow(max(dot(N, normalize(uSun + V)), 0.0), 160.0) * ocean * 0.5;
+      float towns = step(0.6, vnoise(vObj * 46.0 + uSeed)) * smoothstep(0.5, 0.62, fbm3(vObj * 9.0 + uSeed));
+      col += vec3(1.0, 0.72, 0.38) * towns * land * (1.0 - cloud) * (1.0 - smoothstep(0.0, 0.25, lit)) * 0.9;
     } else {
       col = col * 0.82 + uB * rim * 0.5;
     }
@@ -110,7 +115,7 @@ export function createVoyage(): Theme {
   // Camera stops: the world sits to the right on wide screens, and above the text on tall ones.
   const curve = (offset: (r: number) => [number, number, number]) =>
     new THREE.CatmullRomCurve3(stations.map((s, i) => s.clone().add(new THREE.Vector3(...offset(WORLDS[i].r)))), false, 'catmullrom', 0.5)
-  const wide = { pos: curve((r) => [-r * 2.0, r * 0.5, r * 3.4]), look: curve((r) => [-r * 1.15, -r * 0.05, 0]) }
+  const wide = { pos: curve((r) => [-r * 1.55, r * 0.4, r * 2.7]), look: curve((r) => [-r * 1.05, -r * 0.05, 0]) }
   const tall = { pos: curve((r) => [0, -r * 0.9, r * 5.2]), look: curve((r) => [0, -r * 1.3, 0]) }
 
   // The visible route sweeps past the left side of each world and ends at the star.
@@ -375,6 +380,37 @@ export function createVoyage(): Theme {
     })
   }
 
+  // The nebula backdrop never changes, so it is drawn once into two cube maps (cool and warm)
+  // and then only sampled. This removes the most expensive full-screen shader from every frame.
+  function prepare(renderer: THREE.WebGLRenderer, q: Quality) {
+    const bakeScene = new THREE.Scene()
+    const shell = new THREE.Mesh(sky.geometry, skyMat)
+    bakeScene.add(shell)
+    const size = q.tier === 'low' ? 512 : 1024
+    const bake = (shift: number) => {
+      const target = new THREE.WebGLCubeRenderTarget(size, { type: THREE.HalfFloatType })
+      skyMat.uniforms.uShift.value = shift
+      new THREE.CubeCamera(1, 3000, target).update(renderer, bakeScene)
+      return target.texture
+    }
+    const baked = new THREE.ShaderMaterial({
+      side: THREE.BackSide,
+      depthWrite: false,
+      uniforms: { uCool: { value: bake(0) }, uWarm: { value: bake(1) }, uShift: { value: 0 } },
+      vertexShader: /* glsl */ `varying vec3 vDir; void main(){ vDir = position; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }`,
+      fragmentShader: /* glsl */ `
+        uniform samplerCube uCool, uWarm; uniform float uShift; varying vec3 vDir;
+        void main(){
+          vec3 d = vec3(-vDir.x, vDir.y, vDir.z);
+          gl_FragColor = vec4(mix(textureCube(uCool, d).rgb, textureCube(uWarm, d).rgb, uShift), 1.0);
+        }`,
+    })
+    renderer.setRenderTarget(null)
+    sky.material = baked
+    skyMat.dispose()
+    skyMat = baked
+  }
+
   function pose(s: FrameState, out: CameraPose) {
     const t = Math.min(1, Math.max(0, s.u / (N - 1)))
     const path = s.aspect < 0.9 ? tall : wide
@@ -431,6 +467,7 @@ export function createVoyage(): Theme {
     bloom: { strength: 0.42, radius: 0.55, threshold: 0.82 },
     tone: 110,
     build,
+    prepare,
     pose,
     update,
     subject,

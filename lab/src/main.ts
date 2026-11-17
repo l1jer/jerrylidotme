@@ -38,6 +38,7 @@ function start() {
   const scene = new THREE.Scene()
   const camera = new THREE.PerspectiveCamera(theme.fov, innerWidth / innerHeight, 0.5, 4000)
   theme.build(scene, q)
+  theme.prepare?.(renderer, q)
   const post = createPost(renderer, scene, camera, theme, q)
   const audio = createAudio(theme.tone)
 
@@ -51,14 +52,15 @@ function start() {
   const subject: Subject = { center: new THREE.Vector3(), radius: 1 }
   const pointerTarget = new THREE.Vector2()
   const right = new THREE.Vector3()
+  let baseFov = theme.fov
+  const intro = !capture && !reducedMotion
 
   function resize() {
     renderer.setSize(innerWidth, innerHeight, false)
     post.resize(innerWidth, innerHeight, dpr)
     camera.aspect = state.aspect = innerWidth / innerHeight
     // Narrow screens get a wider view so the subject still fits above the text.
-    camera.fov = theme.fov * (state.aspect < 1 ? 1.25 : 1)
-    camera.updateProjectionMatrix()
+    baseFov = theme.fov * (state.aspect < 1 ? 1.25 : 1)
     scrollEl.style.height = `${(N - 1) * segment() + innerHeight}px`
   }
 
@@ -71,6 +73,13 @@ function start() {
   function render() {
     state.u = ease(state.f)
     theme.pose(state, pose)
+    // Arrival: the first seconds fly in from far behind the starting position.
+    const arriving = intro ? 1 - smoother(state.time / 2.8) : 0
+    if (arriving > 0) pose.pos.addScaledVector(right.subVectors(pose.pos, pose.look).normalize(), arriving * arriving * 520)
+    const warp = Math.min(1, Math.max(Math.abs(state.speed) * 0.9, arriving))
+    // The view widens a little at speed.
+    camera.fov = baseFov * (1 + warp * 0.1)
+    camera.updateProjectionMatrix()
     camera.position.copy(pose.pos)
     camera.up.set(0, 1, 0)
     camera.lookAt(pose.look)
@@ -82,7 +91,7 @@ function start() {
     theme.update(state, camera)
     theme.subject(state, subject)
     hud.update(state, capture)
-    post.render(state.time, Math.min(1, Math.abs(state.speed) * 0.9), subject)
+    post.render(state.time, warp, subject)
   }
 
   const govern = createGovernor(
