@@ -2,7 +2,7 @@
 
 import { createContext, ReactNode, useCallback, useContext, useEffect, useRef, useState } from 'react'
 import { IconType } from 'react-icons'
-import { FiArrowRight, FiArrowUp, FiMenu, FiX } from 'react-icons/fi'
+import { FiArrowRight, FiArrowUp, FiBox, FiMenu, FiX } from 'react-icons/fi'
 
 export interface Slide {
   id: string
@@ -33,6 +33,9 @@ const SlideContext = createContext<SlideState>({ active: true, number: 1, total:
 
 /** Lets slide content know whether it is on screen, which frame is showing and where it sits. */
 export const useSlide = () => useContext(SlideContext)
+
+// The chapter of the 3D version (/lab) that matches each slide, so switching keeps your place.
+const LAB_CHAPTER: Record<string, number> = { home: 0, about: 1, experience: 2, work: 5, skills: 6, background: 1, contact: 7 }
 
 const TRANSITION_MS = 800
 // A new gesture must start this long after the last wheel event before it can move again,
@@ -334,23 +337,36 @@ export default function FullPage({ slides }: { slides: Slide[] }) {
           >
             JL<span className="text-indigo-400">.</span>
           </button>
-          <button
-            id="hud-counter"
-            type="button"
-            onClick={() => setMenuOpen((o) => !o)}
-            aria-expanded={menuOpen}
-            aria-controls="jump-menu"
-            aria-label={menuOpen ? 'Close menu' : `Open menu (current: ${current.label})`}
-            className="pointer-events-auto flex items-center gap-2.5 rounded-full border border-white/15 bg-slate-950/50 py-1.5 pl-3.5 pr-2 font-mono text-[11px] uppercase tracking-[0.2em] text-gray-300 backdrop-blur-md transition hover:border-indigo-400/50 hover:text-white"
-          >
-            <span className="max-w-[46vw] truncate sm:max-w-none text-white">{current.label}</span>
-            <span className="text-gray-500">
-              {pad(index + 1)}/{pad(slides.length)}
-            </span>
-            <span className="flex h-6 w-6 items-center justify-center rounded-full bg-white/10 text-white">
-              {menuOpen ? <FiX className="h-3.5 w-3.5" /> : <FiMenu className="h-3.5 w-3.5" />}
-            </span>
-          </button>
+          <div className="flex items-center gap-2">
+            {/* Switch to the 3D version of this portfolio, at the matching chapter. A plain link: /lab is a static page. */}
+            <a
+              id="hud-3d"
+              href={LAB_CHAPTER[current.id] ? `/lab?at=${LAB_CHAPTER[current.id]}` : '/lab'}
+              title="Switch to the 3D version"
+              aria-label="Switch to the 3D version of this portfolio"
+              className="pointer-events-auto flex h-9 items-center gap-1.5 rounded-full border border-white/15 bg-slate-950/50 px-3 font-mono text-[11px] uppercase tracking-[0.2em] text-gray-300 backdrop-blur-md transition hover:border-indigo-400/50 hover:text-white"
+            >
+              <FiBox className="h-3.5 w-3.5 text-indigo-300" aria-hidden />
+              3D
+            </a>
+            <button
+              id="hud-counter"
+              type="button"
+              onClick={() => setMenuOpen((o) => !o)}
+              aria-expanded={menuOpen}
+              aria-controls="jump-menu"
+              aria-label={menuOpen ? 'Close menu' : `Open menu (current: ${current.label})`}
+              className="pointer-events-auto flex h-9 items-center gap-2.5 rounded-full border border-white/15 bg-slate-950/50 pl-3.5 pr-2 font-mono text-[11px] uppercase tracking-[0.2em] text-gray-300 backdrop-blur-md transition hover:border-indigo-400/50 hover:text-white"
+            >
+              <span className="max-w-[34vw] truncate sm:max-w-none text-white">{current.label}</span>
+              <span className="text-gray-500">
+                {pad(index + 1)}/{pad(slides.length)}
+              </span>
+              <span className="flex h-6 w-6 items-center justify-center rounded-full bg-white/10 text-white">
+                {menuOpen ? <FiX className="h-3.5 w-3.5" /> : <FiMenu className="h-3.5 w-3.5" />}
+              </span>
+            </button>
+          </div>
         </div>
       </div>
 

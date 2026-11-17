@@ -15,8 +15,10 @@ the lab has a **capture mode**: `?capture` stops the loop and exposes
 cd lab && npm run build && npx vite preview --port 4173 --strictPort &
 node scripts/capture-stills.cjs voyage 1280x720          # every chapter of one world
 node scripts/capture-stills.cjs voyage 390x844 2,7       # phone, chapters 2 and 7
+node scripts/capture-stills.cjs voyage 1280x720 0.4,4.4  # fractions show the travel between two stops
 Q=low node scripts/capture-stills.cjs voyage 960x540 2   # a lower quality tier (default: high)
 node scripts/smoke.cjs                                   # live mode, exits non-zero on failure
+node scripts/clearance.cjs                               # camera never enters a planet (wide and tall), exits non-zero on failure
 node scripts/bench.cjs high                              # relative cost per frame; compare before and after
 node scripts/capture-video.cjs voyage                    # 576 frames, about 6 minutes
 ffmpeg -framerate 24 -i .capture/frames-voyage/%04d.jpg -c:v libx264 -crf 28 -pix_fmt yuv420p voyage.mp4
@@ -34,6 +36,7 @@ Look at the images; do not ship on a passing build alone.
 - [ ] Each chapter looks different from its neighbours.
 - [ ] A frame from mid-travel (between chapters) still looks intentional.
 - [ ] `node scripts/smoke.cjs` passes (live mode at low and high tiers, email not in the HTML).
+- [ ] `node scripts/clearance.cjs` passes after any change to the camera path, the stations or a planet's size: the camera stays at least 1.25 radii from every planet's centre for the whole trip.
 
 ## Limits to state in the report
 
