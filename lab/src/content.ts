@@ -1,5 +1,7 @@
 export interface Chapter {
   id: string
+  /** The matching section of the standard portfolio (its URL hash), for the switch button. */
+  section: string
   /** Short label for the chapter bar and index. */
   label: string
   kicker: string
@@ -13,6 +15,7 @@ export interface Chapter {
 export const chapters: Chapter[] = [
   {
     id: 'home',
+    section: '',
     label: 'Start',
     kicker: 'Portfolio · Canberra, Australia',
     title: 'Jerry Li',
@@ -20,6 +23,7 @@ export const chapters: Chapter[] = [
   },
   {
     id: 'about',
+    section: '#about',
     label: 'About',
     kicker: 'About',
     title: 'Web, eCommerce & growth',
@@ -32,6 +36,7 @@ export const chapters: Chapter[] = [
   },
   {
     id: 'tsa',
+    section: '#experience',
     label: 'TSA Outdoors',
     kicker: 'Aug 2022 – Now · Web Developer, UX Designer & SEO Specialist',
     title: 'TSA Outdoors',
@@ -44,6 +49,7 @@ export const chapters: Chapter[] = [
   },
   {
     id: 'caronlab',
+    section: '#experience',
     label: 'Caronlab',
     kicker: 'Sep 2020 – Aug 2022 · Web Developer & IT Support',
     title: 'Caronlab',
@@ -55,6 +61,7 @@ export const chapters: Chapter[] = [
   },
   {
     id: 'earlier',
+    section: '#experience',
     label: 'Earlier',
     kicker: '2020 – 2022 · Where it started',
     title: 'TAFE QLD & HiRain',
@@ -66,6 +73,7 @@ export const chapters: Chapter[] = [
   },
   {
     id: 'builds',
+    section: '#work',
     label: 'Builds',
     kicker: 'Featured builds · Shopify platform work for Flywing USA',
     title: 'Built to move numbers',
@@ -78,6 +86,7 @@ export const chapters: Chapter[] = [
   },
   {
     id: 'toolkit',
+    section: '#skills',
     label: 'Toolkit',
     kicker: 'Toolkit',
     title: 'What I build with',
@@ -89,6 +98,7 @@ export const chapters: Chapter[] = [
   },
   {
     id: 'contact',
+    section: '#contact',
     label: 'Contact',
     kicker: 'Available for freelance and full-time work',
     title: '', // set per theme

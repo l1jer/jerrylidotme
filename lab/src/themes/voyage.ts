@@ -112,17 +112,47 @@ export function createVoyage(): Theme {
   const N = chapters.length
   const stations = WORLDS.map((_, i) => new THREE.Vector3(Math.sin(i * 1.9) * 70, Math.cos(i * 1.3) * 30, -i * 230))
 
-  // Camera stops: the world sits to the right on wide screens, and above the text on tall ones.
-  const curve = (offset: (r: number) => [number, number, number]) =>
-    new THREE.CatmullRomCurve3(stations.map((s, i) => s.clone().add(new THREE.Vector3(...offset(WORLDS[i].r)))), false, 'catmullrom', 0.5)
-  const wide = { pos: curve((r) => [-r * 1.55, r * 0.4, r * 2.7]), look: curve((r) => [-r * 1.05, -r * 0.05, 0]) }
-  const tall = { pos: curve((r) => [0, -r * 0.9, r * 5.2]), look: curve((r) => [0, -r * 1.3, 0]) }
+  // Camera path. At each chapter the camera stops in front of the world (on the right on wide
+  // screens, above the text on tall ones). Between chapters it swings round the world's left
+  // side through a pass-by point, so it never cuts through a planet. With one pass-by point
+  // between every pair of stops, chapter position u still maps to the curve as u / (N - 1).
+  type Offset = (r: number) => [number, number, number]
+  // The space a world takes up: the twins circle each other, so they sweep more than one radius.
+  const reach = (i: number) => WORLDS[i].r * (i === 4 ? 1.7 : 1)
+  const at = (i: number, offset: Offset, r = WORLDS[i].r) => stations[i].clone().add(new THREE.Vector3(...offset(r)))
+  const journey = (stop: Offset, pass: Offset, look: Offset) => {
+    const pos: THREE.Vector3[] = [], aim: THREE.Vector3[] = []
+    for (let i = 0; i < N; i++) {
+      pos.push(at(i, stop))
+      aim.push(at(i, look))
+      if (i < N - 1) {
+        pos.push(at(i, pass, reach(i)))
+        // While passing, the view turns towards the next world.
+        aim.push(at(i, look).lerp(at(i + 1, look), 0.6))
+      }
+    }
+    // Centripetal curves do not overshoot at sharp turns; a plain Catmull-Rom swung past the
+    // stop and into the planet where the route changes direction.
+    return { pos: new THREE.CatmullRomCurve3(pos, false, 'centripetal'), look: new THREE.CatmullRomCurve3(aim, false, 'centripetal') }
+  }
+  const PASS: Offset = (r) => [-r * 2.5, r * 0.6, -r * 0.9]
+  const wide = journey((r) => [-r * 1.55, r * 0.4, r * 2.7], PASS, (r) => [-r * 1.05, -r * 0.05, 0])
+  const tall = journey((r) => [0, -r * 0.9, r * 5.2], (r) => [-r * 2.5, -r * 0.4, -r * 0.9], (r) => [0, -r * 1.3, 0])
 
-  // The visible route sweeps past the left side of each world and ends at the star.
-  const routePoints = stations.map((s, i) => s.clone().add(new THREE.Vector3(-WORLDS[i].r * 1.7, -WORLDS[i].r * 0.55, WORLDS[i].r * 0.4)))
-  routePoints.unshift(routePoints[0].clone().add(new THREE.Vector3(12, -5, 130)))
-  routePoints[N] = stations[N - 1].clone().add(new THREE.Vector3(-WORLDS[N - 1].r * 0.8, 0, WORLDS[N - 1].r * 0.7))
+  // The visible route runs just under the camera's path: past the left of each world at the
+  // stop, under the pass-by point, and on to the star. The camera follows this line.
+  const routePoints: THREE.Vector3[] = [at(0, (r) => [-r * 2.05 + 12, -r * 0.45 - 5, r * 0.9 + 130])]
+  for (let i = 0; i < N; i++) {
+    routePoints.push(at(i, (r) => [-r * 2.05, -r * 0.45, r * 0.9]))
+    if (i < N - 1) routePoints.push(at(i, (r) => [-r * 2.3, -r * 0.1, -r * 0.9], reach(i)))
+  }
+  routePoints[routePoints.length - 1] = at(N - 1, (r) => [-r * 0.8, 0, r * 0.7])
   const route = new THREE.CatmullRomCurve3(routePoints, false, 'catmullrom', 0.5)
+  // Where chapter position u sits on the route, as a curve parameter and as a share of its length
+  // (the tube's texture runs by length).
+  const routeParam = (u: number) => Math.min(1, (1 + 2 * u) / (routePoints.length - 1))
+  const routeLengths = route.getLengths(600)
+  const routeShare = (t: number) => routeLengths[Math.round(t * 600)] / routeLengths[600]
 
   const timeUniforms: { value: number }[] = []
   const spinners: { obj: THREE.Object3D; speed: number }[] = []
@@ -528,8 +558,8 @@ export function createVoyage(): Theme {
       m.visible = labelOpacity > 0.01
     }
 
-    const head = Math.min(1, (1 + s.u + 0.16) / N)
-    routeMat.uniforms.uHead.value = head
+    const head = routeParam(s.u + 0.14)
+    routeMat.uniforms.uHead.value = routeShare(head)
     routeMat.uniforms.uBeat.value = s.beat
     route.getPoint(head, probe.position)
 
@@ -563,6 +593,8 @@ export function createVoyage(): Theme {
     update,
     subject,
     light: stations[N - 1],
+    // The twin worlds sweep a wider circle than one planet's radius.
+    obstacles: stations.map((center, i) => ({ center, radius: reach(i) })),
     telemetry: (s) => [
       ['Sector', chapters[Math.round(s.f)].label],
       ['Distance', `${(s.u * 1.52).toFixed(2)} AU`],

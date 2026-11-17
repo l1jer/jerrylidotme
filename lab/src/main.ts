@@ -145,6 +145,14 @@ function start() {
   })
 
   resize()
+  // ?at=3 starts at that chapter: the standard portfolio's switch button links to the matching one.
+  const startAt = Math.min(N - 1, Math.max(0, Math.round(Number(params.get('at')) || 0)))
+  if (startAt > 0 && !capture) {
+    history.scrollRestoration = 'manual'
+    scrollTo(0, startAt * segment())
+    state.f = startAt
+    lastChapter = startAt
+  }
   if (capture) {
     // window.__frame(f, time, speed, dt) renders exactly one frame.
     ;(window as unknown as { __frame: (f: number, time: number, speed?: number, dt?: number) => void }).__frame = (f, time, speed = 0, dt = 1 / 30) => {
@@ -160,7 +168,7 @@ function start() {
       const pcm = (c: number) => Array.from(buffer.getChannelData(c), (v) => Math.round(Math.max(-1, Math.min(1, v)) * 32767))
       return { rate: buffer.sampleRate, left: pcm(0), right: pcm(1) }
     }
-    ;(window as unknown as { __three: object }).__three = { camera, scene, state, pose }
+    ;(window as unknown as { __three: object }).__three = { camera, scene, state, pose, theme }
     render()
   } else {
     requestAnimationFrame(tick)

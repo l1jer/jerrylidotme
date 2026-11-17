@@ -57,6 +57,8 @@ export function createHud(theme: Theme, onJump: (chapter: number) => void) {
       actions.append(mail, gh, home)
     }
     ticks.forEach((t, k) => (k === i ? t.setAttribute('aria-current', 'true') : t.removeAttribute('aria-current')))
+    // The switch button opens the standard portfolio at the section that matches this chapter.
+    $<HTMLAnchorElement>('classic').href = `/${c.section}`
   }
 
   let frame = 0

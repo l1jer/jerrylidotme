@@ -1,4 +1,4 @@
-// Usage: node scripts/capture-stills.cjs [worlds] [WxH] [chapters]   e.g. voyage 1280x720 0,2,7
+// Usage: node scripts/capture-stills.cjs [worlds] [WxH] [chapters]   e.g. voyage 1280x720 0,2,4.4,7
 // Needs `npm run build && npx vite preview --port 4173` running. Output: lab/.capture/
 const {chromium}=require('playwright');const fs=require('fs');const OUT=require('path').join(__dirname,'..','.capture');fs.mkdirSync(OUT,{recursive:true});
 const worlds=(process.argv[2]||'voyage').split(',');
@@ -14,7 +14,8 @@ for(const w of worlds){
   await p.waitForFunction(()=>typeof window.__frame==='function',null,{timeout:60000});
   await p.waitForTimeout(800);
   const n=await p.evaluate(()=>document.querySelectorAll('#track button').length);
-  for(let i=0;i<n;i++){ if(only&&!only.includes(i))continue;
+  // Chapters may be fractions (e.g. 0.4) to look at the travel between two stops.
+  for(const i of only||Array.from({length:n},(_,k)=>k)){
     const t0=Date.now();
     await p.evaluate(([i])=>{for(let k=0;k<4;k++)window.__frame(i,12+i*4.3+k/30,0)},[i]);
     await p.screenshot({path:`${OUT}/${w}-${size[0]}-${i}.jpg`,type:'jpeg',quality:88,timeout:120000});

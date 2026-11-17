@@ -28,6 +28,7 @@ numbers. Cameras use `u`; HUD visibility uses `f`.
 ## Add or change a chapter
 
 1. Edit `content.ts`. Keep `label` short (it sits in the chapter bar).
+   Set `section` to the matching section of the standard portfolio (its URL hash, e.g. `#skills`): the Classic site button in the top bar links there. The homepage links back with `/lab?at=<chapter index>` (`LAB_CHAPTER` in `ArchiveVersions/ver1.0_dec_2024/src/components/FullPage.tsx`), so update that map when chapters are added, removed or reordered.
 2. The world needs a subject for the new index: a `WORLDS` entry in `voyage.ts`. The array is
    indexed by chapter, so a missing entry breaks the last chapters.
 3. Tie the subject to the content where you can (ten satellites for ten stores). That is what
@@ -54,3 +55,10 @@ This type-checks and writes the build to the site's `public/lab` with base `/lab
 changed `public/lab` files with the source. Forgetting this step ships stale code.
 
 Before shipping, run the `lab-capture-review` skill. The page is `noindex` on purpose.
+
+## Camera path rules (Voyage)
+
+- The camera runs on a centripetal Catmull-Rom curve through a stop in front of each world and a pass-by point beside it. Keep exactly one pass-by point between two stops: `pose()` maps chapter position to the curve as `u / (N - 1)`.
+- A plain Catmull-Rom overshoots at sharp turns and swings into the planet. Do not switch back.
+- `theme.obstacles` lists each world's centre and the radius it takes up (the twins sweep 1.7 radii). `scripts/clearance.cjs` flies the whole trip against it.
+- The visible route is laid just under the camera path, so the camera reads as following the line.

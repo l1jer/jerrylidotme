@@ -1,0 +1,8 @@
+import { buildLlmsTxt } from '../../lib/seo'
+
+// Generated once at build time from the portfolio data.
+export const dynamic = 'force-static'
+
+export function GET() {
+  return new Response(buildLlmsTxt(), { headers: { 'Content-Type': 'text/markdown; charset=utf-8' } })
+}

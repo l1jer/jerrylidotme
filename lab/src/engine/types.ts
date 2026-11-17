@@ -71,6 +71,8 @@ export interface Theme {
   subject(s: FrameState, out: Subject): void
   /** World position of the main light, for the glow inside the nebula. */
   light: THREE.Vector3
+  /** Solid bodies the camera must stay outside of (checked by scripts/clearance.cjs). */
+  obstacles: Subject[]
   /** Small live readouts for the HUD. */
   telemetry(s: FrameState): [label: string, value: string][]
   /** Root note in Hz for the ambient pad. */

@@ -9,8 +9,8 @@
     <!-- An experiment alongside the main portfolio: same content, so keep it out of search results. -->
     <meta name="robots" content="noindex, follow" />
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='18' fill='%2305060f'/><text x='50%' y='54%' fill='%23ffffff' font-size='52' font-family='Arial, sans-serif' font-weight='700' text-anchor='middle' dominant-baseline='middle'>JL</text></svg>" />
-    <script type="module" crossorigin src="/lab/assets/index-CCO5zV4s.js"></script>
-    <link rel="stylesheet" crossorigin href="/lab/assets/index-D2bLHeZU.css">
+    <script type="module" crossorigin src="/lab/assets/index-BpFsQPXW.js"></script>
+    <link rel="stylesheet" crossorigin href="/lab/assets/index-CbwGY84E.css">
   </head>
   <body>
     <canvas id="gl" aria-hidden="true"></canvas>
@@ -21,7 +21,11 @@
       <header class="bar">
         <a class="mark" id="mark" href="#" aria-label="Jerry Li — back to start">JL<i>.</i><span>Jerry Li</span></a>
         <nav class="worlds" id="worlds" aria-label="Choose a world"></nav>
-        <button class="sound" id="sound" type="button" aria-pressed="false"><i aria-hidden="true"><s></s><s></s><s></s></i>Music <b>off</b><span id="sound-tip">Turn on for the full trip</span></button>
+        <div class="tools">
+          <!-- Switches to the same section of the standard portfolio; hud.ts keeps the link in step. -->
+          <a class="switch" id="classic" href="/" title="Switch to the standard portfolio"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2" /><path d="M3 9h18" /></svg>Classic<span>&nbsp;site</span></a>
+          <button class="sound" id="sound" type="button" aria-pressed="false"><i aria-hidden="true"><s></s><s></s><s></s></i>Music <b>off</b><span id="sound-tip">Turn on for the full trip</span></button>
+        </div>
       </header>
 
       <main class="chapter" id="chapter" aria-live="polite">

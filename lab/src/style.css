@@ -36,7 +36,10 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .worlds a:hover { color: var(--ink); }
 .worlds a[aria-current='true'] { background: color-mix(in srgb, var(--accent) 26%, transparent); color: var(--ink); }
 .sound { position: relative; display: flex; align-items: center; gap: 9px; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink); padding: 8px 14px; border: 1px solid var(--line); border-radius: 999px; background: rgba(5, 6, 15, 0.45); backdrop-filter: blur(10px); transition: border-color 0.3s; }
-.sound:hover { border-color: var(--accent); }
+.sound:hover, .switch:hover { border-color: var(--accent); }
+.tools { display: flex; align-items: center; gap: 8px; }
+.switch { display: flex; align-items: center; gap: 8px; font-family: var(--f-mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink); padding: 8px 14px; border: 1px solid var(--line); border-radius: 999px; background: rgba(5, 6, 15, 0.45); backdrop-filter: blur(10px); transition: border-color 0.3s; }
+.switch svg { color: var(--accent); }
 /* Three bars that dance while the music plays. */
 .sound i { display: flex; align-items: flex-end; gap: 2px; height: 11px; }
 .sound s { width: 2px; height: 3px; background: var(--ink-3); border-radius: 1px; }
@@ -93,6 +96,8 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   #hud::before { background: linear-gradient(0deg, rgba(3, 4, 12, 0.92) 0%, rgba(3, 4, 12, 0.6) 34%, transparent 62%); }
   .mark span, .telemetry { display: none; }
   .worlds { font-size: 10px; letter-spacing: 0.1em; }
+  .switch span { display: none; }
+  .switch, .sound { padding: 8px 11px; letter-spacing: 0.12em; }
   .worlds a { padding: 6px 9px; }
   .chapter { width: auto; right: var(--gutter); bottom: calc(var(--gutter) + 46px); }
   .chapter h1 { font-size: clamp(32px, 10.5vw, 54px); }
