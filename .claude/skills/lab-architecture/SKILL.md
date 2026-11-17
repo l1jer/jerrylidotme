@@ -17,9 +17,10 @@ overlay, and scroll position driving a camera. The live site serves a **committe
 | `lab/src/main.ts` | Renderer, scroll to chapter position `f`, eased position `u`, loop, capture hook. |
 | `lab/src/engine/types.ts` | The `Theme` contract every world implements. |
 | `lab/src/engine/hud.ts` | DOM overlay. Opacity is computed from `f`, never from CSS transitions. |
-| `lab/src/engine/post.ts` | Bloom, then a lens pass (fringe, vignette, grain), then output. |
+| `lab/src/engine/post.ts` | Scene with depth, then volumetric nebula, depth of field, bloom, lens, output. |
+| `lab/src/engine/quality.ts` | `low` / `med` / `high` presets (`?q=` overrides) and the frame-rate governor. |
 | `lab/src/engine/audio.ts` | Synthesised pad and whoosh. No audio files. |
-| `lab/src/themes/*.ts` | One world each: `build`, `pose`, `update`, `telemetry`. |
+| `lab/src/themes/voyage.ts` | The world: `build`, `pose`, `update`, `subject`, `telemetry`. |
 
 `f` is the raw chapter position (0..N-1). `u` is `f` eased so the camera lingers at whole
 numbers. Cameras use `u`; HUD visibility uses `f`.
@@ -27,17 +28,20 @@ numbers. Cameras use `u`; HUD visibility uses `f`.
 ## Add or change a chapter
 
 1. Edit `content.ts`. Keep `label` short (it sits in the chapter bar).
-2. Every world needs a subject for the new index: a `WORLDS` entry in `voyage.ts`, a `FRAMING`
-   and `GATE_SIDES` entry in `flight.ts`, a `NODES` builder in `flow.ts`. Arrays are indexed by
-   chapter, so a missing entry breaks the last chapters.
+2. The world needs a subject for the new index: a `WORLDS` entry in `voyage.ts`. The array is
+   indexed by chapter, so a missing entry breaks the last chapters.
 3. Tie the subject to the content where you can (ten satellites for ten stores). That is what
    makes a chapter read as designed rather than decorated.
 
 ## Add a world
 
+Only Voyage exists. Flight and Dataflow were built and removed after review (see
+`lab-scene-direction` for why). The switcher in the HUD appears once `WORLDS` has two entries.
+
 1. Create `themes/<id>.ts` exporting `create<Name>(): Theme`.
 2. Register it in `main.ts` (`worlds`), in `hud.ts` (`WORLDS`), and add `<id>` to `ThemeId`.
 3. `pose()` must handle `s.aspect < 0.9` (phones): subject above the text, not beside it.
+   `subject()` returns what to keep in focus and clear of fog; `light` is where the nebula glows.
 4. Add a link in `ArchiveVersions/ver1.0_dec_2024/src/components/VersionHistory.tsx` (`labs`).
 
 ## Ship

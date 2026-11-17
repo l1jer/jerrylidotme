@@ -10,7 +10,7 @@ for(const w of worlds){
   const p=await b.newPage({viewport:{width:size[0],height:size[1]}});
   p.on('pageerror',e=>console.log(w,'pageerror',e.message.slice(0,300)));
   p.on('console',m=>{if(m.type()==='error'||m.type()==='warning')console.log(w,m.type(),m.text().slice(0,300))});
-  await p.goto(`http://localhost:4173/?world=${w}&capture`,{waitUntil:'load'});
+  await p.goto(`http://localhost:4173/?world=${w}&capture&q=${process.env.Q||"high"}`,{waitUntil:'load'});
   await p.waitForFunction(()=>typeof window.__frame==='function',null,{timeout:60000});
   await p.waitForTimeout(800);
   const n=await p.evaluate(()=>document.querySelectorAll('#track button').length);

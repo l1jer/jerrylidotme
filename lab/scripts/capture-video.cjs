@@ -10,7 +10,7 @@ const fAt=t=>{let i=Math.floor(t/(HOLD+TRAVEL));let r=t-i*(HOLD+TRAVEL);if(i>=N-
 const b=await chromium.launch({args:['--use-angle=swiftshader','--enable-unsafe-swiftshader','--ignore-gpu-blocklist']});
 const p=await b.newPage({viewport:{width:W,height:H}});
 p.on('pageerror',e=>console.log('pageerror',e.message.slice(0,200)));
-await p.goto(`http://localhost:4173/?world=${world}&capture`,{waitUntil:'load'});
+await p.goto(`http://localhost:4173/?world=${world}&capture&q=${process.env.Q||"high"}`,{waitUntil:'load'});
 await p.waitForFunction(()=>typeof window.__frame==='function');await p.waitForTimeout(1800);
 const frames=Math.round(total*FPS);let prev=0,speed=0;const t0=Date.now();
 for(let n=0;n<frames;n++){const t=n/FPS;const f=Math.min(N-1,fAt(t));speed+=((f-prev)*FPS-speed)*0.25;prev=f;

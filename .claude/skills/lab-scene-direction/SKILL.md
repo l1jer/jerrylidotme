@@ -6,7 +6,7 @@ description: Art-direction rules for the 3D lab scenes - composition with the te
 # Scene direction
 
 Feedback so far: Voyage was acceptable; Flight and Dataflow were not ("couldn't get into
-them"). The likely reasons are below. Check new work against them.
+them") and were removed. The likely reasons are below. Check new work against them.
 
 ## What made Voyage work and the others not
 
@@ -40,14 +40,14 @@ Verified in its bundle, not guessed. These are the gap between "acceptable" and 
 
 | Technique | Evidence in the reference | Lab today |
 |---|---|---|
-| Depth of field | `uAperture`, `uFocus`, `uBokeh`, tier `dofR` | none |
-| Volumetric fog | ray-marched "vapour" (`uRayO`, `uRayD`, tier `vapourSteps`) | distance fade only |
+| Depth of field | `uAperture`, `uFocus`, `uBokeh`, tier `dofR` | done: focus follows the chapter's subject; sky kept sharp |
+| Volumetric fog | ray-marched "vapour" (`uRayO`, `uRayD`, tier `vapourSteps`) | done: ray-marched nebula, clear around the subject, lit towards the star |
 | Physically based materials | `MeshPhysicalMaterial`, transmission, env map, shadows, AO | unlit or simple lit shaders |
 | Fluid that follows the cursor | `uLiquid`, `uSplat`, `uVisc`, tier `liquidRes` | pointer parallax only |
 | Music-reactive visuals | audio analyser feeding `uBeat`, two music tracks | synthesised pad, not reactive |
-| Quality tiers | `low` / `med` / `high` presets plus live resolution scaling by frame time | one phone switch |
+| Quality tiers | `low` / `med` / `high` presets plus live resolution scaling by frame time | done: same scheme in `engine/quality.ts` |
 | Real media | project videos as textures and in a viewer | none |
 | Cinematic framing | `uLetterbox`, `uStreak`, `uGlitch`, custom bloom (`uKnee`, `uPrefilter`) | bloom, fringe, vignette, grain |
 
-Pick from this table by impact: depth of field and volumetric fog change the look most for the
-least content work; quality tiers are needed before adding anything heavy.
+Next by impact: physically based materials with an environment map, then real project media.
+Keep the nebula patchy: when it covers the frame evenly it reads as haze and flattens contrast.

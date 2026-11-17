@@ -8,7 +8,8 @@ import { createAudio } from './engine/audio'
 import { smoother } from './engine/glsl'
 import { createHud } from './engine/hud'
 import { createPost } from './engine/post'
-import type { CameraPose, FrameState, Quality, Theme, ThemeId } from './engine/types'
+import { createGovernor, pickQuality } from './engine/quality'
+import type { CameraPose, FrameState, Subject, Theme, ThemeId } from './engine/types'
 import { createVoyage } from './themes/voyage'
 
 const params = new URLSearchParams(location.search)
@@ -24,23 +25,18 @@ const SEGMENT_VH = 130
 
 function start() {
   const theme = worlds[worldId]()
-  const mobile = Math.min(innerWidth, innerHeight) < 700 || matchMedia('(pointer: coarse)').matches
-  const q: Quality = {
-    dpr: Math.min(devicePixelRatio || 1, mobile ? 1.5 : 2),
-    density: mobile ? 0.5 : 1,
-    bloom: true,
-    mobile,
-  }
+  const q = pickQuality(params)
+  let dpr = q.dpr
 
   const canvas = document.getElementById('gl') as HTMLCanvasElement
-  const renderer = new THREE.WebGLRenderer({ canvas, antialias: !mobile, powerPreference: 'high-performance', preserveDrawingBuffer: capture })
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: false, powerPreference: 'high-performance', preserveDrawingBuffer: capture })
   renderer.setPixelRatio(q.dpr)
   renderer.setClearColor(theme.background)
   renderer.toneMapping = THREE.ACESFilmicToneMapping
   renderer.toneMappingExposure = 0.95
 
   const scene = new THREE.Scene()
-  const camera = new THREE.PerspectiveCamera(theme.fov, innerWidth / innerHeight, 0.1, 4000)
+  const camera = new THREE.PerspectiveCamera(theme.fov, innerWidth / innerHeight, 0.5, 4000)
   theme.build(scene, q)
   const post = createPost(renderer, scene, camera, theme, q)
   const audio = createAudio(theme.tone)
@@ -52,12 +48,13 @@ function start() {
 
   const state: FrameState = { time: 0, dt: 0.016, f: 0, u: 0, speed: 0, pointer: new THREE.Vector2(), aspect: innerWidth / innerHeight }
   const pose: CameraPose = { pos: new THREE.Vector3(), look: new THREE.Vector3(), roll: 0 }
+  const subject: Subject = { center: new THREE.Vector3(), radius: 1 }
   const pointerTarget = new THREE.Vector2()
   const right = new THREE.Vector3()
 
   function resize() {
     renderer.setSize(innerWidth, innerHeight, false)
-    post.resize(innerWidth, innerHeight, q.dpr)
+    post.resize(innerWidth, innerHeight, dpr)
     camera.aspect = state.aspect = innerWidth / innerHeight
     // Narrow screens get a wider view so the subject still fits above the text.
     camera.fov = theme.fov * (state.aspect < 1 ? 1.25 : 1)
@@ -83,9 +80,19 @@ function start() {
     camera.lookAt(pose.look)
     camera.rotateZ(pose.roll)
     theme.update(state, camera)
+    theme.subject(state, subject)
     hud.update(state, capture)
-    post.render(state.time, Math.min(1, Math.abs(state.speed) * 0.9))
+    post.render(state.time, Math.min(1, Math.abs(state.speed) * 0.9), subject)
   }
+
+  const govern = createGovernor(
+    q,
+    (next) => {
+      dpr = next
+      resize()
+    },
+    () => post.degrade()
+  )
 
   let last = performance.now()
   let lastChapter = 0
@@ -106,6 +113,7 @@ function start() {
     }
     audio.motion(state.speed)
     render()
+    if (!document.hidden) govern(dt)
     requestAnimationFrame(tick)
   }
 

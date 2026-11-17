@@ -14,7 +14,9 @@ the lab has a **capture mode**: `?capture` stops the loop and exposes
 ```bash
 cd lab && npm run build && npx vite preview --port 4173 --strictPort &
 node scripts/capture-stills.cjs voyage 1280x720          # every chapter of one world
-node scripts/capture-stills.cjs voyage,flight,flow 390x844 2,7   # phone, chapters 2 and 7
+node scripts/capture-stills.cjs voyage 390x844 2,7       # phone, chapters 2 and 7
+Q=low node scripts/capture-stills.cjs voyage 960x540 2   # a lower quality tier (default: high)
+node scripts/smoke.cjs                                   # live mode, exits non-zero on failure
 node scripts/capture-video.cjs voyage                    # 576 frames, about 6 minutes
 ffmpeg -framerate 24 -i .capture/frames-voyage/%04d.jpg -c:v libx264 -crf 28 -pix_fmt yuv420p voyage.mp4
 ```
@@ -30,9 +32,7 @@ Look at the images; do not ship on a passing build alone.
 - [ ] Text readable over the scene; nothing bright behind it; kicker does not hit the top bar.
 - [ ] Each chapter looks different from its neighbours.
 - [ ] A frame from mid-travel (between chapters) still looks intentional.
-- [ ] Live mode (no `?capture`): no console errors, scrolling to the end shows the last chapter,
-      arrow keys move one chapter.
-- [ ] The email address is not in the served HTML.
+- [ ] `node scripts/smoke.cjs` passes (live mode at low and high tiers, email not in the HTML).
 
 ## Limits to state in the report
 

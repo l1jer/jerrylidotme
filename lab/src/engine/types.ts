@@ -1,11 +1,25 @@
 import * as THREE from 'three'
 
 export interface Quality {
+  tier: 'low' | 'med' | 'high'
+  /** Highest pixel ratio this tier renders at. */
   dpr: number
   /** 0..1 multiplier for particle and instance counts. */
   density: number
+  /** Anti-aliasing samples for the scene. */
+  msaa: number
   bloom: boolean
+  /** Depth-of-field samples; 0 turns the effect off. */
+  dofTaps: number
+  /** Ray-march steps for the volumetric nebula. */
+  fogSteps: number
   mobile: boolean
+}
+
+/** What the camera is looking at: kept in focus and clear of fog. */
+export interface Subject {
+  center: THREE.Vector3
+  radius: number
 }
 
 export interface FrameState {
@@ -49,6 +63,10 @@ export interface Theme {
   /** Camera pose for an eased chapter position. */
   pose(s: FrameState, out: CameraPose): void
   update(s: FrameState, camera: THREE.PerspectiveCamera): void
+  /** The current chapter's subject, blended between chapters. */
+  subject(s: FrameState, out: Subject): void
+  /** World position of the main light, for the glow inside the nebula. */
+  light: THREE.Vector3
   /** Small live readouts for the HUD. */
   telemetry(s: FrameState): [label: string, value: string][]
   /** Root note in Hz for the ambient pad. */
