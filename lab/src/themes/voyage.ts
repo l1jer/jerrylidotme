@@ -104,7 +104,7 @@ const WORLDS: World[] = [
   { type: 1, r: 13, a: 0xb8336a, b: 0xf7a8c4, c: 0xfff0f5, ring: [1.5, 2.0, -0.3] }, // Caronlab
   { type: 2, r: 7, a: 0x1a1c2e, b: 0x3a3f66, c: 0x7dd3fc }, // earlier: a pair of small worlds
   { type: 1, r: 14, a: 0x9a3412, b: 0xfbbf24, c: 0xfff3c4 }, // Flywing builds
-  { type: 0, r: 11, a: 0x2a1f5c, b: 0x5b6ee1, c: 0xdbe4ff, ring: [1.35, 1.6, 0.25] }, // toolkit: twelve moons
+  { type: 0, r: 11, a: 0x2a1f5c, b: 0x5b6ee1, c: 0xdbe4ff }, // toolkit: tools in orbit, each one named
   { type: 3, r: 24, a: 0xff7a18, b: 0xffd166, c: 0xfff6d6 }, // contact: the star
 ]
 
@@ -128,6 +128,8 @@ export function createVoyage(): Theme {
   const spinners: { obj: THREE.Object3D; speed: number }[] = []
   const orbits: { mesh: THREE.InstancedMesh; center: THREE.Vector3; items: { size: number; r: number; speed: number; phase: number; tilt: number; node: number }[] }[] = []
   const dummy = new THREE.Object3D()
+  // Tool names are only readable up close, so they fade out with distance.
+  const toolLabels: { materials: THREE.SpriteMaterial[]; center: THREE.Vector3; r: number } = { materials: [], center: new THREE.Vector3(), r: 1 }
   let sky: THREE.Mesh, stars: THREE.Points, dust: THREE.Points, probe: THREE.Mesh
   let routeMat: THREE.ShaderMaterial, dustMat: THREE.ShaderMaterial, skyMat: THREE.ShaderMaterial
 
@@ -165,6 +167,89 @@ export function createVoyage(): Theme {
     mesh.frustumCulled = false
     scene.add(mesh)
     orbits.push({ mesh, center, items })
+  }
+
+  /**
+   * The toolkit chapter: every tool is a small light on one of two orbits, with its name beside
+   * it. The names come from the chapter's tags, so the scene and the text always agree.
+   */
+  function addToolOrbits(scene: THREE.Scene, center: THREE.Vector3, r: number) {
+    const tools = chapters[6].tags ?? []
+    toolLabels.center.copy(center)
+    toolLabels.r = r
+    const system = new THREE.Group()
+    system.position.copy(center)
+    system.rotation.set(0.5, 0, 0.2)
+    scene.add(system)
+    const hues = [0xa5b4fc, 0xf0abfc, 0xfde68a]
+
+    // A soft round glow, drawn once and reused for every light.
+    const glowCanvas = document.createElement('canvas')
+    glowCanvas.width = glowCanvas.height = 128
+    const g = glowCanvas.getContext('2d')!
+    const grad = g.createRadialGradient(64, 64, 0, 64, 64, 64)
+    grad.addColorStop(0, 'rgba(255,255,255,0.9)')
+    grad.addColorStop(0.25, 'rgba(255,255,255,0.28)')
+    grad.addColorStop(1, 'rgba(255,255,255,0)')
+    g.fillStyle = grad
+    g.fillRect(0, 0, 128, 128)
+    const glowMap = new THREE.CanvasTexture(glowCanvas)
+
+    const label = (text: string) => {
+      const canvas = document.createElement('canvas')
+      canvas.width = 384
+      canvas.height = 64
+      const texture = new THREE.CanvasTexture(canvas)
+      texture.colorSpace = THREE.SRGBColorSpace
+      const paint = () => {
+        const c = canvas.getContext('2d')!
+        c.clearRect(0, 0, canvas.width, canvas.height)
+        c.font = '500 30px "JetBrains Mono Variable", ui-monospace, monospace'
+        c.textBaseline = 'middle'
+        c.fillStyle = '#eef0ff'
+        c.fillText(text.toUpperCase(), 4, 34)
+        texture.needsUpdate = true
+      }
+      paint()
+      // Repaint once the web font has arrived.
+      void document.fonts.ready.then(paint)
+      // Constant size on screen, so near and far names read the same.
+      const material = new THREE.SpriteMaterial({ map: texture, transparent: true, depthWrite: false, opacity: 0, sizeAttenuation: false })
+      toolLabels.materials.push(material)
+      const sprite = new THREE.Sprite(material)
+      sprite.center.set(0, 0.5)
+      sprite.scale.set(0.024 * 6, 0.024, 1)
+      return sprite
+    }
+
+    const rings = [
+      // Tight orbits, so the lights stay around the planet and off the text.
+      { radius: r * 1.2, count: Math.ceil(tools.length * 0.42), speed: 0.05 },
+      { radius: r * 1.42, count: tools.length - Math.ceil(tools.length * 0.42), speed: -0.032 },
+    ]
+    let n = 0
+    for (const ring of rings) {
+      const track = new THREE.Mesh(new THREE.TorusGeometry(ring.radius, 0.025, 6, 200), new THREE.MeshBasicMaterial({ color: 0xa5b4fc, transparent: true, opacity: 0.32 }))
+      track.rotation.x = Math.PI / 2
+      system.add(track)
+      const carrier = new THREE.Group()
+      system.add(carrier)
+      for (let k = 0; k < ring.count; k++, n++) {
+        const a = (k / ring.count) * Math.PI * 2 + n * 0.37
+        const node = new THREE.Group()
+        node.position.set(Math.cos(a) * ring.radius, 0, Math.sin(a) * ring.radius)
+        const hue = hues[n % hues.length]
+        node.add(new THREE.Mesh(new THREE.SphereGeometry(0.2, 16, 12), new THREE.MeshBasicMaterial({ color: 0xffffff })))
+        const glow = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowMap, color: hue, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending }))
+        glow.scale.setScalar(2.2)
+        node.add(glow)
+        const name = label(tools[n])
+        name.position.set(0.55, 0, 0)
+        node.add(name)
+        carrier.add(node)
+      }
+      spinners.push({ obj: carrier, speed: ring.speed })
+    }
   }
 
   function build(scene: THREE.Scene, q: Quality) {
@@ -364,8 +449,7 @@ export function createVoyage(): Theme {
         scene.add(ring)
       }
 
-      // Twelve moons for the twelve toolkits.
-      if (i === 6) addOrbiters(scene, center, 12, w.r * 1.4, w.r * 1.95, 0.6, 0xc7d2fe, 47)
+      if (i === 6) addToolOrbits(scene, center, w.r)
       if (i === 0) addOrbiters(scene, center, 1, w.r * 1.9, w.r * 1.9, 1.1, 0xcbd5e1, 11)
       // Ten satellites for the ten live stores.
       if (i === 2) addOrbiters(scene, center, 10, w.r * 1.35, w.r * 2.1, 0.5, 0x9ef0c6, 23)
@@ -437,6 +521,12 @@ export function createVoyage(): Theme {
     dustMat.uniforms.uCam.value.copy(camera.position)
     dustMat.uniforms.uSpeed.value = Math.min(1, Math.abs(s.speed) * 1.4)
     for (const sp of spinners) sp.obj.rotation.y = s.time * sp.speed
+    const away = camera.position.distanceTo(toolLabels.center) / toolLabels.r
+    const labelOpacity = (1 - THREE.MathUtils.smoothstep(away, 4.5, 7.5)) * 0.92
+    for (const m of toolLabels.materials) {
+      m.opacity = labelOpacity
+      m.visible = labelOpacity > 0.01
+    }
 
     const head = Math.min(1, (1 + s.u + 0.16) / N)
     routeMat.uniforms.uHead.value = head
