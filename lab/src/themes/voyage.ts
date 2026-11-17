@@ -1,7 +1,7 @@
 import * as THREE from 'three'
 import { chapters } from '../content'
 import { NOISE, rng } from '../engine/glsl'
-import type { CameraPose, FrameState, Quality, Theme } from '../engine/types'
+import type { CameraPose, FrameState, Quality, Subject, Theme } from '../engine/types'
 
 /**
  * Voyage: a route through deep space. Every chapter is a world on the route, and the last
@@ -336,7 +336,7 @@ export function createVoyage(): Theme {
         return
       }
 
-      const planet = new THREE.Mesh(new THREE.SphereGeometry(w.r, 96, 64), material)
+      const planet = new THREE.Mesh(new THREE.SphereGeometry(w.r, q.tier === 'low' ? 48 : 96, q.tier === 'low' ? 32 : 64), material)
       planet.position.copy(center)
       planet.rotation.z = 0.2
       scene.add(planet)
@@ -388,6 +388,13 @@ export function createVoyage(): Theme {
     out.roll = Math.sin(s.time * 0.1) * 0.012 - s.speed * 0.05
   }
 
+  const centers = new THREE.CatmullRomCurve3(stations, false, 'catmullrom', 0.5)
+  function subject(s: FrameState, out: Subject) {
+    centers.getPoint(Math.min(1, Math.max(0, s.u / (N - 1))), out.center)
+    const i = Math.min(N - 2, Math.floor(s.u))
+    out.radius = THREE.MathUtils.lerp(WORLDS[i].r, WORLDS[i + 1].r, s.u - i)
+  }
+
   function update(s: FrameState, camera: THREE.PerspectiveCamera) {
     for (const u of timeUniforms) u.value = s.time
     sky.position.copy(camera.position)
@@ -427,6 +434,8 @@ export function createVoyage(): Theme {
     build,
     pose,
     update,
+    subject,
+    light: stations[N - 1],
     telemetry: (s) => [
       ['Sector', chapters[Math.round(s.f)].label],
       ['Distance', `${(s.u * 1.52).toFixed(2)} AU`],
